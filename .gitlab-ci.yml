@@ -1,0 +1,13 @@
+# Alert: This file is auto generated.
+# Students: You may edit it by hand, but your changes might be overridden for each new assignment release.
+# Instructors: If you are editing CI-jobs in the material repo,
+# put your jobs in a separate .gitlab-ci.yml inside the assignment subdirectory.
+# After editing any gitlab-ci.yml files, re-run the aggregator from the repository
+# root directory (util/generate_gitlab_ci.py). Alternatively, ensure that the git pre-commit hooks are
+# active so that the file is regenerated automatically.
+Assignment1:
+  stage: test
+  script:
+    - 'echo -e "This assignment no longer makes use of CI. This CI script is a placeholder and does nothing useful."'
+  when: manual
+
