@@ -5,16 +5,18 @@ Group: TODO
 
 Assignment1:
 
-A)  The size  of vectors and number of iterations are retrieved from the user input, in this case the variables N and REP. These values need to be higher than the predefined variables datasetsize (32) and cycles, in order to pass the comparison clause from the while loop. This statement requires that the vectors to be large enough to store the all the values from the existing dataset, and also to perform at least 1 cycle in the triad routine. When entering the while loop (caller) on line 116, we are calling the function “triad” (the callee) whose parameters are const long N,  const long REP, and int *numThreads. It’s in this function where the vectors are constructed, with size N and number of iterations REP. With each loop iteration from line 116, we are modifying  the variables datasetSize and cycles, which are then passed as argument to the callee function, meaning that with each call the size and number or iterations are being changed. 
+**A)**  The size  of vectors and number of iterations are retrieved from the user input, in this case the variables N and REP. These values need to be higher than the predefined variables datasetsize (32) and cycles, in order to pass the comparison clause from the while loop. This statement requires that the vectors to be large enough to store the all the values from the existing dataset, and also to perform at least 1 cycle in the triad routine. When entering the while loop (caller) on line 116, we are calling the function “triad” (the callee) whose parameters are const long N,  const long REP, and int *numThreads. It’s in this function where the vectors are constructed, with size N and number of iterations REP. With each loop iteration from line 116, we are modifying  the variables datasetSize and cycles, which are then passed as argument to the callee function, meaning that with each call the size and number or iterations are being changed. 
 
 One can observe that in the formula (from triad()):
-a[j] = b[j] + c[j] *d[j] 
+a[j] = b[j] + c[j] * d[j] 
 There are two arithmetic operations (one multiplication	and one addition). Moreover, this instruction is executed inside a nested loop: the inner loop runs N times, and the outer is executed REP times. Therefore the total number of floating point operations  (2) are performed N *REP times. Recall that triad is being called with parameters datasetSize and cycles, hence the number of floating point operations computed into the loop , denoted by m_flop is equal to:
 2* datasetSize*cycles. Since we are counting per million, we multiply by 1*10^-6 to get the result in millions of operations. 
 
 B) As mentioned above, triad takes as parameters two const long datatypes, N and REP, as well as a pointer to an integer which stores the address of the number of threads. 
 N = Determines the size of the vectors
-REP = how many times to recompute vector A. 
+REP = how many times to recompute vector A.
+
+
 
 Triad completes by returning a variable of type double named time_spent, indicating how much time was spent on the simulations. 
 
