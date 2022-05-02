@@ -5,7 +5,25 @@ Group: TODO
 
 Assignment1:
 
-**A)**  The size  of vectors and number of iterations are retrieved from the user input, in this case the variables N and REP. These values need to be higher than the predefined variables datasetsize (32) and cycles, in order to pass the comparison clause from the while loop. This statement requires that the vectors to be large enough to store the all the values from the existing dataset, and also to perform at least 1 cycle in the triad routine. When entering the while loop (caller) on line 116, we are calling the function “triad” (the callee) whose parameters are const long N,  const long REP, and int *numThreads. It’s in this function where the vectors are constructed, with size N and number of iterations REP. With each loop iteration from line 116, we are modifying  the variables datasetSize and cycles, which are then passed as argument to the callee function, meaning that with each call the size and number or iterations are being changed. 
+**A)**  Two variables, **N** and **REP** are retrieved from user input (and tested to see if they fall within a specified range). The former determines the size of the vector and the latter number of repetions for the vector triad multiplication. Taking a look at line 116: 
+
+`while (datasetSize <= N && cycles > 1)`
+
+the predefined variables **datasetSize(=32)** and **cycles(=10**) are being compared with the introduced arguments _in the first iteration_ of this loop. Now here, N has also another interpretation, namely an upper bound for the vector size, and for each vector size we must guarantee at least one round of execution for computing vector a. 
+
+    `   cycles = REP / datasetSize;
+
+        time_a = triad(datasetSize, cycles, &threads);
+        m_flop = 2.0 * (double)datasetSize * (double)cycles * 1.0e-6;
+        performance_a = m_flop / time_a;
+
+        printf("| %12ld | %12d | %12.2f | %12ld |\n", datasetSize, threads, performance_a, cycles);
+
+        datasetSize *= 2; //increase the size to 64, 128, 256, 1024, 2048, 4096....
+    `
+
+Once we enter the loop, **cycles**  is redefined as the ratio between the number of repetitions and datasetSize, to guarantee that 
+When entering the while loop (caller), we are calling the function **“triad”** (the callee) whose parameters are **const long N,  const long REP, and int *numThreads.** It’s in this function where the vectors a,b,c,d are constructed, with size N and number of iterations REP. With each loop iteration from line 116, we are modifying  the variables datasetSize and cycles, doubling the value of datasetSize in each iteration until we reached the upper limit N(introduced by user), which are then passed as argument to the callee function, meaning that with each call the size and number or iterations are being changed. 
 
 One can observe that in the formula (from triad()):
 a[j] = b[j] + c[j] * d[j] 
