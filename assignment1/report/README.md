@@ -1,13 +1,13 @@
 # Assignment 1 Report
-Group: TODO
-
-**TODO@Students: Write your report in this folder using Markdown.**
+Group: 104
 
 Assignment1:
 
 For this assignment, we analyzed the performance of the vector triad benchmark, by performing several tests on a Rome2 architurecture. Parameters such as size of vectors, number of threads and thread allocation were modified to identify their effect over performance. The tested formula is as follows:
 
 `a[i] = b[i]+ c[i] * d[i]`
+
+**GENERAL QUESTIONS**
 
 **A)**  Two variables, **N** and **REP** are retrieved from user input (and tested to see if they fall within the specified range). The former determines the size of the vector and the latter number of repetions for the vector triad multiplication. Taking a look at line 116: 
 
@@ -88,4 +88,22 @@ spans several threads (**threads**) across this block thanks to `#pragma omp par
 
 
 
-**H)** The checksum function could also be useful to compare floating point precision across different systems. One could decrease the tolerance defined (in this case is 0.1), and test which architectures are more suitable for computations that require precise results. 
+**H)** The checksum function could also be useful to compare floating point precision across different systems. One could decrease the tolerance defined (in this case is 0.1), and test which architectures are more suitable for computations that require accurate results. 
+
+**2. EXPERIMENTS AND MEASUREMENTS**
+
+**A)**
+
+**B)**
+
+**C)**
+
+**D)**
+
+**E)**
+
+**F)**
+
+**G)**
+
+**H)**
