@@ -4,6 +4,7 @@ Group: TODO
 **TODO@Students: Write your report in this folder using Markdown.**
 
 Assignment1:
+dklöadfdkfadkfdkjaödkjaöfjdafjdfdlf
 
 **A)**  Two variables, **N** and **REP** are retrieved from user input (and tested to see if they fall within a specified range). The former determines the size of the vector and the latter number of repetions for the vector triad multiplication. Taking a look at line 116: 
 
