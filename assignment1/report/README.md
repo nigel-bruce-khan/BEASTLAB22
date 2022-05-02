@@ -5,11 +5,13 @@ Group: TODO
 
 Assignment1:
 
-For this assignment, we performed a microbenchmark for a vector triad multiplication on a Rome2 architurecture. The triad formula is as follows:
+For this assignment, we performed a microbenchmark for a vector triad multiplication on a Rome2 architurecture. The tested formula is as follows:
 
 `a[i] = b[i]+ c[i] * d[i]`
 
-**A)**  Two variables, **N** and **REP** are retrieved from user input (and tested to see if they fall within a specified range). The former determines the size of the vector and the latter number of repetions for the vector triad multiplication. Taking a look at line 116: 
+**PART 1**
+
+**A)**  Two variables, **N** and **REP** are retrieved from user input (and tested to see if they fall within the specified range). The former determines the size of the vector and the latter number of repetions for the vector triad multiplication. Taking a look at line 116: 
 
 `while (datasetSize <= N && cycles > 1)`
 
@@ -26,30 +28,33 @@ the predefined variables **datasetSize(=32)** and **cycles(=10**) are being comp
         datasetSize *= 2; //increase the size to 64, 128, 256, 1024, 2048, 4096....
     `
 
-Once we enter the loop, **cycles**  is redefined as the ratio between the number of repetitions and datasetSize, to guarantee that 
-When entering the while loop (caller), we are calling the function **“triad”** (the callee) whose parameters are **const long N,  const long REP, and int *numThreads.** It’s in this function where the vectors a,b,c,d are constructed, with size N and number of iterations REP. With each loop iteration from line 116, we are modifying  the variables datasetSize and cycles, doubling the value of datasetSize in each iteration until we reached the upper limit N(introduced by user), which are then passed as argument to the callee function, meaning that with each call the size and number or iterations are being changed. 
+Once we enter the loop, **cycles**  is redefined as the ratio between the number of repetitions and datasetSize, to guarantee that we execute N computations at each vector length, which allows us to compare performance across sizes.
+
+While accessing the while loop (caller), we are calling the function **“triad”** (the callee):
+
+`double triad (const long N, const long REP, int *numThreads)`
+
+It’s in this function where the vectors a,b,c,d are constructed, with size N and number of iterations REP. With each iteration from the above loop, we are modifying the variables **datasetSize and cycles**, doubling the value of datasetSize until we reached the upper limit N(introduced by user), and recomputing the ratio cycles, only to be then passed as arguments to the callee function, meaning that with each call the vector size and number or iterations are being changed. 
 
 One can observe that in the formula (from triad()):
 a[j] = b[j] + c[j] * d[j] 
-There are two arithmetic operations (one multiplication	and one addition). Moreover, this instruction is executed inside a nested loop: the inner loop runs N times, and the outer is executed REP times. Therefore the total number of floating point operations  (2) are performed N *REP times. Recall that triad is being called with parameters datasetSize and cycles, hence the number of floating point operations computed into the loop , denoted by m_flop is equal to:
+There are two arithmetic operations (one multiplication	and one addition). Moreover, this instruction is executed inside a nested loop: the inner loop runs N times, and the outer is executed REP times. Therefore the total number of floating point operations (2) are performed N*REP times. Recall that triad is being called with parameters datasetSize and cycles, so N and REP have these values assigned, hence the number of floating point operations computed into the loop , denoted by m_flop is equal to:
 2* datasetSize*cycles. Since we are counting per million, we multiply by 1*10^-6 to get the result in millions of operations. 
 
 **B)** As mentioned above, triad takes as parameters two const long datatypes, N and REP, as well as a pointer to an integer which stores the address of the number of threads. 
 N = Determines the size of the vectors
 REP = how many times to recompute vector A.
 
+Triad completes by returning a variable of type double named time_spent, indicating how much time was spent on the _. computation of vector A for each of the vector lenghts N a certain number of times REP ._ 
 
-
-Triad completes by returning a variable of type double named time_spent, indicating how much time was spent on the _simulations._ 
-
-C) we use omp parallel to create a parallel region where threads can be spanned. Using the definition from IBM, “The omp parallel directive explicitly instructs the compiler to parallelize the chosen block of code”
+C) We use `#pragma omp parallel` to create a parallel region where threads can be spanned. Using the definition from IBM, “The omp parallel directive explicitly instructs the compiler to parallelize the chosen block of code”
 
 D) aligned_loc() is a function introduced by the new C11 standard. It allows to allocate memory spaces with given alignments greater than those admitted by malloc. This function has the following structure: void *aligned_alloc(size_t __alignment, size_t __size)
 
  
 The requirements to use it are:
 - 1) the size (second argument) requested must be an integral multiple of the alignment (first argument) and 
-2) the value of alignment should be a valid alignment supported by the implementation.
+1) the value of alignment should be a valid alignment supported by the implementation.
 
  Failure to meet either of them results in undefined behaviour.
 
