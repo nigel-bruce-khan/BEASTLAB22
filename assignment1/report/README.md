@@ -5,11 +5,9 @@ Group: TODO
 
 Assignment1:
 
-For this assignment, we performed a microbenchmark for a vector triad multiplication on a Rome2 architurecture. The tested formula is as follows:
+For this assignment, we analyzed the performance of the vector triad benchmark, by performing several tests on a Rome2 architurecture. Parameters such as size of vectors, number of threads and thread allocation were modified to identify their effect over performance. The tested formula is as follows:
 
 `a[i] = b[i]+ c[i] * d[i]`
-
-**PART 1**
 
 **A)**  Two variables, **N** and **REP** are retrieved from user input (and tested to see if they fall within the specified range). The former determines the size of the vector and the latter number of repetions for the vector triad multiplication. Taking a look at line 116: 
 
@@ -47,21 +45,43 @@ REP = how many times to recompute vector A.
 
 Triad completes by returning a variable of type double named time_spent, indicating how much time was spent on the _. computation of vector A for each of the vector lenghts N a certain number of times REP ._ 
 
-**C)** We use `#pragma omp parallel` to create a parallel region where threads can be spanned. Using the definition from IBM, “The omp parallel directive explicitly instructs the compiler to parallelize the chosen block of code”. Without it, the program would still yield correct behavior, but without any parallelism. 
+**C)** We use `#pragma omp parallel` to create a parallel region where threads can be spanned. At line 36, each thread repeatedly assigns to the **numThreads** pointer the number of threads so that it can be stored in the integer variable **threads**. However, this step can also be performed without parallelism by removing the pragma, since we only require to assign the variable **threads** once. 
 
-D) aligned_loc() is a function introduced by the new C11 standard. It allows to allocate memory spaces with given alignments greater than those admitted by malloc. This function has the following structure: void *aligned_alloc(size_t __alignment, size_t __size)
+**D)** aligned_loc() is a function introduced by the new C11 standard. It allows to allocate memory spaces with given alignments greater than those admitted by malloc. This function has the following structure: 
+
+`void *aligned_alloc(size_t __alignment, size_t __size)`
 
  
 The requirements to use it are:
-- 1) the size (second argument) requested must be an integral multiple of the alignment (first argument) and 
-1) the value of alignment should be a valid alignment supported by the implementation.
+-  the size (second argument) requested must be an integral multiple of the alignment (first argument) and 
+-  the value of alignment should be a valid alignment supported by the implementation.
 
  Failure to meet either of them results in undefined behaviour.
 
-In the code, the space allocated for each vector is computed as N*sizeof(double). Since the minimum value that N can take is 32 (the first iteration of the while loop on line 116 starts with datasetSize set to 32, which is passed as an argument to triad), and sizeof(double) equals 64 bits, this results in spaces of size 2048x bytes (x is an integer multiplication factor).Because of condition 1)  4096 is an integral multiple of the assigned size. For condition 2), one can check on each of the ….
+In the code, the space allocated for each vector is computed as 
 
-E) As discussed in the lecture, when we are trying to optimise for NUMA architecture it is better to parallelise the initialisation of the vectors in the same way that they are later accessed, meaning that the vectors are distributed across locality domains with the first-touch allocation policy. By doing it this way, we reduce the latency and improve the performance regarding memory fetching operations. The static scheduler is used to guarantee that the working load is distributed uniformly across threads on a round-robin fashion, helping to maximise the memory locality, while also offering a deterministic behaviour. 
+`N*sizeof(double)`. 
 
-F) check2 12345 nigel
+Since the minimum value that N can take is 32 (the first iteration of the while loop on line 116 starts with datasetSize set to 32, which is passed as an argument to triad), and sizeof(double), a constant factor, equals 8 bytes. This results in spaces of size 256x bytes (x is an integer factor, as we keep doubling N with each while-loop iteration as mentioned above).
 
-G ) When using a parallel region, OpenMP automatically wait for all threads to finish before execution continues (implicit barrier). Furthermore, there is also a synchronization point after each “omp for” loop, implying that threads need to wait until each of them has finished their respective tasks. Since there are no dependencies in the loop and synchronization is not needed after the loop, we disable this by using nowait, which also reduce the idle time for each thread. Thus, the time_spent will consider only the execution time starting at the creation of the 
+Because of the first condition, 4096 must be an integral multiple of the assigned size, which requires that the variable N to be bigger than 256 (and a power of 2). The idea is to have allocations that are page-size aligned, and this only works when the allocation size is larger than 4096. 
+
+For sizes <=256, there are two options: readjust the alignment or replace `aligned_alloc` with `malloc` for memory allocation with smaller alignments. 
+
+**E)** As discussed in the lecture, when we are trying to optimise for NUMA architecture it is better to parallelise the initialisation of the vectors in the same way that they are later accessed, meaning that the vectors are distributed across locality domains with the first-touch allocation policy. By doing it this way, we reduce the latency and improve the performance regarding memory fetching operations. The static scheduler is used to guarantee that the working load is distributed uniformly across threads on a round-robin fashion, helping to maximise the memory locality, while also offering a deterministic behaviour. 
+
+**F)** This code section runs several iterations of the loop that is wrapped between the time measurement points. This serves as a warmup, because by running this loop before we proceed with the time evaluation, we can reduce the negative effects of cache misses and overheads from setting up the pipelines. By doing so, the obtained results are a more accurate reflection of our object of study, which in this case is the memory bandwidth.  
+
+**G)** When using a parallel region, OpenMP automatically wait for all threads to finish before execution continues (implicit barrier). Furthermore, there is also a synchronization point after each “omp for” loop, implying that threads need to wait until each of them has finished their respective tasks. Since there are no dependencies in the loop, or potential data races, synchronization is not needed after the loop, hence we disable this by using nowait, which also reduces the idle time for each thread and increase performance, thus our results wont' include any synchronization effect and offer a better picture of the ongoing process. 
+
+On another note, the parallel region in line 65: 
+
+` #pragma omp parallel
+ {
+    for (long i=0; i<REP; i++)
+ #pragma omp for schedule(static) nowait
+        for (long j=0; j<N; j++)
+            a[j] = b[j]+c[j]*d[j];
+ }
+`
+spanns several threads across this block with `#pragma omp parallel` and also indicates to the compiler that work here will be paralized. Therefore, the only thing remaining to do is to distribute the workload in the for-loop across these threads. If one were to 
