@@ -47,7 +47,7 @@ REP = how many times to recompute vector A.
 
 Triad completes by returning a variable of type double named time_spent, indicating how much time was spent on the _. computation of vector A for each of the vector lenghts N a certain number of times REP ._ 
 
-C) We use `#pragma omp parallel` to create a parallel region where threads can be spanned. Using the definition from IBM, “The omp parallel directive explicitly instructs the compiler to parallelize the chosen block of code”
+**C)** We use `#pragma omp parallel` to create a parallel region where threads can be spanned. Using the definition from IBM, “The omp parallel directive explicitly instructs the compiler to parallelize the chosen block of code”. Without it, the program would still yield correct behavior, but without any parallelism. 
 
 D) aligned_loc() is a function introduced by the new C11 standard. It allows to allocate memory spaces with given alignments greater than those admitted by malloc. This function has the following structure: void *aligned_alloc(size_t __alignment, size_t __size)
 
