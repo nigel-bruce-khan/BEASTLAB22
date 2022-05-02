@@ -62,6 +62,6 @@ In the code, the space allocated for each vector is computed as N*sizeof(double)
 
 E) As discussed in the lecture, when we are trying to optimise for NUMA architecture it is better to parallelise the initialisation of the vectors in the same way that they are later accessed, meaning that the vectors are distributed across locality domains with the first-touch allocation policy. By doing it this way, we reduce the latency and improve the performance regarding memory fetching operations. The static scheduler is used to guarantee that the working load is distributed uniformly across threads on a round-robin fashion, helping to maximise the memory locality, while also offering a deterministic behaviour. 
 
-F) 
+F) check 123 nigel
 
 G ) When using a parallel region, OpenMP automatically wait for all threads to finish before execution continues (implicit barrier). Furthermore, there is also a synchronization point after each “omp for” loop, implying that threads need to wait until each of them has finished their respective tasks. Since there are no dependencies in the loop and synchronization is not needed after the loop, we disable this by using nowait, which also reduce the idle time for each thread. Thus, the time_spent will consider only the execution time starting at the creation of the 
