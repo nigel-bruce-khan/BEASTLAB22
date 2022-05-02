@@ -31,10 +31,10 @@ double triad (const long N, const long REP, int *numThreads){
     double begin, end;
 
 // TASK 1.c
-#pragma omp parallel
-{
+//#pragma omp parallel
+//{
 	*numThreads=omp_get_num_threads();
-}
+//}
 
 // TASK 1.d
     double* a = (double*) aligned_alloc (4096, N * sizeof(double)); //this only works for N>256
