@@ -4,7 +4,10 @@ Group: TODO
 **TODO@Students: Write your report in this folder using Markdown.**
 
 Assignment1:
-dklöadfdkfadkfdkjaödkjaöfjdafjdfdlf
+
+For this assignment, we performed a microbenchmark for a vector triad multiplication on a Rome2 architurecture. The triad formula is as follows:
+
+`a[i] = b[i]+ c[i] * d[i]`
 
 **A)**  Two variables, **N** and **REP** are retrieved from user input (and tested to see if they fall within a specified range). The former determines the size of the vector and the latter number of repetions for the vector triad multiplication. Taking a look at line 116: 
 
