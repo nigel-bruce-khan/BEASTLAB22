@@ -37,7 +37,7 @@ double triad (const long N, const long REP, int *numThreads){
 }
 
 // TASK 1.d
-    double* a = (double*) aligned_alloc (4096, N * sizeof(double));
+    double* a = (double*) aligned_alloc (4096, N * sizeof(double)); //this only works for N>256
     double* b = (double*) aligned_alloc (4096, N * sizeof(double));
     double* c = (double*) aligned_alloc (4096, N * sizeof(double));
     double* d = (double*) aligned_alloc (4096, N * sizeof(double));
