@@ -55,8 +55,8 @@ double triad (const long N, const long REP, int *numThreads){
 #pragma omp parallel
 {
     for (long i=0; i<REP; i++)
-//#pragma omp for schedule(static) nowait
-#pragma omp for schedule(static) 
+#pragma omp for schedule(static) nowait
+//#pragma omp for schedule(static) 
         for (long j=0; j<N; j++)
             a[j] = b[j]+c[j]*d[j];
 }
@@ -108,15 +108,15 @@ int main(int argc, char * argv[]) {
 
     printf("| %12s | %12s | %12s | %12s |\n","Dataset size", "Threads", "MFLOPS", "Cycles");
 
-    long datasetSize = 32;
+    long datasetSize = N; //for experiment 2e: set to the maximum vector size input
     double m_flop = 0;
     int threads;
     long cycles=10;
 
     // TASK 1.a
-    while (datasetSize <= N && cycles > 1)
-    {
-        cycles = REP / datasetSize;
+    //while (datasetSize <= N && cycles > 1)
+    //{
+        cycles = REP; /// datasetSize; for experiment 2e: deleted 
 
         time_a = triad(datasetSize, cycles, &threads); //send to triad the address of the buffer
         m_flop = 2.0 * (double)datasetSize * (double)cycles * 1.0e-6;
@@ -124,8 +124,8 @@ int main(int argc, char * argv[]) {
 
         printf("| %12ld | %12d | %12.2f | %12ld |\n", datasetSize, threads, performance_a, cycles);
 
-        datasetSize *= 2;
-    }
+        //datasetSize *= 2;
+    //}
 
     return 0;
 }
