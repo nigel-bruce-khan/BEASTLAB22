@@ -51,11 +51,12 @@ double triad (const long N, const long REP, int *numThreads){
 	    d[j] = 3.0;
     }
 
-// TASK 1.f
+// TESTING TASK 1.f
 #pragma omp parallel
 {
     for (long i=0; i<REP; i++)
-#pragma omp for schedule(static) nowait
+//#pragma omp for schedule(static) nowait
+#pragma omp for schedule(static) 
         for (long j=0; j<N; j++)
             a[j] = b[j]+c[j]*d[j];
 }
