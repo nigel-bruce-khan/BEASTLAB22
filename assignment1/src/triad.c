@@ -32,9 +32,9 @@ double triad (const long N, const long REP, int *numThreads){
 
 // TASK 1.c
 #pragma omp parallel
-{
+//{
 	*numThreads=omp_get_num_threads();
-}
+//}
 
 // TASK 1.d
     double* a = (double*) aligned_alloc (4096, N * sizeof(double)); //this only works for N>256
@@ -117,7 +117,7 @@ int main(int argc, char * argv[]) {
     {
         cycles = REP / datasetSize;
 
-        time_a = triad(datasetSize, cycles, &threads);
+        time_a = triad(datasetSize, cycles, &threads); //send to triad the address of the buffer
         m_flop = 2.0 * (double)datasetSize * (double)cycles * 1.0e-6;
         performance_a = m_flop / time_a;
 
