@@ -84,4 +84,8 @@ On another note, the parallel region in line 65:
             a[j] = b[j]+c[j]*d[j];
  }
 `
-spanns several threads across this block with `#pragma omp parallel` and also indicates to the compiler that work here will be paralized. Therefore, the only thing remaining to do is to distribute the workload in the for-loop across these threads. If one were to 
+spans several threads (**threads**) across this block thanks to `#pragma omp parallel`. At the first for-loop we only indicate how many times to repeat the subsequent loop, so no parallelising is done here. Therefore, the only thing remaining to do is to distribute the workload from the 2nd for-loop across the existing threads. Noticing that the parallel region is created outside the loop that calculates vector a. If instead we create the parallel region inside the REP loop with `#pragma omp parallel for `
+
+
+
+**H)** The checksum function could also be useful to compare floating point precision across different systems. One could decrease the tolerance defined (in this case is 0.1), and test which architectures are more suitable for computations that require precise results. 
