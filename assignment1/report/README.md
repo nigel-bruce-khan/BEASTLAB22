@@ -173,9 +173,11 @@ In the graph above we see that the computational operations per second greatly i
 In the memory bandwidth graph above we see that for 64 threads the speed is 722.5Gbytes/second, which is more than 3 times the theoretical maximum limit calculated before from the specifications. This shows that the calculations used for the simplified limit found from doubling the FLOPS are extremely approximate, and does not mean that with threading we can break the maximum limit found from the hardware specifications. 
 
 
-**E)**
+**E)** To allow for scaling experiments, we assign datasetSize = N (introduced by the user), and remove the while loop that was modifying this variable on the previous assignments. We declare **threads** as a global variable and then redefine the number of repetions as the ratio between **REP** and **number of threads** (the pointer to threads), to have stable measurements when there are few threads and to be consistent with the repetions scheme from the previous tasks. We also adjusted the formula for mflops where **cycles** is now replaced for **REP/threads**. From task 2.d, we observed that at N=2^26 the data is loaded and stored to the same memory region, so we introduced this value on each execution and assign it to datasetSize. The AMD Rome architecture consists of **128 cores** and **256 virtual cores**. It can also be configured to set 1,2, or 4 NUMA domains per Socket. Since 4 nodes per socket offers the highest memory bandwidth configuration, the total count for NUMA domains is 8 for one node. From our experiments, we observe the best performance when all the virtual cores are being used (i.e **threads = 256**), due to the **Simultaneous Multithreading**. This behaviour can be seen in the following graph:
 
-**F)**
+![task2.e]
+
+**F)** We remove the clause `#pragma omp parallel for schedule(static)` and proceed with the sequential initialization of the arrays. Here the performance was drastically affected, 
 
 **G)**
 
