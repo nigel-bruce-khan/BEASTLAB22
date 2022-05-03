@@ -88,12 +88,7 @@ spans several threads (**threads**) across this block thanks to `#pragma omp par
 
 ´
 
-  //V1. Parallel region created outside
-
-int main(int argc, char* argv[]) 
-{ 
-  
-   // Beginning of parallel region 
+     // Beginning of parallel region 
     #pragma omp parallel 
     
     for (int j=0; j<6; j++)
@@ -109,12 +104,11 @@ int main(int argc, char* argv[])
 
 `
 
-//V2. Parallel region created inside loop
-int main(int argc, char* argv[]) 
+
+    int main(int argc, char* argv[]) 
 { 
   
-   // Beginning of parallel region 
-    //#pragma omp parallel 
+  
     
     for (int j=0; j<6; j++)
     #pragma omp parallel for schedule(static) //nowait
@@ -125,6 +119,8 @@ int main(int argc, char* argv[])
 } 
 
 `
+The results show (see images below), that when creating a parallel region outside the loop, big chunks are allocated to threads(the default scheduler is static), compared to using `pragma omp parallel for `, where the chunks are smaller and switching between threads causes more overhead. One strategy would be to try to set the chunk sizes before hand to avoid unnecessary thread calls 
+
 
 
 
