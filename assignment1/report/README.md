@@ -121,7 +121,9 @@ spans several threads (**threads**) across this block thanks to `#pragma omp par
 `
 The results show (see images below), that when creating a parallel region outside the loop, big chunks are allocated to threads(the default scheduler is static), compared to using `pragma omp parallel for `, where the chunks are smaller and switching between threads causes more overhead. One strategy would be to try to set the chunk sizes before hand to avoid unnecessary thread calls 
 
-
+![thread3](threads_3.jpg)
+![thread8](threads_8.jpg)
+![thread10](threads_10.jpg)
 
 
 
