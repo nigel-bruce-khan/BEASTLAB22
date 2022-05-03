@@ -84,7 +84,50 @@ On another note, the parallel region in line 65:
             a[j] = b[j]+c[j]*d[j];
  }
 `
-spans several threads (**threads**) across this block thanks to `#pragma omp parallel`. At the first for-loop we only indicate how many times to repeat the subsequent loop, so no parallelising is done here. Therefore, the only thing remaining to do is to distribute the workload from the 2nd for-loop across the existing threads. Noticing that the parallel region is created outside the loop that calculates vector a. If instead we create the parallel region inside the REP loop with `#pragma omp parallel for `
+spans several threads (**threads**) across this block thanks to `#pragma omp parallel`. At the first for-loop we only indicate how many times to repeat the subsequent loop, so no parallelising is done here. Therefore, the only thing remaining to do is to distribute the workload from the 2nd for-loop across the existing threads. Noticing that the parallel region is created outside the loop that calculates vector a. If instead we create the parallel region inside the REP loop with `#pragma omp parallel for `, the **nowait** clause isn't compatible with the compiler, so that increases the time_spent and hence performance has smaller values. Another ffactor to consider is the job allocation across threads. We tested a small version of this region to observe how the workload was distributed. 
+
+´
+
+  //V1. Parallel region created outside
+
+int main(int argc, char* argv[]) 
+{ 
+  
+   // Beginning of parallel region 
+    #pragma omp parallel 
+    
+    for (int j=0; j<6; j++)
+    #pragma omp for schedule(static) nowait
+        for(int i=0; i<30; i++)
+            printf("Hello World... from thread = %d\n", 
+               omp_get_thread_num());  
+    // Ending of parallel region 
+} 
+
+´
+
+
+`
+
+//V2. Parallel region created inside loop
+int main(int argc, char* argv[]) 
+{ 
+  
+   // Beginning of parallel region 
+    //#pragma omp parallel 
+    
+    for (int j=0; j<6; j++)
+    #pragma omp parallel for schedule(static) //nowait
+        for(int i=0; i<30; i++)
+            printf("Hello World... from thread = %d\n", 
+               omp_get_thread_num());  
+    // Ending of parallel region 
+} 
+
+`
+
+
+
 
 
 
