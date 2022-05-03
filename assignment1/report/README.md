@@ -45,7 +45,10 @@ REP = how many times to recompute vector A.
 
 Triad completes by returning a variable of type double named time_spent, indicating how much time was spent on the _. computation of vector A for each of the vector lenghts N a certain number of times REP ._ 
 
-**C)** We use `#pragma omp parallel` to create a parallel region where threads can be spanned. At line 36, each thread repeatedly assigns to the **numThreads** pointer the number of threads so that it can be stored in the integer variable **threads**. However, this step can also be performed without parallelism by removing the pragma, since we only require to assign the variable **threads** once. 
+**C)** We use `#pragma omp parallel` to create a parallel region where threads can be spanned. At line 36, we assign to the **numThreads** pointer the number of threads so that it can be stored in the integer variable **threads**. If we omit this clause, then the **threads** will be one, despite setting the environment value to another value. The results can be observed on the images below.
+
+![thread_serial](num_threads1.jpeg)
+![thread_parallel](num_threadspar.jpeg)
 
 **D)** aligned_loc() is a function introduced by the new C11 standard. It allows to allocate memory spaces with given alignments greater than those admitted by malloc. This function has the following structure: 
 
