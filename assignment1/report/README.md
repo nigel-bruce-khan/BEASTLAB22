@@ -1,9 +1,9 @@
 # Assignment 1 Report
-Group: 104
+**Group: 104**
 
-Assignment1:
+**Assignment1:**
 
-For this assignment, we analyzed the performance of the vector triad benchmark, by performing several tests on a Rome2 architurecture. Parameters such as size of vectors, number of threads and thread allocation were modified to identify their effect over performance. The tested formula is as follows:
+For this assignment, we analysed the performance of the vector triad benchmark, by performing several tests on a Rome2 architecture. Parameters such as size of vectors, number of threads and thread allocation were modified to identify their effect over performance. The tested formula is as follows:
 
 `a[i] = b[i]+ c[i] * d[i]`
 
@@ -26,7 +26,7 @@ the predefined variables **datasetSize(=32)** and **cycles(=10**) are being comp
         datasetSize *= 2; //increase the size to 64, 128, 256, 1024, 2048, 4096....
     `
 
-Once we enter the loop, **cycles**  is redefined as the ratio between the number of repetitions and datasetSize, to guarantee that we execute N computations at each vector length, which allows us to compare performance across sizes.
+Once we enter the loop, **cycles** is redefined as the ratio between the number of repetitions and datasetSize, to guarantee that we execute N computations at each vector length, which allows us to compare performance across sizes.
 
 While accessing the while loop (caller), we are calling the function **“triad”** (the callee):
 
@@ -36,7 +36,7 @@ It’s in this function where the vectors a,b,c,d are constructed, with size N a
 
 One can observe that in the formula (from triad()):
 a[j] = b[j] + c[j] * d[j] 
-There are two arithmetic operations (one multiplication	and one addition). Moreover, this instruction is executed inside a nested loop: the inner loop runs N times, and the outer is executed REP times. Therefore the total number of floating point operations (2) are performed N*REP times. Recall that triad is being called with parameters datasetSize and cycles, so N and REP have these values assigned, hence the number of floating point operations computed into the loop , denoted by m_flop is equal to:
+There are two arithmetic operations (one multiplication	and one addition). Moreover, this instruction is executed inside a nested loop: the inner loop runs N times, and the outer is executed REP times. Therefore, the total number of floating point operations (2) are performed N*REP times. Recall that triad is being called with parameters datasetSize and cycles, so N and REP have these values assigned, hence the number of floating point operations computed into the loop, denoted by m_flop is equal to:
 2* datasetSize*cycles. Since we are counting per million, we multiply by 1*10^-6 to get the result in millions of operations. 
 
 **B)** As mentioned above, triad takes as parameters two const long datatypes, N and REP, as well as a pointer to an integer which stores the address of the number of threads. 
@@ -77,19 +77,19 @@ The advantage of using `aligned_alloc` in this routine, is to prevent **false sh
 
 **F)** This code section runs several iterations of the loop that is wrapped between the time measurement points. This serves as a warmup, because by running this loop before we proceed with the time evaluation, we can reduce the negative effects of cache misses and overheads from setting up the pipelines. By doing so, the obtained results are a more accurate reflection of our object of study, which in this case is the memory bandwidth.  
 
-**G)** When using a parallel region, OpenMP automatically wait for all threads to finish before execution continues (implicit barrier). Furthermore, there is also a synchronization point after each “omp for” loop, implying that threads need to wait until each of them has finished their respective tasks. Since there are no dependencies in the loop, or potential data races, synchronization is not needed after the loop, hence we disable this by using nowait, which also reduces the idle time for each thread and increase performance, thus our results wont' include any synchronization effect and offer a better picture of the ongoing process. 
+**G)** When using a parallel region, OpenMP automatically waits for all threads to finish before execution continues (implicit barrier). Furthermore, there is also a synchronization point after each “omp for” loop, implying that threads need to wait until each of them has finished their respective tasks. Since there are no dependencies in the loop, or potential data races, synchronization is not needed after the loop, hence we disable this by using nowait, which also reduces the idle time for each thread and increase performance, thus our results wont' include any synchronization effect and offer a better picture of the ongoing process. 
 
 On another note, the parallel region in line 65: 
 
 ` #pragma omp parallel
  {
-    for (long i=0; i<REP; i++)
+    for (long i=0; i < REP; i++)
  #pragma omp for schedule(static) nowait
         for (long j=0; j<N; j++)
             a[j] = b[j]+c[j]*d[j];
  }
 `
-spans several threads (**threads**) across this block thanks to `#pragma omp parallel`. At the first for-loop we only indicate how many times to repeat the subsequent loop, so no parallelising is done here. Therefore, the only thing remaining to do is to distribute the workload from the 2nd for-loop across the existing threads. Noticing that the parallel region is created outside the loop that calculates vector a. If instead we create the parallel region inside the REP loop with `#pragma omp parallel for `, the **nowait** clause isn't compatible with the compiler, so that increases the time_spent and hence performance has smaller values. Another ffactor to consider is the job allocation across threads. We tested a small version of this region to observe how the workload was distributed. 
+spans several threads (**threads**) across this block thanks to `#pragma omp parallel`. At the first for-loop we only indicate how many times to repeat the subsequent loop, so no parallelising is done here. Therefore, the only thing remaining to do is to distribute the workload from the 2nd for-loop across the existing threads. Notice that the parallel region is created outside the loop that calculates vector a. If instead we create the parallel region inside the REP loop with `#pragma omp parallel for `, the **nowait** clause isn't compatible with the compiler, so that increases the time_spent and hence performance has smaller values. Another factor to consider is the job allocation across threads. We tested a small version of this region to observe how the workload was distributed. 
 
 ´
 
@@ -138,13 +138,40 @@ The results show (see images below), that when creating a parallel region outsid
 
 **2. EXPERIMENTS AND MEASUREMENTS**
 
-**A)**
+**A)** The plot below is obtained from the AMD Rome architecture, with 1 thread. The highest performance obtained was 8163.85 MFLOPS for 512 vector datasize. The graph is on log scale for the data sizes. Jumps in the performance, are visible in the graph, which account for the cache levels are visible through dramatic drops in operations per second.
 
-**B)**
+![2a1](2a1.png)
 
-**C)**
 
-**D)**
+**B)** In the formula for the mflops calculation seen below, the first term factor 2.0 accounts for the number of operations i.e an addition and a multiplication. Since we are now calculating memory bandwidth utilization with simplifications applied, we can say that we are doing 3 loads and one store. This in total is 4 operations. Thus, simply multiplying the “m_flop” values by 2.0 will give us the required memory bandwidth utilization.
+
+![2b1](2b1.png)
+
+With the logic provided above, for 1 thread and the rest of the parameters and system architecture which is the same as that of question 2a, we get the following graph:
+
+![2b2](2b2.png)
+
+The highest speed again is obtained for data size 512 and the speed is 16327.7 MB/sec.
+
+**C)** Using the reference from (Moyer, 2021) we find that the AMD ROME system has eight 3,200-MHz memory channels, and allows 8 bytes of load/store per cycle/second per channel. When we carry out the multiplication to get the theoretical maximum memory bandwidth (tmmb), we get:
+
+tmmb = 3200MHz*8 channels*8bytes/second = 204800Mbytes/second
+=> **tmmb= 204.8Gbytes/second**
+
+When compared to our simplified, calculated maximum memory bandwidth the result was 16327.7 MB/sec i.e 16.3277Gbytes/sec. There is an extremely low value as compared to the theoretical maximum. The difference can be accounted for through multiple reasons. Firstly, the theoretical maximum is likely never achieved, especially with just 1 thread because it is hard to saturate the bandwidth with just one basic processor. The calculation here is also a great simplification only loosely taking cpu operation speed into account and not the actual memory speed, memory channels, architectures or other nuances into consideration. 
+It will be noticed later that when using more threads we are even able to cross the simplified calculation of the memory bandwidth limit, which shows that the limit calculated above, by doubling the flops, was a very loose estimate from the start. We were also able to see from part 2d, that the system is compute bound rather than memory bound so using the compute operations to estimate the load/store speed limit was a large over-estimation.
+
+
+**D)** Similar to figure 2. Below we show plots for speed and memory benchmarks on the same AMD Rome system, but with an increasing number of threads. The other specifications are the same as that for question 2a. 
+
+![2d1](2d1.png)
+
+In the graph above we see that the computational operations per second greatly increase with the number of threads showing the system is in a memory bound state. We also see that the trend of increasing speed is sustained similarly to the graph in Figure 2 given in the assignment. The speed goes up till a certain data-size which corresponds to the cache limits, and then goes down as the next cache needs to be accessed to retrieve data, and finally when the data is too big for even the caches it must be retrieved from memory which makes the system memory bound, causing the computational speeds to fall to the same values for all the threads used.
+
+![2d2](2d2.png)
+
+In the memory bandwidth graph above we see that for 64 threads the speed is 722.5Gbytes/second, which is more than 3 times the theoretical maximum limit calculated before from the specifications. This shows that the calculations used for the simplified limit found from doubling the FLOPS are extremely approximate, and does not mean that with threading we can break the maximum limit found from the hardware specifications. 
+
 
 **E)**
 
