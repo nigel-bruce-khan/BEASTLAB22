@@ -235,6 +235,8 @@ This means removing nowait and still spreading the threads to each socket allows
 
 **In Case 2** we use binding= spread, with N=2^17, this is the same configuration as part 2h and we get the highest performance with 64 threads. In **spread**, threads are spread across the available places to maximize the space in between two neighboring threads. Since the threads are further apart, 64 threads provides a better computation-communication balance here. For the same datasize, both types of bindings have similar plots, that is the performance/bandwidth increases upto a certain mark before falling back down. The highest points signifies where the chosen binding time performs best with a static schedule for the current data size.
 
-![2i_case1](2i_case1.png)
+![2i_case2](2i_case2.png)
+
+
 
 **J)**
