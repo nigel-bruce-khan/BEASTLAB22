@@ -239,11 +239,13 @@ This means removing nowait and still spreading the threads to each socket allows
 
 For these two first cases, we set the **number of repetitions = 1024/num_threads**, due to smaller data sizes.
 
-**In case 3** we increased the vector size to 2^27 and set **binding = close**. Here the best performance was obtained when using all threads (256). However, when comparing against **case 4**, which spreads the threads, the performance in the latter increased considerably even with less number of threads. One can explain this behaviour by looking at how threads are mapped. Since we didn't use the environment variable `OMP_PLACES`, the default setting is to map the threads into the physical cores, which in our case are 128. However with close binding, we are setting all the threads in one socket, the one where the master thread is, which means that we are actually not exploiting all the 128 physical cores but only the 64 present in the socket where the master thread is located, and from there, SMT takes place. This is noticeable by the doubling of performance from 32 to 64 threads, which is the biggest increase. However, for **case 4** we are spreading the threads, making full use of the available cores, which is more powerful than using virtual threads.Furthermore, the size N demands that all threads load and store from the same memory region, and with this binding we are now ptimizing for memory bandwidth instead of cache sharing. 
+![comparison](Comparison_of_performances_between_bindings_with_N__2_17.png)
+
+**In case 3** we increased the vector size to 2^27 and set **binding = close**. Here the best performance was obtained when using all threads (256). However, when comparing against **case 4**, which spreads the threads, the performance in the latter increased considerably even with less number of threads. One can explain this behaviour by looking at how threads are mapped. Since we didn't use the environment variable `OMP_PLACES`, the default setting is to map the threads into the physical cores, which in our case are 128. However with close binding, we are setting all the threads in one socket, the one where the master thread is, which means that we are actually not exploiting all the 128 physical cores but only the 64 present in the socket where the master thread is located, and from there, SMT takes place. This is noticeable by the doubling of performance from 32 to 64 threads, which is the biggest increase. However, for **case 4** we are spreading the threads, making full use of the available cores, which is more powerful than using virtual threads.Furthermore, the size N demands that all threads load and store from the same memory region, and with this binding we are now optimizing for memory bandwidth instead of cache sharing. 
 
 ![task2i3](task2i_3.png)
 ![task2i4](task2i_case4.png)
 ![task2comparison ](task2i_comparison.png)
 
-
+For these two last cases we decreased the number of repetitions to **256/number of threads**.
 
