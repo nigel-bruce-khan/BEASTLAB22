@@ -218,6 +218,7 @@ In the memory bandwidth graph above we see that for 64 threads the speed is 722.
 
 with N= 2^26. We did several rounds of this task due to noticeable differences, although on each round we perceived worse performance than with the 'static default' schedules, because the operating system needs to call frequently threads one by one. On several rounds, we observed highest performances when the number of threads was set to one of the following: 1, 128, 256 and 1024. For the first case, where we only work with one thread, one possible explanation is that we assign to only one thread all the variables, so we don't need to change constantly between threads while assigning the chunks. For the second and third case, we are exploiting all the physical and virtual cores, whereas for the last one, we make the least amount of calls for each thread (67108864/1024 = 65536 calls to each thread).
 
+![task2g](task2g.png)
 
 
 
