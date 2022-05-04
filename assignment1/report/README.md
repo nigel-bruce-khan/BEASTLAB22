@@ -181,7 +181,45 @@ In the memory bandwidth graph above we see that for 64 threads the speed is 722.
 
 
 
-**G)**
+**G)** For this task, we set now each scheduler to static with chunk sizes = 1 as shown below:
+
+`
+
+     #pragma omp parallel for schedule(static, 1)
+        for (long j=0; j<N; j++) {
+    	    a[j] = 0.0;
+    	    b[j] = 1.0;
+    	    c[j] = 2.0;
+    	    d[j] = 3.0;
+        }
+
+    // TASK 1.f
+    #pragma omp parallel
+    {
+        for (long i=0; i<REP/threads; i++)
+    #pragma omp for schedule(static, 1) nowait
+            for (long j=0; j<N; j++)
+                a[j] = b[j]+c[j]*d[j];
+    }
+
+    // TASK 1.g
+
+        begin = get_curr_time();
+    #pragma omp parallel
+    {
+        for (long i=0; i<REP/threads; i++)
+    #pragma omp for schedule(static, 1) nowait
+            for (long j=0; j<N; j++)
+                a[j] = b[j]+c[j]*d[j];
+    }
+        end = get_curr_time();
+        time_spent = end - begin;
+`
+
+with N= 2^26. We did several rounds of this task due to noticeable differences, although on each round we perceived worse performance than with the 'static default' schedules, because the operating system needs to call frequently threads one by one. On several rounds, we observed highest performances when the number of threads was set to one of the following: 1, 128, 256 and 1024. For the first case, where we only work with one thread, one possible explanation is that we assign to only one thread all the variables, so we don't need to change constantly between threads while assigning the chunks. For the second and third case, we are exploiting all the physical and virtual cores, whereas for the last one, we make the least amount of calls for each thread (67108864/1024 = 65536 calls to each thread).
+
+
+
 
 **H)** Since we removed the nowait parameter the results are quite different as can be seen in the graph below. Firstly, we had to use smaller dataset sizes as specified in the question. In this case 2e17 was used because it is small enough to fit on the L3 cache as observed from question 2a, instead of 2e26 as in question 2e. Hence absolute speeds cannot be compared. However, we can still compare the trends in the graphs. Different from the graph in 2e, we now notice a spike at 64 threads, which corresponds to the number of cores on each socket. L3 caches are located at the lower CCX levels on the AMD ROME system (Moyer, 2021). However each socket does have 8 memory channels, so there is still significant fast access between the L3 caches within the socket. 
 This means removing nowait and still spreading the threads to each socket allows a significantly better balance of communication and computation with 64 processors than with other combinations on the AMD ROME system. Unlike in part 2e, it is also noticed that using a higher number of threads with virtual cores i.e SMT, results in significant loss of performance and bandwidth likely due to extra communication time again. This is due to the communication required since the data is spread unevenly with more virtual threads and each processor needs to wait for all the rest to finish before continuing. The slow speed with lower number of threads is simply due to the data not being spread enough thus taking each thread a significant time to get through its chunk of the vectors.
