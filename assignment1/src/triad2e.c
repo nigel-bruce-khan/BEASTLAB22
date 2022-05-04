@@ -9,6 +9,7 @@
 #include <errno.h>
 #include <omp.h>
 #include <assert.h>
+//BASE CODE FOR 2.E
 
 int threads; //defined as global
 
