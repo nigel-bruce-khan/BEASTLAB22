@@ -177,7 +177,9 @@ In the memory bandwidth graph above we see that for 64 threads the speed is 722.
 
 ![task2.e](2e.png)
 
-**F)** We remove the clause `#pragma omp parallel for schedule(static)` and proceed with the sequential initialization of the arrays. Here the performance was drastically affected, due to the bad memory allocation and only at **number of threads=8** we saw the highest performance, which corresponds to the number of NUMA domains. In summary, the most optimal performance was achieved when each thread accessed its own domain, whilst having more threads was not optimal due to memory fetching. 
+**F)** We remove the clause `#pragma omp parallel for schedule(static)` and proceed with the sequential initialization of the arrays. Here the performance was drastically affected, due to the bad memory allocation and only at **number of threads=8** we saw the highest performance, which coincides with the number of NUMA domains. Serialized initialization leads to allocation of all the vectors in one locality domain, so threads, which are with binding spread, spend a lot of time trying to fetch the data, in comparison with the parallel initialization used before, where the data was distributed across locality domains. 
+
+![task2f](task2f.png)
 
 
 
