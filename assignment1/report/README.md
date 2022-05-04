@@ -183,4 +183,11 @@ In the memory bandwidth graph above we see that for 64 threads the speed is 722.
 
 **G)**
 
-**H)**
+**H)** Since we removed the nowait parameter the results are quite different as can be seen in the graph below. Firstly, we had to use smaller dataset sizes as specified in the question. In this case 2e17 was used because it is small enough to fit on the L3 cache as observed from question 2a, instead of 2e26 as in question 2e. Hence absolute speeds cannot be compared. However, we can still compare the trends in the graphs. Different from the graph in 2e, we now notice a spike at 64 threads, which corresponds to the number of cores on each socket. L3 caches are located at the lower CCX levels on the AMD ROME system (Moyer, 2021). However each socket does have 8 memory channels, so there is still significant fast access between the L3 caches within the socket. 
+This means removing nowait and still spreading the threads to each socket allows a significantly better balance of communication and computation with 64 processors than with other combinations on the AMD ROME system. Unlike in part 2e, it is also noticed that using a higher number of threads with virtual cores i.e SMT, results in significant loss of performance and bandwidth likely due to extra communication time again. This is due to the communication required since the data is spread unevenly with more virtual threads and each processor needs to wait for all the rest to finish before continuing. The slow speed with lower number of threads is simply due to the data not being spread enough thus taking each thread a significant time to get through its chunk of the vectors.
+
+![2h](2h.png)
+
+**I)**
+
+**J)**
