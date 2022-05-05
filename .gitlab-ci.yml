@@ -5,9 +5,21 @@
 # After editing any gitlab-ci.yml files, re-run the aggregator from the repository
 # root directory (util/generate_gitlab_ci.py). Alternatively, ensure that the git pre-commit hooks are
 # active so that the file is regenerated automatically.
-Assignment1:
+Assignment2:
   stage: test
   script:
-    - 'echo -e "This assignment no longer makes use of CI. This CI script is a placeholder and does nothing useful."'
-  when: manual
+    - cd assignment2/src/
+    - srun make -B assignment2
+    - srun stdbuf --output=L ./assignment2 | tee ./perf_data.txt
+    - python3 ../util/generate_chart.py --output-file perf_data.svg
+    - python3 ../util/generate_chart.py --output-file perf_data.pdf
+  artifacts:
+    paths:
+    - assignment2/src/perf_data.pdf
+    - assignment2/src/perf_data.svg
+    - assignment2/src/perf_data.txt
+    expire_in: 6 months
+    when: always
+  only:
+    - main
 

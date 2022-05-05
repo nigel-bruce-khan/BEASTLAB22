@@ -1,0 +1,17 @@
+Assignment2:
+  stage: test
+  script:
+    - cd assignment2/src/
+    - srun make -B assignment2
+    - srun stdbuf --output=L ./assignment2 | tee ./perf_data.txt
+    - python3 ../util/generate_chart.py --output-file perf_data.svg
+    - python3 ../util/generate_chart.py --output-file perf_data.pdf
+  artifacts:
+    paths:
+    - assignment2/src/perf_data.pdf
+    - assignment2/src/perf_data.svg
+    - assignment2/src/perf_data.txt
+    expire_in: 6 months
+    when: always
+  only:
+    - main
