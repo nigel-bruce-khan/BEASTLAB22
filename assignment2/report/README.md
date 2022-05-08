@@ -11,7 +11,6 @@ row of A and row of C (least cache misses). The slowest implementation is jki, w
 B and column of C, while we write to the same location of A.
 
 #### Explain which of the loops (i, j, k) is parallelizable?
-It's possible to parallelize one of the outer loop (i, j), since they don't have data dependencies and the two
-distinct threads will not write to the same memory location. When parallelizing the third loop (k), a conflict can happen
-as multiple threads want to update the same memory location.
+It's possible to parallelize whichever of the outer loop (i or j), since they don't have data dependencies and two
+distinct threads will not write to the same memory location. When parallelizing the third loop (k), data races might occur.
 To do this, atomic operations are necessary or a `#pragma omp parallel for reduction`.
