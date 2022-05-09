@@ -60,3 +60,9 @@ By enabling worksharing in loops i and j, nested parallelism is disabled by defa
  
 On the other hand, if we tried to enable “nested parallelism”, things would get much worse. The inner parallel region would create more threads, and overall we would have more threads competing for the resources of limited CPU cores — not what we want in a performance-critical application. 
 
+When it comes to the scheduling, with for loops where each iteration takes roughly equal time, static schedules work best, as they have little overhead. On the other hand, dynamic scheduling is better when the iterations may take very different amounts of time. However, there is some overhead to dynamic scheduling. Thus, the choice of scheduler will definitely have an impact on the performance according to which kind of loops we are working with.
+
+
+
+for balanced loops (where the matrices are squared), a static scheduler is more suitable compared to a dynamic scheduler, with the additional benefit that the scheduling is done at compile time, reducing work at runtime. With the latter, we have high variable work distribution and this can affect the performance. 
+
