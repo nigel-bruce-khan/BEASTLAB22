@@ -64,5 +64,16 @@ When it comes to the scheduling, with for loops where each iteration takes rough
 
 
 
-for balanced loops (where the matrices are squared), a static scheduler is more suitable compared to a dynamic scheduler, with the additional benefit that the scheduling is done at compile time, reducing work at runtime. With the latter, we have high variable work distribution and this can affect the performance. 
+for balanced loops (where the matrices are squared), a static scheduler is more suitable compared to a dynamic scheduler, with the additional benefit that the scheduling is done at compile time, reducing work at runtime. With the latter, we have high variable work distribution and this can affect the performance, but this is not always the case.
+
+
+
+# 2e)
+
+(e) ParallelizeyourcodevariantsusingOpenMP.Testyourparallelversionsonallplatforms with different numbers of cores as given in assignment 1. Run strong scaling experi- ments and create speedup figures (i.e., for all measurements for one curve, use exactly the same workload = same repetition count): core count on X axis, achieved speedup vs. sequential run on Y axis - i.e., point (1/1) always starts the curve.
+Consider the following 4 cases for scaling experiments:
+• Case 1: N=100, binding=close
+• Case 2: N=100, binding=spread • Case 3: N=1900, binding=close
+• Case 4: N=1900, binding=spread
+What kind of scaling is visible for all 4 cases? Can you explain why? Specifically, explain the scaling behavior between N=100 and N=1900, and the difference between the scaling curves of ‘close’ and ‘spread’ bindings.
 
