@@ -152,10 +152,11 @@ Same as ThunderX2, no significant difference is observed between the performance
 ![cs2 g++](2d4.png)
 
 #### Vector instructions
-Vector instructions are observed in:
+Vector instructions are observed:
 - AMD Rome (g++, clang++)
 - Intel Icelake (g++, icc)
-not observed in:
+
+not observed:
 - ThunderX2 (g++, clang++)
 - A64FX (g++, clang++)
 
