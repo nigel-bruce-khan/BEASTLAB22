@@ -69,6 +69,75 @@ for balanced loops (where the matrices are squared), a static scheduler is more 
 
 
 # 2e)
+We implemented 4 different parallelizations: 
+
+From the results obtained in part 2b), the most optimal loop sequence was IKJ, so we worked with this structure for the first two parallelizing schemes: 
+
+- P1) parallelized the outer loop with `#pragma omp parallel for` using **(static).**
+- P2) parallelized the outer loop with `#pragma omp parallel for` using  **(dynamic, 10).**
+
+`   
+    
+     for( int r=0; r<REP; ++r ) {
+
+     //#pragma omp parallel for schedule(dynamic, 10)
+     #pragma omp parallel for schedule(static)  
+     for( int i=0; i<N; i++ ) {
+     
+      for( int k=0; k<N; k++ ) {
+     
+        for( int j=0; j<N; j++ ) {     
+     
+          a[TWO_D_ACCESS(i, j, N)] += b[TWO_D_ACCESS(i, k, N)] * c[TWO_D_ACCESS(k, j, N)];
+        }
+      }
+     }
+    }
+
+`
+The other two modalities were optimized with the original loop sequence IJK:
+
+- P3) Using `#pragma omp parallel for collapse (2)`, using **(static).**
+- P4) Using `#pragma omp parallel for collapse (2)`, using **(dynamic, 10).**
+
+
+`
+    
+     
+     for( int r=0; r<REP; ++r ) 
+     {
+      //#pragma omp parallel for schedule(dynamic, 10)
+      #pragma omp parallel for schedule(static)  
+      for( int i=0; i<N; i++ ) 
+      {     
+       for( int k=0; k<N; k++ ) 
+        {     
+        for( int j=0; j<N; j++ ) 
+         {     
+               a[TWO_D_ACCESS(i, j, N)] += b[TWO_D_ACCESS(i, k, N)] * c[TWO_D_ACCESS(k, j, N)];
+         }
+        }
+      }
+     }
+
+`
+
+10 was defined as the chunk size since it is a common divisor for the matrix sizes that weree tested: N= 100, 1900.
+
+We tested our parallel implementations on each of the architectures with the four cases requested. The following table summarizes the principal information from our strong scaling experiments:
+
+| **architecture**  | **rome2**   | **icelake** |**thunderx2** | **AMDA64fX** | 
+| ------            | ------      | -------     |---------     | --------     | 
+|cores(threads/core)| 128(x2)     | 72(x2)      | 64(x4)       |   48         |
+|                   |             |             |              |              | 
+|threads_tested     | 1,2,4,8,16, |1,2,4,8,16,  | 1,2,4,8,16   | 1,2,4,6,12,  |
+|                   |32,48,64,128,| 32,48,64,96,| 32,64,128,   |   24,48,96.  |
+|                   | 256,512     | 144,256     |  256, 512.   |              |
+
+
+
+
+
 
 (e) ParallelizeyourcodevariantsusingOpenMP.Testyourparallelversionsonallplatforms with different numbers of cores as given in assignment 1. Run strong scaling experi- ments and create speedup figures (i.e., for all measurements for one curve, use exactly the same workload = same repetition count): core count on X axis, achieved speedup vs. sequential run on Y axis - i.e., point (1/1) always starts the curve.
 Consider the following 4 cases for scaling experiments:
