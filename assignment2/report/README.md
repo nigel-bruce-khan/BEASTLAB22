@@ -94,12 +94,12 @@ Caches are loaded row by row. Therefore, if we traverse columns first, caches ar
 # 2c)
 Smaller caches are faster, however the size of data which can be allocated is limited. This is the reason that the figures show some layers of performance levels. 
 
-##### - Rome
+##### - AMD Rome
 It stores and loads data from L1 cache for the tile size of 4, thus, it performs better than the other cases. Tile size of 5 and 10 are not fit to the L1 cache, and since they do not fully utilise L2 cache, they resulted in below 5000 MFLOPS. Tile size of 20 and 50 are fit to L2 cache and L3 cache respectively, so that they show worse performance than tile size of 4, however better than the other two cases.
 
 ![rome2 c++](2c1.png)
 
-##### - Icelake
+##### - Intel Icelake
 Tile size of 4 and 50 utilise cache. Tile size of 4 uses higher level of cache so it performs better than the other. The other three tile sizes are missing caches.
 
 ![ice c++](2c2.png)
@@ -109,7 +109,7 @@ Tile size of 20 fits to the cache size so that the performance is better than th
 
 ![thx c++](2c3.png)
 
-##### - CS500
+##### - AMD A64FX
 Similar layers of performance levels are observed as in the case of ThunderX2. 
 
 ![cs2 c++](2c4.png)
@@ -117,10 +117,24 @@ Similar layers of performance levels are observed as in the case of ThunderX2.
 
 
 # 2d)
+##### AMD Rome: g++ vs clang++
+The calculation with clang compiler performs better than gnu compiler over all tile sizes except tile size = 20, which resulted in almost the same. Clang compiler achieved maximum 40000 MFLOPS which is 4 times greater than the best performance of c++ compiler.
 
 ![rome2 clang](2d1.png)
+
+##### Intel Icelake: g++ vs icc
+All the performances with clang compiler are better than gnu compiler. The performance with tile size of 20 shows exceptionally good as it shows two times more MFLOPS than the others. However, all the other tile sizes are nearly the same performance, that implies only the case with tile size of 20 does not miss caches.
+
 ![ice icc](2d2.png)
+
+##### ThunderX2: g++ vs clang++
+No significant difference is observed between the performances with gnu compiler and clang compiler.
+
 ![thx2 g++](2d3.png)
+
+##### AMD A64FX: g++ vs clang++
+Same as ThunderX2, no significant difference is observed between the performances with gnu compiler and clang compiler.
+
 ![cs2 g++](2d4.png)
 
 
