@@ -1,16 +1,20 @@
 # Assignment 2 Report
-Group: 104
+Group: TODO
 
 # 1a)
 
 #### Can we safely permute the loops?
-Yes, the correctness of our results isn't affected if we change the order of the loops. The differences encountered are for  performance measurements. 
+Yes, the correctness of our results isn't affected if we change the order of the loops. for small matrices. For big matrices the performance of the implementation is different, because cache
+misses are getting dominant for some of the implementations. The fastest implementation is kij, we iterate along
+row of A and row of C (least cache misses). The slowest implementation is jki, we iterate along a column of A
+(to which we write and read) and a column of C. The implementation ijk is in between, we iterate along a row of
+B and column of C, while we write to the same location of A.
 
 #### Explain which of the loops (i, j, k) is parallelizable?
 It's possible to parallelize whichever of the outer loops (i or j), since they don't have data dependencies and two
 distinct threads will not write to the same memory location. However, with the loops properly nested, outer loop parallelization (i) is usually better, since parallelizing the middle loop (j) increases the overhead and this severely affects the performance. 
 
-When trying to parallelize exclusively the third loop (k), data races might occur.
+When trying to paralleize the third loop (k), data races might occur.
 To avoid this, atomic operations are necessary or a `#pragma omp parallel for reduction`.
 
 # 1b)
