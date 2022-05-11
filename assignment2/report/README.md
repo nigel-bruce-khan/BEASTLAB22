@@ -69,6 +69,8 @@ Each flag has meanings as below:
 -Ofast disregards strict standards compliance. It turns on all -O3 optimizations. It also enables optimizations that are not valid for all standard-compliant programs.
 ##### -march=native
 -march=native selects the CPU to generate code for at compilation time by determining the processor type of the compiling machine. Using -march=native enables all instruction subsets supported by the local machine.
+##### -Os
+-Os optimises for size. It enables all -O2 optimizations except those that often increase code size.
 
 The result with flag -O3 shows the worst performance, and the others have almost the same performance. 
 
