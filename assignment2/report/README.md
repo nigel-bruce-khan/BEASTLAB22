@@ -1,5 +1,5 @@
 # Assignment 2 Report
-Group: TODO
+Group: 104
 
 # 1a)
 
@@ -11,7 +11,7 @@ It's possible to parallelize whichever of the outer loops (i or j), since they d
 distinct threads will not write to the same memory location. However, with the loops properly nested, outer loop parallelization (i) is usually better, since parallelizing the middle loop (j) increases the overhead and this severely affects the performance. 
 
 When trying to paralleize the third loop (k), data races might occur.
-To avoid this, atomic operations are necessary or a `#pragma omp parallel for reduction`.
+To avoid this, atomic operations are necessary or a `#pragma omp parallel for reduction` with an auxiliary variable that will write to the assigned memory location.
 
 # 1b)
 
@@ -216,6 +216,8 @@ Due to the high number of experiments (20), we organized a comparison file displ
 
 
 - What kind of scaling is visible for all 4 cases? Can you explain why?
+
+Strong scaling concerns the speedup for a **fixed problem size** with respect to the number of processors. For this task, the setup was to use same problem size at each case(100 or 1900), while increasing the number of threads accordingly to the number of cores existing on each architecture. A parallel algorithm has perfect strong scaling if its running time on P processors is linear in 1/P, in other words, using p processors should achieve a speedup of p. However this is not the case, as seen on each of the 25 plots. This can be explained by Amdahl's law, who pointed out that the speedup is limited by the fraction of the serial part of the program that is not amenable to parallelization [Xin Li, 2018]. On each of the implementations provided, we weren't able to optimize the whole multiplication, except for one or two loops, whereas the inner loop remained sequential to guarantee correct results in our computations.
 
 - Explain the scaling behavior between N=100 and N=1900, and the difference between the scaling curves of ‘close’ and ‘spread’ bindings.
 
