@@ -119,6 +119,7 @@ Similar layers of performance levels are observed as in the case of ThunderX2.
 
 ![rome2 clang](2d1.png)
 ![ice icc](2d2.png)
+![thx2 g++](2d3.png)
 ![cs2 g++](2d4.png)
 
 
