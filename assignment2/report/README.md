@@ -306,6 +306,9 @@ For the triad calculations the value is:
 
 We notice that for both assignments the memory performance is greater than cpu performance. This basically means that the computer is limited by how fast its cpu can perform operations rather than how fast data is being retrieved from the main memory. This is reflected in the roofline models drawn below.
 
+![rooflineTriad](2h1.jpeg)
+
+![rooflineDense](2h2.jpeg)
 
 # 2i) 
 The following techniques can be used to further optimize matrix multiplication calculation
