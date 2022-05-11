@@ -176,6 +176,34 @@ We tested our parallel implementations on each of the architectures with the fou
 |                   |32,48,64,128,| 32,48,64,96,| 32,64,128,   |   24,48,96.  |
 |                   | 256,512     | 144,256     |  256, 512.   |              |
 
+For our speedup calculations, we used a very straightforward definition (Xin Li, 2018):
+
+          speedup = t_1 / t_p 
+
+where t1 is the computational time for running the code using one thread, and t_p is the computational time running the same software with p threads. I
+
+In the function mm, **MFLOPS** (named mf in main) is defined as the ratio of **mflop**(calculated as 2*N*N*N*REP*10^-6) and **dur** (time spent running the matrix multiplication). Solving for **dur** we have:
+
+
+   
+    mf = mflop/dur
+    dur = mflop/mf
+
+    setting dur = t for the speedup formula:
+
+    speedup = dur_1 / dur_p = (mflop/mf_1)/(mflop/mf_p) = mf_p / mf_1  for same N and REP
+
+
+Hence, we simply divide the MFLOPS obtained with a certain number of threads over the MFLOPS resulting from using one thread only (sequential implementation).
+
+
+Due to the high number of experiments (20), we organized a comparison file displaying the results on each of the machines mentioned above: [!strong_scaling_experiments](https://docs.google.com/spreadsheets/d/1i4sb7GSJOhfAVOtjGG-Pbo4gteafVWmv8SwQbUq5z-o/edit?usp=sharing), under the tab "comparisons"
+
+
+- What kind of scaling is visible for all 4 cases? Can you explain why?
+
+- Explain the scaling behavior between N=100 and N=1900, and the difference between the scaling curves of ‘close’ and ‘spread’ bindings.
+
 
 
 
