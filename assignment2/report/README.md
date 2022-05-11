@@ -231,12 +231,12 @@ Due to the high number of experiments (20), we organized a comparison file displ
 
 - What kind of scaling is visible for all 4 cases? Can you explain why?
 
-Strong scaling concerns the speedup for a **fixed problem size** with respect to the number of processors. For this task, the setup was to use same problem size at each case(100 or 1900), while increasing the number of threads accordingly to the number of cores existing on each architecture. A parallel algorithm has perfect strong scaling if its running time on P processors is linear in 1/P, in other words, using p processors should achieve a speedup of p. However this is not the case, as seen on each of the 25 plots. This can be explained by Amdahl's law, who pointed out that the speedup is limited by the fraction of the serial part of the program that is not amenable to parallelization [Xin Li, 2018]. On each of the implementations provided, we weren't able to optimize the whole multiplication, except for one or two loops, whereas the inner loop remained sequential to guarantee correct results in our computations.
+Strong scaling concerns the speedup for a **fixed problem size** with respect to the number of processors. For this task, the setup was to use same problem size at each case(100 or 1900), while increasing the number of threads accordingly to the number of cores existing on each architecture. A parallel algorithm has perfect strong scaling if its running time on P processors is linear in 1/P, in other words, using p processors should achieve a speedup of p. However this is not the case, as seen on each of the 20 plots. This can be explained by Amdahl's law, who pointed out that the speedup is limited by the fraction of the serial part of the program that is not amenable to parallelization [Xin Li, 2018]. On each of the implementations provided, we weren't able to optimize the whole multiplication, except for one or two loops, whereas the inner loop remained sequential to guarantee correct results in our computations.
 
 - Explain the scaling behavior between N=100 and N=1900, and the difference between the scaling curves of ‘close’ and ‘spread’ bindings.
 
 
-Threads were assigned to cores via OMP_PLACES=cores. 
+Threads were assigned to cores via OMP_PLACES=cores. For N=100, 3200 REPS were perfomed, vs 1 for N=1900
 
 ![results](table.jpg)
 
