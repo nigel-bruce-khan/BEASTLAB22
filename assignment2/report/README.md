@@ -4,11 +4,7 @@ Group: TODO
 # 1a)
 
 #### Can we safely permute the loops?
-Yes, the correctness of our results isn't affected if we change the order of the loops. for small matrices. For big matrices the performance of the implementation is different, because cache
-misses are getting dominant for some of the implementations. The fastest implementation is kij, we iterate along
-row of A and row of C (least cache misses). The slowest implementation is jki, we iterate along a column of A
-(to which we write and read) and a column of C. The implementation ijk is in between, we iterate along a row of
-B and column of C, while we write to the same location of A.
+Yes, the correctness of our results isn't affected if we change the order of the loops. However, for big matrices the performance of the implementation is different, because cache misses are getting dominant for some of the implementations.
 
 #### Explain which of the loops (i, j, k) is parallelizable?
 It's possible to parallelize whichever of the outer loops (i or j), since they don't have data dependencies and two
@@ -60,11 +56,7 @@ By enabling worksharing in loops i and j, nested parallelism is disabled by defa
  
 On the other hand, if we tried to enable “nested parallelism”, things would get much worse. The inner parallel region would create more threads, and overall we would have more threads competing for the resources of limited CPU cores — not what we want in a performance-critical application. 
 
-When it comes to the scheduling, with for loops where each iteration takes roughly equal time, static schedules work best, as they have little overhead. On the other hand, dynamic scheduling is better when the iterations may take very different amounts of time. However, there is some overhead to dynamic scheduling. Thus, the choice of scheduler will definitely have an impact on the performance according to which kind of loops we are working with.
-
-
-
-for balanced loops (where the matrices are squared), a static scheduler is more suitable compared to a dynamic scheduler, with the additional benefit that the scheduling is done at compile time, reducing work at runtime. With the latter, we have high variable work distribution and this can affect the performance, but this is not always the case.
+When it comes to the scheduling, with for loops where each iteration takes roughly equal time, static schedules work best, as they have little overhead, with the additional benefit that the scheduling is done at compile time. On the other hand, dynamic scheduling is better when the iterations may take very different amounts of time. However, there is some overhead to dynamic scheduling. Thus, the choice of scheduler will definitely have an impact on the performance according to which kind of loops we are working with. 
 
 
 # 2a)
