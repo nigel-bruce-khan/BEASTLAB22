@@ -105,18 +105,21 @@ Smaller caches are faster, however the size of data which can be allocated is li
 ##### - Rome
 It stores and loads data from L1 cache for the tile size of 4, thus, it performs better than the other cases. Tile size of 5 and 10 are not fit to the L1 cache, and since they do not fully utilise L2 cache, they resulted in below 5000 MFLOPS. Tile size of 20 and 50 are fit to L2 cache and L3 cache respectively, so that they show worse performance than tile size of 4, however better than the other two cases.
 
+![rome2 c++](2c1.png)
+
 ##### - Icelake
 Tile size of 4 and 50 utilise cache. Tile size of 4 uses higher level of cache so it performs better than the other. The other three tile sizes are missing caches.
+
+![ice c++](2c2.png)
 
 ##### - ThunderX2
 Tile size of 20 fits to the cache size so that the performance is better than the other cases. Tile size of 10 significantly misses caches.
 
+![thx c++](2c3.png)
+
 ##### - CS500
 Similar layers of performance levels are observed as in the case of ThunderX2. 
 
-![rome2 c++](2c1.png)
-![ice c++](2c2.png)
-![thx c++](2c3.png)
 ![cs2 c++](2c4.png)
 
 
