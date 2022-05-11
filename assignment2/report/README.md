@@ -265,7 +265,7 @@ Very big matrix sizes cannot be cached because we keep using new elements during
 **Loop=ikj, Threads=128, N=4000, Binding=close, schedule=static**
 With this code variant we get a performance of **38881.382 MFLOPS**. Considering fused addition multiplication to be one operation with 3 vectors of size 4000 each. The total number of mega floating point operations is calculated as:
 
-**1*4000*4000*4000*0.000001= 64000 MFLOP**
+**1 * 4000 * 4000 * 4000 * 0.000001 = 64000 MFLOP**
 
 Using this we can calculate the time taken for the calculation to be 1.646032026 seconds. 
 The Estimated Megabytes transferred with N=4000 is 
@@ -302,7 +302,7 @@ With these numbers we multiply computational intensity and memory bandwidth in o
 
 For the triad calculations the value is:
 
-269408  [MB/sec] *  2/24 [Flop/byte] = 22450.667 [MFlops] > 16838 [MFlops]
+**269408  [MB/sec] *  2/24 [Flop/byte] = 22450.667 [MFlops] > 16838 [MFlops]**
 
 We notice that for both assignments the memory performance is greater than cpu performance. This basically means that the computer is limited by how fast its cpu can perform operations rather than how fast data is being retrieved from the main memory. This is reflected in the roofline models drawn below.
 
