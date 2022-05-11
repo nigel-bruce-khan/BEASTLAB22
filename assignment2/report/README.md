@@ -78,14 +78,14 @@ The plot below is the comparison of performance on different machines.
 
 
 # 2b)
-A[i,j] += B[i,k] * C[k,j]
+### A[i,j] += B[i,k] * C[k,j]
 
-Ijk: calculate all dot product terms of one element, move to an element in the next column, and repeat this row by row
-Ikj: calculate one term of dot product, and move to the next column of the C. Repeat it for all rows of C and sum up all dot product terms. Do the same for all rows.
-Jki: calculate a dot product term and move to the next column of B. repert it for all columns of A.
-Jik: calculate all dot product terms of an element, and one row down and in this way, compute all rows of a column first. Do it for all columns.
-Kij: calculate a dot product term of an element for all columns and rows. Go over all columns in a row first and repeat for all rows. Do this for all dot product terms.
-Kij: same principle as kij, but go over rows first.
+##### - Ijk calculate all dot product terms of one element, move to an element in the next column, and repeat this row by row
+##### - Ikj calculate one term of dot product, and move to the next column of the C. Repeat it for all rows of C and sum up all dot product terms. Do the same for all rows.
+##### - Jki calculate a dot product term and move to the next column of B. repert it for all columns of A.
+##### - Jik calculate all dot product terms of an element, and one row down and in this way, compute all rows of a column first. Do it for all columns.
+##### - Kij calculate a dot product term of an element for all columns and rows. Go over all columns in a row first and repeat for all rows. Do this for all dot product terms.
+##### - Kij same principle as kij, but go over rows first.
 
 Caches are loaded row by row. Therefore, if we traverse columns first, caches are utilised and it achieves better performance. Regarding matrix B, not to miss cache, k should be in the loop of i loop so that it traverses columns of B first. Similarly, j should be included in the loop of k so that cache for C matrix is not missed. The order ikj satisfies all these conditions, and ikj shows the best performance indeed, as it computed with 10000 MFLOPS at most. kij showed second best performance since it does not miss cache for C matrix. ijk and jik should utilise cache for matrix A, however they show worse performance than kij. This is because L1 cache is used in the case of kij, but it is missed in the other cases and L2 or L3 cache are used. 
 
@@ -96,16 +96,16 @@ Caches are loaded row by row. Therefore, if we traverse columns first, caches ar
 # 2c)
 Smaller caches are faster, however the size of data which can be allocated is limited. This is the reason that the figures show some layers of performance levels. 
 
-- Rome
+##### - Rome
 It stores and loads data from L1 cache for the tile size of 4, thus, it performs better than the other cases. Tile size of 5 and 10 are not fit to the L1 cache, and since they do not fully utilise L2 cache, they resulted in below 5000 MFLOPS. Tile size of 20 and 50 are fit to L2 cache and L3 cache respectively, so that they show worse performance than tile size of 4, however better than the other two cases.
 
-- Icelake
+##### - Icelake
 Tile size of 4 and 50 utilise cache. Tile size of 4 uses higher level of cache so it performs better than the other. The other three tile sizes are missing caches.
 
-- ThunderX2
+##### - ThunderX2
 Tile size of 20 fits to the cache size so that the performance is better than the other cases. Tile size of 10 significantly misses caches.
 
-- CS500
+##### - CS500
 Similar layers of performance levels are observed as in the case of ThunderX2. 
 
 ![rome2 c++](2c1.png)
