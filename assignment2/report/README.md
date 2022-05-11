@@ -78,14 +78,20 @@ The plot below is the comparison of performance on different machines.
 
 
 # 2b)
-### A[i,j] += B[i,k] * C[k,j]
+##### A[i,j] += B[i,k] * C[k,j]
 
-##### - Ijk calculate all dot product terms of one element, move to an element in the next column, and repeat this row by row
-##### - Ikj calculate one term of dot product, and move to the next column of the C. Repeat it for all rows of C and sum up all dot product terms. Do the same for all rows.
-##### - Jki calculate a dot product term and move to the next column of B. repert it for all columns of A.
-##### - Jik calculate all dot product terms of an element, and one row down and in this way, compute all rows of a column first. Do it for all columns.
-##### - Kij calculate a dot product term of an element for all columns and rows. Go over all columns in a row first and repeat for all rows. Do this for all dot product terms.
-##### - Kij same principle as kij, but go over rows first.
+##### - Ijk 
+calculate all dot product terms of one element, move to an element in the next column, and repeat this row by row
+##### - Ikj 
+calculate one term of dot product, and move to the next column of the C. Repeat it for all rows of C and sum up all dot product terms. Do the same for all rows.
+##### - Jki 
+calculate a dot product term and move to the next column of B. repert it for all columns of A.
+##### - Jik 
+calculate all dot product terms of an element, and one row down and in this way, compute all rows of a column first. Do it for all columns.
+##### - Kij 
+calculate a dot product term of an element for all columns and rows. Go over all columns in a row first and repeat for all rows. Do this for all dot product terms.
+##### - Kij 
+same principle as kij, but go over rows first.
 
 Caches are loaded row by row. Therefore, if we traverse columns first, caches are utilised and it achieves better performance. Regarding matrix B, not to miss cache, k should be in the loop of i loop so that it traverses columns of B first. Similarly, j should be included in the loop of k so that cache for C matrix is not missed. The order ikj satisfies all these conditions, and ikj shows the best performance indeed, as it computed with 10000 MFLOPS at most. kij showed second best performance since it does not miss cache for C matrix. ijk and jik should utilise cache for matrix A, however they show worse performance than kij. This is because L1 cache is used in the case of kij, but it is missed in the other cases and L2 or L3 cache are used. 
 
