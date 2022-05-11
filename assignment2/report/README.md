@@ -236,14 +236,17 @@ Strong scaling concerns the speedup for a **fixed problem size** with respect to
 - Explain the scaling behavior between N=100 and N=1900, and the difference between the scaling curves of ‘close’ and ‘spread’ bindings.
 
 
+Threads were assigned to cores via OMP_PLACES=cores. 
+
+![results](table.jpg)
 
 
 
 
-(e) ParallelizeyourcodevariantsusingOpenMP.Testyourparallelversionsonallplatforms with different numbers of cores as given in assignment 1. Run strong scaling experi- ments and create speedup figures (i.e., for all measurements for one curve, use exactly the same workload = same repetition count): core count on X axis, achieved speedup vs. sequential run on Y axis - i.e., point (1/1) always starts the curve.
-Consider the following 4 cases for scaling experiments:
-• Case 1: N=100, binding=close
-• Case 2: N=100, binding=spread • Case 3: N=1900, binding=close
-• Case 4: N=1900, binding=spread
-What kind of scaling is visible for all 4 cases? Can you explain why? Specifically, explain the scaling behavior between N=100 and N=1900, and the difference between the scaling curves of ‘close’ and ‘spread’ bindings.
+
+ 
+
+Some aspects to consider are cache locality and memory bandwidth. With a close binding, the former is improved, whereas for the latter, a spread binding is necessary (LUMI, see references). 
+
+
 
