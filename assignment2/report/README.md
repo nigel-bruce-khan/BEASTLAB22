@@ -329,3 +329,9 @@ The following techniques can be used to further optimize matrix multiplication c
 2. Use SIMD intrinsics i.e hardware-level data parallelism to improve performance.
 3. Memory prefetch: A lot of cache misses are intrinsic misses, during which the L1, L2 caches are being loaded with data from the memory. Pre-fetch can help reduce these latencies. Usually compilers do not support these techniques and hence these operations have to be done in assembly level code, which makes it difficult to implement them.
 
+According to the lrz website the SuperMUC-NG has 6,480 nodes in total. Comparisons will be made against systems in the top 500 list for which number of nodes have been listed. The Maximal LINPACK performance achieved with HPL is marked by the number Rmax on the website. 
+
+The 2nd Ranked system Summit has 4,356 nodes and the ratio of HPL (Rmax) to peak  (Rpeak)performance is 148,600.0/200,794.9 = **0.740**
+The 3rd Ranked system Sierra has  4,320 nodes and the ratio of HPL(Rmax) to peak (Rpeak) performance is 94,640.0/125,712.0 = **0.753**
+The 5th Ranked system Perlmutter has  1536 nodes and the ratio of HPL(Rmax) to peak (Rpeak) performance is 70,870.0/93,750.0 = **0.756**
+
