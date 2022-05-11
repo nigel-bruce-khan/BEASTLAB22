@@ -61,10 +61,20 @@ When it comes to the scheduling, with for loops where each iteration takes rough
 
 # 2a)
 Template_task_a.cpp calculates matrix multiplications and returns MFLOPS regarding different matrix size and number of repetitions. It verifies the results by setting tolerance for the error. 
-The plot below compares performances with different flags. The result with flag -O3 shows the worst performance, and the others have almost the same performance. 
-The plot below is the comparison of performance on different machines. 
+The plot below compares performances with different flags. 
+Each flag has meanings as below:
+##### -O3
+-O3 is an optimization flag which turns on all optimization of -O2 and some optimizations more.
+##### -Ofast
+-Ofast disregards strict standards compliance. It turns on all -O3 optimizations. It also enables optimizations that are not valid for all standard-compliant programs.
+##### -march=native
+-march=native selects the CPU to generate code for at compilation time by determining the processor type of the compiling machine. Using -march=native enables all instruction subsets supported by the local machine.
+The result with flag -O3 shows the worst performance, and the others have almost the same performance. 
 
 ![different flags](2a1.png)
+
+The plot below is the comparison of performance on different machines. Icelake machine shows ups and downs of MFLOPS depending on the matrix size. MFLOPS are dependent on the number of cores except the case of Intel Icelake, since it shows better performance than AMD Rome. This is due to the hyper-threading which enables more threads to run on a single core. 
+
 ![different machines](2a2.png)
 
 
