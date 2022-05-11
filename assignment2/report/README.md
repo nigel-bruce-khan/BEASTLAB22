@@ -4,7 +4,7 @@ Group: TODO
 # 1a)
 
 #### Can we safely permute the loops?
-Yes for small matrices. For big matrices the performance of the implementation is different, because cache
+Yes, the correctness of our results isn't affected if we change the order of the loops. for small matrices. For big matrices the performance of the implementation is different, because cache
 misses are getting dominant for some of the implementations. The fastest implementation is kij, we iterate along
 row of A and row of C (least cache misses). The slowest implementation is jki, we iterate along a column of A
 (to which we write and read) and a column of C. The implementation ijk is in between, we iterate along a row of
