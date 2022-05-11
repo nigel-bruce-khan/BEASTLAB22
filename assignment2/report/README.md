@@ -160,13 +160,13 @@ From the results obtained in part 2b), the most optimal loop sequence was IKJ, s
 
 `   
     
-     for( int r=0; r<REP; ++r ) {
+     for( int r=0; r < REP; ++r ) {
 
      //#pragma omp parallel for schedule(dynamic, 10)
      #pragma omp parallel for schedule(static)  
-     for( int i=0; i<N; i++ ) {
+     for( int i=0; i< N; i++ ) {
      
-      for( int k=0; k<N; k++ ) {
+      for( int k=0; k< N; k++ ) {
      
         for( int j=0; j<N; j++ ) {     
      
@@ -186,15 +186,15 @@ The other two modalities were optimized with the original loop sequence IJK:
 `
     
      
-     for( int r=0; r<REP; ++r ) 
+     for( int r=0; r < REP; ++r ) 
      {
       //#pragma omp parallel for schedule(dynamic, 10)
       #pragma omp parallel for schedule(static)  
-      for( int i=0; i<N; i++ ) 
+      for( int i=0; i < N; i ++ ) 
       {     
-       for( int k=0; k<N; k++ ) 
+       for( int k=0; k < N; k++ ) 
         {     
-        for( int j=0; j<N; j++ ) 
+        for( int j=0; j < N; j++ ) 
          {     
                a[TWO_D_ACCESS(i, j, N)] += b[TWO_D_ACCESS(i, k, N)] * c[TWO_D_ACCESS(k, j, N)];
          }
@@ -260,4 +260,57 @@ Threads were assigned to cores via OMP_PLACES=cores. For N=100, 3200 REPS were p
 Some aspects to consider are cache locality and memory bandwidth. With a close binding, the former is improved, whereas for the latter, a spread binding is necessary (LUMI, see references). 
 
 
+# 2g) 
+Very big matrix sizes cannot be cached because we keep using new elements during matrix multiplication. For this task we used the following specifications which gave the highest performance on the AMD Rome architecture.
+**Loop=ikj, Threads=128, N=4000, Binding=close, schedule=static**
+With this code variant we get a performance of **38881.382 MFLOPS**. Considering fused addition multiplication to be one operation with 3 vectors of size 4000 each. The total number of mega floating point operations is calculated as:
+
+**1*4000*4000*4000*0.000001= 64000 MFLOP**
+
+Using this we can calculate the time taken for the calculation to be 1.646032026 seconds. 
+The Estimated Megabytes transferred with N=4000 is 
+
+8[bytes/element] * (4000*4000*4000)[elements] * 10^-6 = 1536000 MegaBytes
+
+Using these two numbers for time and bytes we get the bandwidth calculation to be
+
+1536000 MegaBytes/1.646032026 seconds = **933153.168 MB/sec**
+
+However, when looking at the multiplication itself we notice that with any loop variant, while the innermost loop is being iterated through, one of three  matrices  does not change its entry. For example with the ikj loop and the given code below, we notice that for the innermost j-loop the entries of the variables a and c change on each iteration while variable **b** only changes when the k-loop iterates. 
+
+![2g](2g.png)
+
+This is important because it means that the cache is in fact being utilized for large parts of the calculations each time because looking at the example above the element of variable **b** stays within the cache each whole iteration of the innermost j-loop. This makes it difficult to estimate the main memory bandwidth utilization because not every array element is being retrieved from the main memory each time, some remain in cache. This is different to the vectorTriad case in assignment 1, where with big data-sizes it was guaranteed that each array element would be retrieved from the main memory at each iteration of every loop.
+
+To avoid this some sort of padding can be implemented so that the (b) element in the case above is first copied to another array. All b elements would be copied to an array 4000X4000 long for the specific case above. Then, even though there will be sets of 4000 values which will correspond to each element of (b) since they will be accessed the same way as the elements of (a) and (c) this will ensure that all data is retrieved from main memory and not cache.
+
+
+# 2h) 
+From the question above we have already obtained the peak computational performance for the specifications stated in question 2g, which is **38881.382 MFLOPS** and the estimated bandwidth which is **933153.168 MB/sec**. What is remaining to be found is the reading computational intensity which is how fast memory is retrieved from the main memory, not accounting the time to write to main memory. Since we have 2 operations, addition and multiplication and we are using three doubles each of size 8 byte, the computational intensity is **2/24 Flop/byte**. 
+
+Similarly for assignment 1, we will use the following specification to construct the roofline model which gave the highest performance. These are obtained from question 2e for the AMD ROME system.
+
+**N=2^26,Threads=256, Binding=spread, Triad algorithm**
+
+The peak performance is **16838 MFLOPS**, and the bandwidth is **269408 MB/sec**. The computational intensity is again **2/24 Flop/byte** because we have again an addition and a multiplication and three variables which are read from memory each time.
+
+Note: A correction was made for the bandwidth calculation by using the factor 16 instead of 2 for the multiplication.
+
+With these numbers we multiply computational intensity and memory bandwidth in order to get the memory retrieval performance. For the matrix multiplication system it is:
+
+**933153.168 [MB/sec] * 2/24 [Flop/byte] = 77762.764 [MFlops] >  38881.382 [MFlops]**
+
+For the triad calculations the value is:
+
+269408  [MB/sec] *  2/24 [Flop/byte] = 22450.667 [MFlops] > 16838 [MFlops]
+
+We notice that for both assignments the memory performance is greater than cpu performance. This basically means that the computer is limited by how fast its cpu can perform operations rather than how fast data is being retrieved from the main memory. This is reflected in the roofline models drawn below.
+
+
+# 2i) 
+The following techniques can be used to further optimize matrix multiplication calculation
+
+1. Use an optimized matrix multiplication algorithm example Divide-and-conquer algorithm or the Strassen algorithm
+2. Use SIMD intrinsics i.e hardware-level data parallelism to improve performance.
+3. Memory prefetch: A lot of cache misses are intrinsic misses, during which the L1, L2 caches are being loaded with data from the memory. Pre-fetch can help reduce these latencies. Usually compilers do not support these techniques and hence these operations have to be done in assembly level code, which makes it difficult to implement them.
 
