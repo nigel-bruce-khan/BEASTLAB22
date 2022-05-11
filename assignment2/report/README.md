@@ -72,7 +72,8 @@ Each flag has meanings as below:
 ##### -Os
 -Os optimises for size. It enables all -O2 optimizations except those that often increase code size.
 
-The result with flag -O3 shows the worst performance, and the others have almost the same performance. 
+As seen in the figure, -Ofast shows the best performance out of all flags tested. This is because it turns off strict standards compliance and enables more optimization in addition to -O3. However, it also implies that it is error prone. Indeed, it shows unstable behaviour in the small matrix size region. Therefore, It can not be regarded as the best option.
+The combination of -march=native and -Ofast is the second best. Additionally it does not show unstable behaviour like the -Ofast case. From the comparison between no flag case and -march=native case, -march=native does not influence the performance improvement. Rather it can make performance worse, which can be observed from the comparison of -O3 and the combination of -O3, -march=native.
 
 ![different flags](2a1.png)
 
