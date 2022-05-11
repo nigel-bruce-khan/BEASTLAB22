@@ -93,6 +93,23 @@ Caches are loaded row by row. Therefore, if we traverse columns first, caches ar
 
 
 
+# 2c)
+
+![rome2 c++](2c1.png)
+![ice c++](2c2.png)
+![thx c++](2c3.png)
+![cs2 c++](2c4.png)
+
+
+
+# 2d)
+
+![rome2 clang](2d1.png)
+![ice icc](2d2.png)
+![cs2 g++](2d4.png)
+
+
+
 # 2e)
 We implemented 4 different parallelizations: 
 
