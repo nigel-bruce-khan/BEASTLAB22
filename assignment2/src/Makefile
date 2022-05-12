@@ -10,8 +10,7 @@ template_task_c:
 	$(CXX) $(CFLAGS) -o template_task_c template_task_c.cpp
 
 assignment2:
-	$(CXX) $(CFLAGS) -o assignment2 assignment2.cpp
+	$(CXX) $(CFLAGS) -o assignment2 assignment2copy.cpp
 
 clean:
 	rm -f template_task_a template_task_c assignment2
-

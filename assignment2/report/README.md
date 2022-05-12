@@ -1,7 +1,6 @@
 # Assignment 2 Report
 Group: 104
 
-# 1a)
 
 #### Can we safely permute the loops?
 Yes, the correctness of our results isn't affected if we change the order of the loops. However, for big matrices the performance of the implementation is different, because cache misses are getting dominant for some of the implementations.
@@ -349,3 +348,25 @@ The 2nd Ranked system Summit has 4,356 nodes and the ratio of HPL (Rmax) to peak
 The 3rd Ranked system Sierra has  4,320 nodes and the ratio of HPL(Rmax) to peak (Rpeak) performance is 94,640.0/125,712.0 = **0.753**
 The 5th Ranked system Perlmutter has  1536 nodes and the ratio of HPL(Rmax) to peak (Rpeak) performance is 70,870.0/93,750.0 = **0.756**
 
+
+
+# References 
+
+fmadd or fma (Floating Multiply-Add) instruction (IBM, 2022) https://www.ibm.com/docs/en/aix/7.1?topic=set-fmadd-fma-floating-multiply-add-instruction
+
+Scalability: strong and weak scaling (Xin Li, 2018) https://www.kth.se/blogs/pdc/2018/11/scalability-strong-and-weak-scaling/
+
+Distribution and Binding (LUMI, 2021) https://docs.lumi-supercomputer.eu/computing/jobs/distribution-binding/
+
+Nested OpenMP (Helen He, 2015) https://www.nersc.gov/assets/Uploads/Nested-OpenMP-NUG-20151008.pdf
+
+Fused Multiply Add (FMA) – One flop or two? (2013) https://walkingrandomly.com/?p=4781
+
+How to compute the theoretical peak performance of CPU (2012) https://stackoverflow.com/questions/6289745/how-to-compute-the-theoretical-peak-performance-of-cpu
+
+Programming Parallel Computers, Chapter 3: Multithreading with OpenMP https://ppc.cs.aalto.fi/ch3/nested/
+
+Top 500, the list (November 2021) https://www.top500.org
+
+
+TUM, Advanced Programming WS 2021 Lecture 9. Performance modeling 
