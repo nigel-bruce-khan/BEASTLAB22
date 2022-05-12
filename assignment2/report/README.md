@@ -272,7 +272,7 @@ Threads were assigned to cores via OMP_PLACES=cores. For N=100, 3200 REPS were p
 Some aspects to consider are cache locality and memory bandwidth. With a close binding, the former is improved, whereas for the latter, a spread binding is necessary (LUMI, see references). 
 
 # 2f) 
-Using lscpu on the terminal and the information provided from lecture 1, we gathered the following elements for each architecture as seen on the table below. For the FLOPS calculation, we simply multiplied the fused multiply-add(FMA) for 2, which is the number of arithmetic operations performed in this computation and extend the assumption that the FMA throughput is 1 per cycle to our accounted FLOPS (i.e, 2 FLOPS/cycle). 
+Using lscpu on the terminal and the information provided from lecture 1, we gathered the following elements for each architecture as seen on the table below. For the FLOPS calculation, we simply multiplied the fused multiply-add(FMA) for 2 (this is how vendors also express their results when asked about peak performance, see references), which is the number of arithmetic operations performed in this computation and extend the assumption that the FMA throughput is 1 per cycle to our accounted FLOPS (i.e, 2 FLOPS/cycle). 
 
 The formula for calculating the theoretical peak performance that we used is:
 PP = CPU_clockspeed * CPU_cores * CPU instructions per cycle * number of vector units.
@@ -289,18 +289,18 @@ The results show that there is still room for improvement regarding our parallel
 # 2g) 
 Very big matrix sizes cannot be cached because we keep using new elements during matrix multiplication. For this task we used the following specifications which gave the highest performance on the AMD Rome architecture.
 **Loop=ikj, Threads=128, N=4000, Binding=close, schedule=static**
-With this code variant we get a performance of **38881.382 MFLOPS**. Considering fused addition multiplication to be two arithmetic operations with 3 vectors of size 4000 each. The total number of mega floating point operations is calculated as:
+With this code variant we get a performance of **38881.382 MFLOPS**. Considering fused addition multiplication to be one operation with 3 vectors of size 4000 each. The total number of mega floating point operations is calculated as:
 
-**2 * 4000 * 4000 * 4000 * 0.000001 = 128000 MFLOP**
+**1 * 4000 * 4000 * 4000 * 0.000001 = 64000 MFLOP**
 
-Using this we can calculate the time taken for the calculation to be 3.292064053 seconds. 
+Using this we can calculate the time taken for the calculation to be 1.646032026 seconds. 
 The Estimated Megabytes transferred with N=4000 is 
 
 8[bytes/element] * (4000*4000*4000)[elements] * 10^-6 = 1536000 MegaBytes
 
 Using these two numbers for time and bytes we get the bandwidth calculation to be
 
-1536000 MegaBytes/3.292064053 seconds = **466576.584 MB/sec**
+1536000 MegaBytes/1.646032026 seconds = **933153.168 MB/sec**
 
 However, when looking at the multiplication itself we notice that with any loop variant, while the innermost loop is being iterated through, one of three  matrices  does not change its entry. For example with the ikj loop and the given code below, we notice that for the innermost j-loop the entries of the variables a and c change on each iteration while variable **b** only changes when the k-loop iterates. 
 
