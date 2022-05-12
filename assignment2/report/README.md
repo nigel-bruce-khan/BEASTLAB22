@@ -280,7 +280,7 @@ PP = CPU_clockspeed * CPU_cores * CPU instructions per cycle * number of vector 
 For our calculations, we took the maximum number of threads (hardware and virtual) as the CPU_cores defined on each architecture. This is merely the number of cores multiplied by the number of threads per core. 
 The values selected for comparison against the theoretical peak performance are the maximum results selected across all parallelization schemes, with the highest number of threads specific to each architecture (i.e, for Rome2 we chose the maximum value of MFLOPS along the experiments with num_threads = 256, for Icelake 144…).
 
-![peak_comp](peak_perf.jpg)
+![peak_comp](perf_peak.jpg)
 
 The results show that there is still room for improvement regarding our parallel implementations. However, assessing our outcomes with respect to this frame isn’t an honest evaluation of the proposed solutions, given that achieving this performance is realistically difficult. One should consider other metrics to evaluate how optimal a program is. Furthermore, a thorough analysis of the presented task (matrix multiplication), shows that for big sizes N, this problem tends to be memory bound, so a more meaningful and fairer analysis would be to compare how memory is exploited in our implementation for augmenting N. 
 
