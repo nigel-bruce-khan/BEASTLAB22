@@ -280,7 +280,7 @@ PP = CPU_clockspeed * CPU_cores * CPU instructions per cycle * number of vector 
 For our calculations, we took the maximum number of threads (hardware and virtual) as the CPU_cores defined on each architecture. This is merely the number of cores multiplied by the number of threads per core. 
 The values selected for comparison against the theoretical peak performance are the maximum results selected across all parallelization schemes, with the highest number of threads specific to each architecture (i.e, for Rome2 we chose the maximum value of MFLOPS along the experiments with num_threads = 256, for Icelake 144…).
 
-![peak_comp](perf_peak.jpg)
+![peak_comp](peak_perf.jpg)
 
 The results show that there is still room for improvement regarding our parallel implementations. However, assessing our outcomes with respect to this frame isn’t an honest evaluation of the proposed solutions, given that achieving this performance is realistically difficult. One should consider other metrics to evaluate how optimal a program is. Furthermore, a thorough analysis of the presented task (matrix multiplication), shows that for big sizes N, this problem tends to be memory bound, so a more meaningful and fairer analysis would be to compare how memory is exploited in our implementation for augmenting N. 
 
@@ -289,18 +289,18 @@ The results show that there is still room for improvement regarding our parallel
 # 2g) 
 Very big matrix sizes cannot be cached because we keep using new elements during matrix multiplication. For this task we used the following specifications which gave the highest performance on the AMD Rome architecture.
 **Loop=ikj, Threads=128, N=4000, Binding=close, schedule=static**
-With this code variant we get a performance of **38881.382 MFLOPS**. Considering fused addition multiplication to be one operation with 3 vectors of size 4000 each. The total number of mega floating point operations is calculated as:
+With this code variant we get a performance of **38881.382 MFLOPS**. Considering fused addition multiplication to be two arithmetic operations with 3 vectors of size 4000 each. The total number of mega floating point operations is calculated as:
 
-**1 * 4000 * 4000 * 4000 * 0.000001 = 64000 MFLOP**
+**2 * 4000 * 4000 * 4000 * 0.000001 = 128000 MFLOP**
 
-Using this we can calculate the time taken for the calculation to be 1.646032026 seconds. 
+Using this we can calculate the time taken for the calculation to be 3.292064053 seconds. 
 The Estimated Megabytes transferred with N=4000 is 
 
 8[bytes/element] * (4000*4000*4000)[elements] * 10^-6 = 1536000 MegaBytes
 
 Using these two numbers for time and bytes we get the bandwidth calculation to be
 
-1536000 MegaBytes/1.646032026 seconds = **933153.168 MB/sec**
+1536000 MegaBytes/3.292064053 seconds = **466576.584 MB/sec**
 
 However, when looking at the multiplication itself we notice that with any loop variant, while the innermost loop is being iterated through, one of three  matrices  does not change its entry. For example with the ikj loop and the given code below, we notice that for the innermost j-loop the entries of the variables a and c change on each iteration while variable **b** only changes when the k-loop iterates. 
 
