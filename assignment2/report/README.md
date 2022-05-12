@@ -219,13 +219,13 @@ The other two modalities were optimized with the original loop sequence IJK:
 
 We tested our parallel implementations on each of the architectures with the four cases requested. The following table summarizes the principal information from our strong scaling experiments:
 
-| **architecture**  | **rome2**   | **icelake** |**thunderx2** | **AMDA64fX** | 
-| ------            | ------      | -------     |---------     | --------     | 
-|cores(threads/core)| 128(x2)     | 72(x2)      | 64(x4)       |   48         |
-|                   |             |             |              |              | 
-|threads_tested     | 1,2,4,8,16, |1,2,4,8,16,  | 1,2,4,8,16   | 1,2,4,6,12,  |
-|                   |32,48,64,128,| 32,48,64,96,| 32,64,128,   |   24,48,96.  |
-|                   | 256,512     | 144,256     |  256, 512.   |              |
+| **architecture**  | **rome2**   | **icelake** |**thunderx2** | **AMDA64fX** | **Skylake** |
+| ------            | ------      | -------     |---------     | --------     | ------------
+|cores(threads/core)| 128(x2)     | 72(x2)      | 64(x4)       |   48         |  48(x2)     |
+|                   |             |             |              |              |             |
+|threads_tested     | 1,2,4,8,16, |1,2,4,8,16,  | 1,2,4,8,16   | 1,2,4,6,12,  | 1,2,4,6,12, |
+|                   |32,48,64,128,| 32,48,64,96,| 32,64,128,   |   24,48,96.  | 24,48,96,   |
+|                   | 256,512     | 144,256     |  256, 512.   |              | 120         |
 
 For our speedup calculations, we used a very straightforward definition (Xin Li, 2018):
 
