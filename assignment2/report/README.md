@@ -272,7 +272,7 @@ Threads were assigned to cores via OMP_PLACES=cores. For N=100, 3200 REPS were p
 Some aspects to consider are cache locality and memory bandwidth. With a close binding, the former is improved, whereas for the latter, a spread binding is necessary (LUMI, see references). 
 
 # 2f) 
-Using lscpu on the terminal and the information provided from lecture 1, we gathered the following elements for each architecture as seen on the table below. For the FLOPS calculation, we simply multiplied the Fused Addition Multiplication (FMA) for 2, which is the number of arithmetic operations performed in this computation and extend the assumption that the FMA throughput is 1 per cycle, to our accounted FLOPS. 
+Using lscpu on the terminal and the information provided from lecture 1, we gathered the following elements for each architecture as seen on the table below. For the FLOPS calculation, we simply multiplied the fused multiply-add(FMA) for 2, which is the number of arithmetic operations performed in this computation and extend the assumption that the FMA throughput is 1 per cycle to our accounted FLOPS (i.e, 2 FLOPS/cycle). 
 
 The formula for calculating the theoretical peak performance that we used is:
 PP = CPU_clockspeed * CPU_cores * CPU instructions per cycle * number of vector units.
