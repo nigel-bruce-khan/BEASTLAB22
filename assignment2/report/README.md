@@ -271,6 +271,19 @@ Threads were assigned to cores via OMP_PLACES=cores. For N=100, 3200 REPS were p
 
 Some aspects to consider are cache locality and memory bandwidth. With a close binding, the former is improved, whereas for the latter, a spread binding is necessary (LUMI, see references). 
 
+# 2f) Using lscpu on the terminal and the information provided from lecture 1, we gathered the following elements for each architecture as seen on the table below. For the FLOPS calculation, we simply multiplied the Fused Addition Multiplication (FMA) for 2, which is the number of arithmetic operations performed in this computation and extend the assumption that the FMA throughput is 1 per cycle, to our accounted FLOPS. 
+
+The formula for calculating the theoretical peak performance that we used is:
+PP = CPU_clockspeed * CPU_cores * CPU instructions per cycle * number of vector units.
+
+For our calculations, we took the maximum number of threads (hardware and virtual) as the CPU_cores defined on each architecture. This is merely the number of cores multiplied by the number of threads per core. 
+The values selected for comparison against the theoretical peak performance are the maximum results selected across all parallelization schemes, with the highest number of threads specific to each architecture (i.e, for Rome2 we chose the maximum value of MFLOPS along the experiments with num_threads = 256, for Icelake 144…).
+
+![peak_comp](peak_perf.jpg)
+
+The results show that there is still room for improvement regarding our parallel implementations. However, assessing our outcomes with respect to this frame isn’t an honest evaluation of the proposed solutions, given that achieving this performance is realistically difficult. One should consider other metrics to evaluate how optimal a program is. Furthermore, a thorough analysis of the presented task (matrix multiplication), shows that for big sizes N, this problem tends to be memory bound, so it would be fairer to compare how memory is exploited in our implementation for augmenting N. 
+
+
 
 # 2g) 
 Very big matrix sizes cannot be cached because we keep using new elements during matrix multiplication. For this task we used the following specifications which gave the highest performance on the AMD Rome architecture.
