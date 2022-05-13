@@ -3,7 +3,7 @@
 int main(int argc, char **argv) {
 
     // DELETE ME AND HAVE FUN WITH THE ASSIGNMENT
-    printf("|     Sum Type |    Data size |  Access Rate |       Cycles |     Checksum |\n");
+    printf("|     Sum Type |    Data size | Latency [ns] |       Cycles |     Checksum |\n");
     printf("|     Sum1 k=1 |         8192 | 199451581.19 |            8 |  536870912.0 |\n"); 
     printf("|     Sum2 k=1 |         8192 | 199542066.55 |            8 |  536870912.0 |\n");
     printf("|  Sum1 k=gold |         8192 | 199639931.64 |            8 |  536870912.0 |\n");

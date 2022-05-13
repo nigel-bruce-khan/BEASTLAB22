@@ -27,16 +27,16 @@ if __name__ == '__main__':
     # Measured performance
     axes = plt.subplot(1, 2, 1)
     #print(data)
-    sns.lineplot(data=data, x="Data size", y="Access Rate", hue="Sum Type", marker='o')
+    sns.lineplot(data=data, x="Data size", y="Latency [ns]", hue="Sum Type", marker='o')
     axes.set_xscale('log', basex=2)
-    axes.set_title('Measured Access Rate per second')
+    axes.set_title('Measured Latency [ns]')
 
     # Reference performance
     axes = plt.subplot(1, 2, 2)
 
-    sns.lineplot(data=ref_data, x="Data size", y="Access Rate", hue="Sum Type", marker='o', axes=axes)
+    sns.lineplot(data=ref_data, x="Data size", y="Latency [ns]", hue="Sum Type", marker='o', axes=axes)
     axes.set_xscale('log', basex=2)
-    axes.set_title('Reference Access Rate per second')
+    axes.set_title('Reference Latency [ns]')
 
     # Max ylim
     max_lim = max([ax.get_ylim()[1] for ax in fig.get_axes()])

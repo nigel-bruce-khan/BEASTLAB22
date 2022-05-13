@@ -17,7 +17,7 @@ case "$1" in
     exit ${PIPESTATUS[0]}
     ;;
   "part2")
-    stdbuf --output=L  ./assignment3_part_2 268435456 1048576 | tee perf_data2.txt
+    OMP_NUM_THREADS=1 stdbuf --output=L ./assignment3_part_2 268435456 1048576 | tee perf_data2.txt
     exit ${PIPESTATUS[0]}
     ;;
   *)

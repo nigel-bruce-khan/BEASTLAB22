@@ -1,110 +1,93 @@
 #include <chrono>
-#include <ctime>
-#include <unistd.h>
 #include <iostream>
 #include <cstring>
 #include <sstream>
-#include <math.h>
-#include <omp.h>
-#include<bits/stdc++.h> 
+#include <bits/stdc++.h>
 
+typedef std::chrono::time_point<std::chrono::high_resolution_clock> TimePoint;
 
-inline double get_duration(std::chrono::time_point<std::chrono::high_resolution_clock> t0, 
-    std::chrono::time_point<std::chrono::high_resolution_clock> t1) {
+inline double get_duration(TimePoint t0, TimePoint t1) {
     using dsec = std::chrono::duration<double>;
-    
     return std::chrono::duration_cast<dsec>(t1 - t0).count();
 }
 
+
 struct entry {
     double v;
-    struct entry* next;
+    int64_t next;
 };
 
-// Initializes array of struct entry with random values.
-// Note: next is not set!
-bool init_AOS(struct entry* A, int N) {
-
-
-    for(int i = 0; i < N; i++) {
-        A[i].v = N;
+/*
+ * TODO@Students: Q2a) Implement the list initialization
+ */
+void init(int64_t N, int k, struct entry* A) {
+    int64_t mask = N - 1; // N is power-of-2
+    for (int64_t i = 0; i < N; ++i) {
+        A[i].v = (double)i;
+        A[i].next = (k * (i + 1)) & mask;
     }
-    for(int i = 0; i < N; i++){
-        if(A[i].v == 0)
-            return false;
-    }
-    return true;
-}
-
-// Initializes
-bool init_llist(struct entry* A, int k, int N) {
-
-
-    for(int i = 0; i < N; i++) {
-        A[i].v = N;
-    }
-
-    for(int i = 0; i < N; i++){
-        if(A[i].v == 0)
-            return false;
-    }
-
-    for (int i = 0; i < N; i++) {
-        A[i].next = 
-    /*
-    * TODO@Students: Q1a) Set A.next of each element to ensure same traversal pattern as sum1 
-    */
-    }
-
-    return true;
-}
-
-double sum1(int64_t N, int k, int REP, double *sum) {
-
-    struct entry* A ;
-    /*
-    * TODO@Students: Q1a) Allocate data structures
-    */
-
-    if(!init_AOS(A, N))
-        std::cerr << "error in init_AOS" << std::endl;
-    *sum = 0;
-
-    auto t0 = std::chrono::high_resolution_clock::now () ;
-    /*
-    * TODO@Students: Q1a) Add your parallel solution for sum1 computation
-    */
-    auto t1 = std::chrono::high_resolution_clock::now();
-
-    /*
-    * TODO@Students: Q1a) Clean up data structures
-    */
-    // return accesses per second
-    return (double)REP*(double)N / get_duration(t0, t1);
- 
 }
 
 
-double sum2(int64_t N, int k, int REP, double *sum) {
-    struct entry* A ;
+double sum_indexcalc(int64_t N, int k, int REP, double *psum, int64_t* pdummy) {
+    double sum;
+    int64_t mask = (N - 1); // N is power - of -2
+    int64_t dummy = 0;
+
     /*
-    * TODO@Students: Q1a) Allocate data structures
-    */
-
-    if(!init_llist(A, k, N))
-        std::cerr << "error in init_llist" << std::endl;
-
-    *sum = 0.0;
+     * TODO@Students: Q2a) Allocate and initialize data structures
+     */
 
     auto t0 = std::chrono::high_resolution_clock::now();
+    for (int r = 0; r < REP; ++r) {
+        sum = 0.0;
+        int64_t next = 0;
+        for (int64_t i = 0; i < N; ++i) {
+            sum += A[next].v;
+            dummy |= A[next].next;
+            next = (k * (i + 1)) & mask;
+        }
+    }
+    auto t1 = std::chrono::high_resolution_clock::now();
+
+    *psum = sum; *pdummy = dummy;
+
     /*
-    * TODO@Students: Q1a) Add your parallel solution for sum2 computation
-    */
-    auto t1 = std::chrono::high_resolution_clock::now () ;
+     * TODO@Students: Q2a) Clean-up data structures and
+     *   return average time per element access in nanoseconds
+     */
+    return 0.0;
+}
+
+
+double sum_indexload(int64_t N, int k, int REP, double *psum, int64_t* pdummy) {
+    double sum;
+    int64_t mask = (N - 1); // N is power - of -2
+    int64_t dummy = 0;
+
     /*
-    * TODO@Students: Q1a) Clean up data structures
-    */
-    return (double)REP * (double)N / get_duration(t0, t1);
+     * TODO@Students: Q2a) Allocate and initialize data structures
+     */
+
+    auto t0 = std::chrono::high_resolution_clock::now();
+    for (int r = 0; r < REP; ++r) {
+        sum = 0.0;
+        int64_t next = 0;
+        for (int64_t i = 0; i < N; ++i) {
+            sum += A[next].v;
+            dummy |= A[next].next;
+            next = A[next].next;
+        }
+    }
+    auto t1 = std::chrono::high_resolution_clock::now();
+    
+    *psum = sum; *pdummy = dummy;
+    
+    /*
+     * TODO@Students: Q2a) Clean-up data structures and
+     *   return average time per element access in nanoseconds
+     */
+    return 0.0;
 }
 
 
@@ -116,23 +99,24 @@ int main(int argc, char **argv) {
     }
 
     char *pEnd;
-    int64_t maximumDatasetSize = strtol(argv[1], &pEnd, 10);
+    int64_t maximumDatasetSize = strtoll(argv[1], &pEnd, 10);
     if (errno == ERANGE) {
         printf("Problem with the first number.");
         exit(2);
     }
-    int64_t totalNumberProcessedPoints = strtol(argv[2], &pEnd, 10);
+    int64_t totalNumberProcessedPoints = strtoll(argv[2], &pEnd, 10);
     if (errno == ERANGE) {
         printf("Problem with the second number.");
         exit(3);
     }
 
     fprintf(
-            stderr, "Maximum dataset size = %ld, total number of processed points = %ld. Performance in MFLOPS.\n",
+            stderr, "Maximum dataset size = %lld, total number of processed points = %lld. Performance in MFLOPS.\n",
             maximumDatasetSize, totalNumberProcessedPoints
     );
 
-    printf("| %12s | %12s | %12s | %12s | %12s |\n", "Sum Type", "Data size", "Access Rate", "Cycles", "Checksum");
+    printf("| %12s | %12s | %12s | %12s | %12s |\n", "Sum Type", "Data size", "Latency [ns]", "Cycles", "Checksum");
+    
     /*                                                                                     /\
                                                                                           /  \
                                                                                          |    |
@@ -140,7 +124,7 @@ int main(int argc, char **argv) {
                                                                                          :'_' :
                                                                                          _:"":\___
                                                                           ' '      ____.' :::     '._  */
-    // static const double goldenRatio = 32951280099.0/20365011074.0; // . *=====<<=)           \    :
+    static const double goldenRatio = 32951280099.0/20365011074.0; //    . *=====<<=)           \    :
     /*                                                                    .  '      '-'-'\_      /'._.'
                                                                                            \====:_ ""
                                                                                           .'     \\
@@ -150,28 +134,35 @@ int main(int argc, char **argv) {
                                                                                        :  : :      :
                                                                                        :__:-:__.;--'
                                                                                       '-'   '-'       */
-    int64_t datasetSize = 1024; // =2^10
+    int64_t N = 1024; // =2^10
     int k = 0;
-    double sum1_access_rate=0, sum2_access_rate=0 ;
-    double sum_1=0, sum_2=0;
-    while (datasetSize <= maximumDatasetSize) 
+    double sum_indexcalc_time=0, sum_indexload_time=0 ;
+    double sum_calc=0, sum_load=0;
+    int64_t cycles;
+    int64_t dummy;
+    while (N <= maximumDatasetSize) 
     {
-        int64_t cycles = std::clamp(totalNumberProcessedPoints / datasetSize, 1l, 8l);
+        cycles = std::clamp(totalNumberProcessedPoints / N, (int64_t)1, (int64_t)1000);
 
-        sum1_access_rate = sum1(datasetSize, 1, cycles, &sum_1);
-        printf( "| %12s | %12ld | %12.2f | %12ld | %12.1f |  \n", "Sum1 k=1",datasetSize, sum1_access_rate, cycles, sum_1);
-        sum2_access_rate = sum2(datasetSize, 1, cycles, &sum_2);
-        printf("| %12s | %12ld | %12.2f | %12ld | %12.1f |  \n", "Sum2 k=1",datasetSize, sum2_access_rate, cycles, sum_2 );
-        
+        sum_indexcalc_time = sum_indexcalc(N, 1, cycles, &sum_calc, &dummy);
+        printf( "| %12s | %12ld | %12.2f | %12ld | %12.1f |  \n", "sum_indexcalc k=1",N, sum_indexcalc_time, cycles, sum_calc);
+        sum_indexload_time = sum_indexload(N, 1, cycles, &sum_load, &dummy);
+        printf("| %12s | %12ld | %12.2f | %12ld | %12.1f |  \n", "sum_indexload k=1",N, sum_indexload_time, cycles, sum_load );
+
         /*
-        * TODO@Students: Q1b) make sure N and k are coprime and set the k so that N/k is close to golden ratio - for pseudo-randomness
-        */
-        k = ;
+         * TODO@Students: Q2a) make sure N and k are coprime and set the k so that N/k is close to golden ratio - for pseudo-randomness
+         */
 
-        sum1_access_rate = sum1(datasetSize, k, cycles, &sum_1);
-        printf("| %12s | %12ld | %12.2f | %12ld | %12.1f | \n", "Sum1 k=gold", datasetSize, sum1_access_rate, cycles, sum_1);
-        sum2_access_rate = sum2(datasetSize, k, cycles, &sum_2);
-        printf("| %12s | %12ld | %12.2f | %12ld | %12.1f | \n", "Sum2 k=gold", datasetSize, sum2_access_rate, cycles, sum_2 );
-        datasetSize *= 2;
+        sum_indexcalc_time = sum_indexcalc(N, k, cycles, &sum_calc, &dummy);
+        printf("| %12s | %12ld | %12.2f | %12ld | %12.1f | \n", "sum_indexcalc k=gold", N, sum_indexcalc_time, cycles, sum_calc);
+        sum_indexload_time = sum_indexload(N, k, cycles, &sum_load, &dummy);
+        printf("| %12s | %12ld | %12.2f | %12ld | %12.1f | \n", "sum_indexload k=gold", N, sum_indexload_time, cycles, sum_load );
+
+        /*
+         * TODO@Students: Q2a) Verify that all elements are accessed
+         */
+
+        N *= 2;
     }
+    return 0;
 }
