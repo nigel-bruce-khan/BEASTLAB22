@@ -13,7 +13,7 @@ fi
 # This makes it suitable for processing using CI.
 case "$1" in
   "part1")
-    stdbuf --output=L  ./assignment3_part_1 134217728 268435456 | tee perf_data1.txt
+    stdbuf --output=L  ./assignment3_part_1 134217728 268435456 1 | tee perf_data1.txt
     exit ${PIPESTATUS[0]}
     ;;
   "part2")
@@ -25,3 +25,4 @@ case "$1" in
     exit 255
     ;;
 esac
+
