@@ -33,7 +33,7 @@ double calculateChecksum(long datasetSize, const volatile double* vector, int st
     return checksum;
 }
 
-void triad(long N, long repetitions, long numThreads, int stride) {
+void triad(long datasetSize, long repetitions, long numThreads, int stride) {
 
     /*
     * TODO@Students: Q1a) Add your parallel solution for triad benchmark implementation from assignment 1 
@@ -42,6 +42,10 @@ void triad(long N, long repetitions, long numThreads, int stride) {
     
     double time_spent = 0.0;
     double begin, end;
+    
+//****let N = dataSize/stride to give the number of triad computations done over the arrays
+	long N = datasetSize/stride;
+
 
 // TASK 1.c
 #pragma omp parallel
@@ -50,14 +54,14 @@ void triad(long N, long repetitions, long numThreads, int stride) {
 }
 
 // TASK 1.d
-    double* a = (double*) aligned_alloc (4096, N * sizeof(double));
-    double* b = (double*) aligned_alloc (4096, N * sizeof(double));
-    double* c = (double*) aligned_alloc (4096, N * sizeof(double));
-    double* d = (double*) aligned_alloc (4096, N * sizeof(double));
+    double* a = (double*) aligned_alloc (4096, datasetSize * sizeof(double));
+    double* b = (double*) aligned_alloc (4096, datasetSize * sizeof(double));
+    double* c = (double*) aligned_alloc (4096, datasetSize * sizeof(double));
+    double* d = (double*) aligned_alloc (4096, datasetSize * sizeof(double));
 
 // TASK 1.e
 #pragma omp parallel for schedule(static)
-    for (long j=0; j<N; j++) {
+    for (long j=0; j<N*stride; j++) {
 	    a[j] = 0.0;
 	    b[j] = 1.0;
 	    c[j] = 2.0;
@@ -86,14 +90,14 @@ void triad(long N, long repetitions, long numThreads, int stride) {
     time_spent = end - begin;
 
 // TASK 1.h
-    double sum = calculateChecksum(N, a, stride);
+    double sum = calculateChecksum(datasetSize, a, stride);
     assert (abs(sum-N*7.0)<0.1);
     
     free(a); free(b); free(c); free(d);
 
 
     double mflops = calculateMegaFlopRate(N, repetitions, time_spent);
-    printf("| %10ld | %8d | %8.2f | %8ld | %.4e |\n", N, stride, mflops, repetitions, sum);
+    printf("| %10ld | %8d | %8.2f | %8ld | %.4e |\n", datasetSize, stride, mflops, repetitions, sum);
 }
 
 int main(int argc, char *argv[]) {
