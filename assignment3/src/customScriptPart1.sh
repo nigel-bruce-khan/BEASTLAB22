@@ -1,6 +1,6 @@
 #!/bin/bash
 
-OMP_NUM_PLACES=threads ./assignment3_part_1 3355 67 1 >> results.txt
+OMP_NUM_PLACES=threads ./assignment3_part_1 33554432 67108864 1 >> results.txt
 
 OMP_NUM_PLACES=threads ./assignment3_part_1 33554432 67108864 2 >> results.txt
 
