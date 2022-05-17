@@ -4,6 +4,7 @@
 #include <sstream>
 #include <bits/stdc++.h>
 #include <math.h>
+#include <omp.h>
 
 typedef std::chrono::time_point<std::chrono::high_resolution_clock> TimePoint;
 
@@ -152,7 +153,10 @@ int main(int argc, char **argv) {
         printf("Problem with the second number.");
         exit(3);
     }
-
+    int my_place = omp_get_place_num();
+    int place_num_procs = omp_get_place_num_procs(my_place);
+    printf("Place consists of %d processors and thread is at place= %d \n ", place_num_procs, my_place);
+    
     fprintf(
             stderr, "Maximum dataset size = %ld, total number of processed points = %ld. Performance in MFLOPS.\n",
             maximumDatasetSize, totalNumberProcessedPoints
