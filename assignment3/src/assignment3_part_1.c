@@ -33,7 +33,7 @@ double calculateChecksum(long datasetSize, const volatile double* vector, int st
     return checksum;
 }
 
-void triad(long datasetSize, long repetitions, long *numThreads, int stride) {
+void triad(long datasetSize, long repetitions, int *numThreads, int stride) {
 
     /*
     * TODO@Students: Q1a) Add your parallel solution for triad benchmark implementation from assignment 1 
