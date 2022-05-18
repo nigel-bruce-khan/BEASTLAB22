@@ -56,23 +56,31 @@ For this task we set the number of threads equal to the cores for each system as
 We see from the graphs that the syntax used to assign threads affects performance because we set the number of threads exactly equal to what the function omp_get_max_threads() sets them to. This is probably due to the native compiler optimization differences on all systems. In the comparison graphs we see that the outlier spikes/peaks are still there for all systems. In some cases they are shifted, in some they match almost exactly and in some, and in the case of ice lake the peak for stride=1 even disappears. 
 
 #2a)
-#2b)
-#2c)
-We assume that for random access traversal with a large enough N, the first access into a list element should be a cache miss. For large enough N, it is supposed that for every memory access, it access memory that locates away from the last accessed location. Therefore, all caches are missed in this case. Indeed, as shown in the figures below, for small N cases, we observe that there are jumping up of memory bandwidth. These behaviour occured because the random accesses sometimes hit a location which is next to or near the last access location, and caches which stored at the last access are utilized. The smaller data size has the higher chance of utilizing the cache. From the observation of results, we can define the large enough N as N greater than 10E+21, since the bandwidth are stable and stay around the same value after N=10E+21 for all the machines. 
 
-In the case of Icelake and Rome, 
+
+#2b)
+
+
+#2c)
+
+We assume that for random access traversal with a large enough N, the first access into a list element should be a cache miss. For large enough N, it is supposed that for every memory access, it access memory that locates away from the last accessed location. Therefore, all caches are missed in this case. Indeed, as shown in the figures below, for small N cases, we observe that there are jumping up of memory bandwidth. These behaviour occured because the random accesses sometimes hit a location which is next to or near the last access location, and caches which stored at the last access are utilized. The smaller data size has the higher chance of utilizing the cache. From the observation of results, we can define the large enough N as N greater than 10E+21, since the bandwidth are stable and stay around the same value after N=10E+21 for all the machines. 
 
 ![ice](2cice.png)
 
-
 ![rome](2crome.png)
-
 
 ![amd](2camd.png)
 
-
 ![thx](2cthx.png)
 
+The utilized memory bandwidth is the bandwidth for N > 10E+21 here, and measured it for all BEAST machines as shown in the table below. We put the bandwidth for N=10E+30 in the table. The values are in [Gbyte].
+
+| **access patterns** | **rome2** | **Icelake** | **AMDA64FX** | **ThunderX2** |
+|--------             | --------  | --------    | --------     | ---------     |
+| indexcalc / k=1     | 5.025     | 1.503       | 3.759        | 0.227         |
+| indexload / k=1     | 3.210     | 0.971       | 2.699        | 0.199         |
+| indexcalc / k=gold  | 2.808     | 0.958       | 3.649        | 0.179         |
+| indexload / k=gold  | 1.207     | 0.589       | 2.635        | 0.171         |
 
 #2d)
 #2e)
