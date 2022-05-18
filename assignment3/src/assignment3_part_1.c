@@ -33,7 +33,7 @@ double calculateChecksum(long datasetSize, const volatile double* vector, int st
     return checksum;
 }
 
-void triad(long datasetSize, long repetitions, long numThreads, int stride) {
+void triad(long datasetSize, long repetitions, int *numThreads, int stride) {
 
     /*
     * TODO@Students: Q1a) Add your parallel solution for triad benchmark implementation from assignment 1 
@@ -50,7 +50,7 @@ void triad(long datasetSize, long repetitions, long numThreads, int stride) {
 // TASK 1.c
 #pragma omp parallel
 {
-	numThreads=omp_get_num_threads();
+	*numThreads=omp_get_num_threads();
 }
 
 // TASK 1.d
@@ -139,8 +139,11 @@ int main(int argc, char *argv[]) {
         // Keep the total number of processed points constant by adjusting the number of repetitions according to data
         // set size
         long cycles = std::clamp(totalNumberProcessedPoints / datasetSize, 8l, 65536l);
-        long threads = omp_get_max_threads();
-        triad(datasetSize, cycles, threads, stride);
+        
+        //set to 64 threads in argument for question 1c which gave best performance on the AMD ROME system in assingment 1
+        //long threads = omp_get_max_threads(); 
+        int threads;      
+        triad(datasetSize, cycles, &threads, stride);
             
         datasetSize *= 2;  
     }
