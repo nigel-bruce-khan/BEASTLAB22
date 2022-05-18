@@ -73,14 +73,14 @@ We assume that for random access traversal with a large enough N, the first acce
 
 ![thx](2cthx.png)
 
-The utilized memory bandwidth is the bandwidth for N > 10E+21 here, and measured it for all BEAST machines as shown in the table below. We put the bandwidth for N=10E+30 in the table. The values are in [Gbyte].
+The utilized memory bandwidth is the bandwidth for N > 10E+21 here, and measured it for all BEAST machines as shown in the table below. We put the bandwidth for N=10E+30 in the table. The values are in [Gbyte]. 
 
-| **access patterns** | **rome2** | **Icelake** | **AMDA64FX** | **ThunderX2** |
-|--------             | --------  | --------    | --------     | ---------     |
-| indexcalc / k=1     | 5.025     | 1.503       | 3.759        | 0.227         |
-| indexload / k=1     | 3.210     | 0.971       | 2.699        | 0.199         |
-| indexcalc / k=gold  | 2.808     | 0.958       | 3.649        | 0.179         |
-| indexload / k=gold  | 1.207     | 0.589       | 2.635        | 0.171         |
+| **variants and k** | **rome2** | **Icelake** | **AMDA64FX** | **ThunderX2** |
+|--------            | --------  | --------    | --------     | ---------     |
+| indexcalc / k=1    | 5.025     | 1.503       | 3.759        | 0.227         |
+| indexload / k=1    | 3.210     | 0.971       | 2.699        | 0.199         |
+| indexcalc / k=gold | 2.808     | 0.958       | 3.649        | 0.179         |
+| indexload / k=gold | 1.207     | 0.589       | 2.635        | 0.171         |
 
 #2d)
 #2e)
