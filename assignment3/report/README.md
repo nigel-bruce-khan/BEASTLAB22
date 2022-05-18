@@ -58,6 +58,16 @@ We see from the graphs that the syntax used to assign threads affects performanc
 #2a)
 #2b)
 #2c)
+
+![ice](2cice.png)
+
+
+![rome](2crome.png)
+
+
+![amd](2camd.png)
+
+
 #2d)
 #2e)
 #2f) 
