@@ -83,7 +83,7 @@ We assume that for random access traversal with a large enough N, the first acce
 ![thx](2cthx.png)
 
 The utilized memory bandwidth is the bandwidth for N > 10E+21 here, and measured it for all BEAST machines as shown in the table below. We put the bandwidth for N=10E+30 in the table. The values are in [Gbyte]. Bandwidth varies depends on the machines, and it reflects the distance between working core and the main memory in this experiment. 
-As seen from the table, two different codes, 'sum_indexcalc' and 'sum_indexload' affect the results. sum_indexcalc results in higher memory bandwidth than the other one for all machines and all number of k. 
+As seen from the table, two different codes, 'sum_indexcalc' and 'sum_indexload' affect the results. sum_indexcalc results in higher memory bandwidth than the other one for all machines and all number of k. in the sum_indexcalc function, the next location is mathematically calculated everytime, while sum_indexload fetches next variable from the memory. That means sum_indexcalc needs more operations and sum_indexload needs more communication with the memory. That is the reason that sum_indexcalc achieved better bandwidth than sum_indexload.
 
 | **variants and k** | **rome2** | **Icelake** | **AMDA64FX** | **ThunderX2** |
 |--------            | --------  | --------    | --------     | ---------     |
@@ -96,7 +96,8 @@ As seen from the table, two different codes, 'sum_indexcalc' and 'sum_indexload'
 
 In our experiment, the latency is calculated as the duration of accessing an element. Thus, latency is corelated with the utilized memory bandwidth as shown in the formula in 2c. The duration which derived in the code is the average of time spent on accessing N elements.
 
-As we discribed in 2c, second accesses to the same elements occur for small data size. Therefore, the latency for small data size is the average of L1 latency and the local memory latency. For large enough data size, second access into the same element does not occur. Thus, the latency is the latency to the local memory. With this logic, we derived the latency to the local memory of all machines. We used the results of N=10E+30, and lists the latencies for each machine in the table below. The unit of the latency is [ns].
+As we discribed in 2c, second accesses to the same elements occur for small data size. Therefore, the latency for small data size is the average of L1 latency and the local memory latency. For large enough data size, second access into the same element does not occur. Thus, the latency is the latency to the local memory. 
+With this logic, we derived the latency to the local memory of all machines. We used the results of N=10E+30, and lists the latencies for each machine in the table below. The unit of the latency is [ns].
 
 | **Machines** | **Latency** |
 |---------     | --------    |
@@ -106,6 +107,9 @@ As we discribed in 2c, second accesses to the same elements occur for small data
 |   ThunderX2  |
 
 # 2e)
+
+
+
 # 2f) 
 https://docs.google.com/document/d/1R_ex496kSarxw2wwGjKrnNCNYF1gRq-fGot8CG-biXI/edit?usp=sharing
 # 2g)
