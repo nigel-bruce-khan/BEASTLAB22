@@ -63,6 +63,12 @@ We see from the graphs that the syntax used to assign threads affects performanc
 
 #2c)
 
+The utilized memory bandwidth is calculated with the furmula below.
+
+#### Bandwidth[Gbyte/s] = sizeof(struct)[byte] / duration[ns] 
+
+where, size of struct entry is 20 byte (double, int64_t, int) and the duration is the time spent to access the memory, which is calculated in each sum_indexcalc and sum_indexload functions in the code. 
+
 We assume that for random access traversal with a large enough N, the first access into a list element should be a cache miss. For large enough N, it is supposed that for every memory access, it access memory that locates away from the last accessed location. Therefore, all caches are missed in this case. Indeed, as shown in the figures below, for small N cases, we observe that there are jumping up of memory bandwidth. These behaviour occured because the random accesses sometimes hit a location which is next to or near the last access location, and caches which stored at the last access are utilized. The smaller data size has the higher chance of utilizing the cache. From the observation of results, we can define the large enough N as N greater than 10E+21, since the bandwidth are stable and stay around the same value after N=10E+21 for all the machines. 
 
 ![ice](2cice.png)
@@ -73,7 +79,8 @@ We assume that for random access traversal with a large enough N, the first acce
 
 ![thx](2cthx.png)
 
-The utilized memory bandwidth is the bandwidth for N > 10E+21 here, and measured it for all BEAST machines as shown in the table below. We put the bandwidth for N=10E+30 in the table. The values are in [Gbyte]. 
+The utilized memory bandwidth is the bandwidth for N > 10E+21 here, and measured it for all BEAST machines as shown in the table below. We put the bandwidth for N=10E+30 in the table. The values are in [Gbyte]. Bandwidth varies depends on the machines, and it reflects the distance between working core and the main memory in this experiment. 
+As seen from the table, two different codes, 'sum_indexcalc' and 'sum_indexload' affect the results. sum_indexcalc results in higher memory bandwidth than the other one for all machines and all number of k. 
 
 | **variants and k** | **rome2** | **Icelake** | **AMDA64FX** | **ThunderX2** |
 |--------            | --------  | --------    | --------     | ---------     |
