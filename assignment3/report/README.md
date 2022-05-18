@@ -74,6 +74,8 @@ where, size of struct entry is 20 byte (double, int64_t, int) and the duration i
 
 We assume that for random access traversal with a large enough N, the first access into a list element should be a cache miss. For large enough N, it is supposed that for every memory access, it access memory that locates away from the last accessed location. Therefore, all caches are missed in this case. Indeed, as shown in the figures below, for small N cases, we observe that there are jumping up of memory bandwidth. These behaviour occured because the random accesses sometimes hit a location which is next to or near the last access location, and caches which stored at the last access are utilized. The smaller data size has the higher chance of utilizing the cache. From the observation of results, we can define the large enough N as N greater than 10E+21, since the bandwidth are stable and stay around the same value after N=10E+21 for all the machines. 
 
+The results below are from experiments performed on the logical cores.
+
 ![ice](2cice.png)
 
 ![rome](2crome.png)
