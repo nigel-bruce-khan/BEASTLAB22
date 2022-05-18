@@ -1,7 +1,8 @@
 # Assignment 3 Report
 Group: 104
 
-#1a) 
+# 1a)
+ 
 In this part after copying the triad code changes were made according to the question. Firstly, the variable N was redefined to mean the “number of triad computations done over the arrays” as required by the worksheet itself. Since in the worksheet it is stated that “each array now needs to have N * STRIDE elements” i.e N*STRIDE=datasetSize, N is defined as
 N= datasetSize/stride. The places in the triad code where the variable N was used in worksheet 1 is changed to datasetSize for this worksheet.
 The iteration loop for (j) is changed to  (long j=0; j< N*STRIDE; j+=STRIDE) according to the worksheet requirement. For the j-loop which initializes the arrays’ elements, all elements were still initialized to certain values to avoid using dummy data anywhere. The function calculateMegaFlopRate(N, repetitions, time_spent) gets the parameter N and the output from this function is calculated as follows:
@@ -14,7 +15,8 @@ Next, since the variable (threads) was set equal to omp_get_max_threads() to use
 
 Finally, STRIDE was added as an additional argument that the user gives. The code for this was edited in the main function and the test script file accordingly.
 
-#1b) 
+# 1b)
+ 
 Firstly to pin the threads to their cores the following script was used:
 
 OMP_NUM_PLACES=threads ./assignment3_part_1 33554432 67108864 STRIDE 
@@ -45,7 +47,8 @@ To compare results across machines, a representative line from each machine for 
 We notice again that for each line the smallest data set size gets a good performance. However, we also notice that for each system, there is a combination of the threads it has, the data set size, and also the stride size being used for which it gives a performance even better than on small data set sizes. This again is the case seen for threads being binded to logical cores, which probably allows optimal memory retrieval and calculation time across all cores, for some specific datasize, to result in this performance boost. The AMD ROME system seems to allow this for the highest data set size for all strides in comparison to the 4 different systems. In the graph above for stride=1 since the threads are bound to cores, giving each thread a smaller chunk would reduce the time it needs to spend retrieving data from main memory. This makes the whole calculation perform faster in parallel. Thus having more threads is better when the threads are bound to the cores. AMD ROME has the highest performance for the largest data size, because it has 256 cores which is the highest. When we increase stride we just reduce the number of array elements that are computed upon and stored in the cache each time by half. But the performance still remains the highest for that same data size usually unless another stride fits the number of cores and data size better.
 However, architecture specific differences also matter since the THUNDER system also has 256 threads, but 4 cores, and yet it has much worse performance than the ROME system. Thus for this experiment having more threads per core appears to be better. This means that more parameters probably need to be analyzed to understand why ROME has the best performance for this experiment. 
 
-#1c)
+# 1c)
+
 For this task we set the number of threads equal to the cores for each system as suggested by the teaching instructor Sergej Breiter. We used OpenMP, not setting OMP_PROC_BIND, and only using OMP_PLACES=threads. This way “threads are pinned to logical cores and can not move at all -- they are pinned to a logical core (hw-thread)” as stated from the reference.   (https://gitlab.lrz.de/beastlab22ss/hints/-/blob/master/pinning/pinning.md)
 
 ![ice](1cice.png)
@@ -55,13 +58,13 @@ For this task we set the number of threads equal to the cores for each system as
 
 We see from the graphs that the syntax used to assign threads affects performance because we set the number of threads exactly equal to what the function omp_get_max_threads() sets them to. This is probably due to the native compiler optimization differences on all systems. In the comparison graphs we see that the outlier spikes/peaks are still there for all systems. In some cases they are shifted, in some they match almost exactly and in some, and in the case of ice lake the peak for stride=1 even disappears. 
 
-#2a)
+# 2a)
 
 
-#2b)
+# 2b)
 
 
-#2c)
+# 2c)
 
 The utilized memory bandwidth is calculated with the furmula below.
 
@@ -89,7 +92,7 @@ As seen from the table, two different codes, 'sum_indexcalc' and 'sum_indexload'
 | indexcalc / k=gold | 2.808     | 0.958       | 3.649        | 0.179         |
 | indexload / k=gold | 1.207     | 0.589       | 2.635        | 0.171         |
 
-#2d)
+# 2d)
 
 In our experiment, the latency is calculated as the duration of accessing an element. Thus, latency is corelated with the utilized memory bandwidth as shown in the formula in 2c. The duration which derived in the code is the average of time spent on accessing N elements.
 
@@ -102,8 +105,8 @@ As we discribed in 2c, second accesses to the same elements occur for small data
 |   AMDA64FX   |
 |   ThunderX2  |
 
-#2e)
-#2f) 
+# 2e)
+# 2f) 
 https://docs.google.com/document/d/1R_ex496kSarxw2wwGjKrnNCNYF1gRq-fGot8CG-biXI/edit?usp=sharing
-#2g)
-#2h)
+# 2g)
+# 2h)
