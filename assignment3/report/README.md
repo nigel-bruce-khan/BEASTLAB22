@@ -96,15 +96,16 @@ As seen from the table, two different codes, 'sum_indexcalc' and 'sum_indexload'
 
 In our experiment, the latency is calculated as the duration of accessing an element. Thus, latency is corelated with the utilized memory bandwidth as shown in the formula in 2c. The duration which derived in the code is the average of time spent on accessing N elements.
 
+The latency to the L1 cache is neglectable. therefore, in sum_indexload function, `next = A[next].next` is neglectable operation. Thus, only `sum += A[next].v` term counts for the latency. Hence, the results from sum_indexload is proper to get the latency to the local memory. 
 As we discribed in 2c, second accesses to the same elements occur for small data size. Therefore, the latency for small data size is the average of L1 latency and the local memory latency. For large enough data size, second access into the same element does not occur. Thus, the latency is the latency to the local memory. 
 With this logic, we derived the latency to the local memory of all machines. We used the results of N=10E+30, and lists the latencies for each machine in the table below. The unit of the latency is [ns].
 
 | **Machines** | **Latency** |
 |---------     | --------    |
-|    Rome      |
-|   Icelake    |
-|   AMDA64FX   |
-|   ThunderX2  |
+|    Rome      |    3.63     |
+|   Icelake    |   20.61     |
+|   AMDA64FX   |    7.41     |
+|   ThunderX2  |   24.13     |
 
 # 2e)
 
