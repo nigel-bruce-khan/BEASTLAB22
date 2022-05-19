@@ -1,14 +1,15 @@
 CXX=c++
+#CXX=cc
 CXX_FLAGS=-std=c++17 -Wall -Wextra -O3 -march=native -g -DASSIGNMENT_SOLUTION
 
 all: vector list
 
-vector: assignment3_part_1.c
-	${CXX} ${CXX_FLAGS} -fopenmp $< -o assignment3_part_1
+vector: 
+	${CXX} ${CXX_FLAGS} -fopenmp -o assignment3_part_1 assignment3_part1_template.c
 
-list: assignment3_part_2.c
+list: assignment3_part_2_template_2h.c
 	${CXX} ${CXX_FLAGS} -fopenmp $< -o assignment3_part_2
-
+	
 graphics_vector:
 	python3 util/generate_chart_part1.py --performance-data perf_data1.txt --reference-data util/reference_output_parallel_1.txt --output-file perf_data1.svg
 	python3 util/generate_chart_part1.py --performance-data perf_data1.txt --reference-data util/reference_output_parallel_1.txt --output-file perf_data1.pdf
