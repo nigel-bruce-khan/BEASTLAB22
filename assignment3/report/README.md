@@ -111,7 +111,23 @@ With this logic, we derived the latency to the local memory of all machines. We 
 
 # 2e)
 
+Machine specific cache information is obtained with `lscpu` command. The size of L1, L2, L3 caches of each machine is listed in the table below. The unit is [byte].
 
+| **Machines** |    **L1d**   |    **L1i**   |    **L2**    |    **L3**    |
+| -------      | -------      | --------     | --------     | -------      |
+|     rome     |      32K     |      32K     |     512K     |    16383K    |
+|      ice     |     3.4Mi    |     2.3Mi    |     90Mi     |     108Mi    |
+|       cs     |              |              |              |              |
+|      thx     |      32K     |      32K     |     256K     |    32768K    |
+
+
+
+| **Machines** |    **L1**    |    **L2**    |    **L3**    |   **Memory**  |
+| -------      | -------      | --------     | --------     | ---------     |
+|     rome     |     
+|      ice     |
+|       cs     |
+|      thx     |
 
 # 2f) 
 https://docs.google.com/document/d/1R_ex496kSarxw2wwGjKrnNCNYF1gRq-fGot8CG-biXI/edit?usp=sharing
