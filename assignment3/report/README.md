@@ -362,7 +362,26 @@ Fujitsu A64FX
 - SLIT distances: 10, 20, 30 for 0-0, 0-1 and 0-2/3 node distances respectively.
 - N = 2^22
 
-We used the following commands to run our experiments:
+We used the following commands to run our experiments, modifying membind to the respective domain:
 
-- numactl --cpubind=0 --membind=0 /--membind=1 / => Run process on node 0 with memory allocated on node 0 / 1.
+- numactl --cpubind=0 --membind=0 /--membind=1 / => Run process on node 0 with memory allocated on node 0 / 1, along with threads pinned to logical cores. 
 
+The following table shows the results corresponding to latencies obtained for the index_calc() routine in nanoseconds. 
+
+|  **Experimental Latencies**    |
+|membind| 0    | 1    | 2  | 4   |
+| --    | --   |--    | -- | --  |
+| rome  |5.74  | 5.76 | -  | 8.52|
+| ice   |20.56 | 26.41| -  | -   |
+| thx   |59.38 | 77.12| -  | -   |
+| A64FX | 5.36 | 5.5  |5.55| -   |
+
+|               **Latency factors and SLIT measured values**                          |
+|membind| 0            | 1                   | 2                 |           4        |
+| --    | --           |--                   |  --               | --                 |
+| rome  | 1x = 10      |1.003x=10.03 (12)    | -                 | 1.484x = 14.84 (32)|
+| ice   | 1x = 10      |1.285x = 12.85 (20)  | -                 | -                  |
+| thx   | 1x = 10      | 1.299x = 12.99 (20) | -                 | -                  |
+| A64FX | 1x = 10      | 1.026x = 10.26 (20) |1.035x = 10.35 (30)| -                  |
+
+- In every architecture (except Fujitsu), we can see that the measured latency factors increased with the "distance" to the NUMA domain, however the increment was not as elevated as the reference SLIT table presented. 
