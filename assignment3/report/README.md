@@ -221,8 +221,8 @@ With this logic, we derived the latency to the local memory of all machines. We 
 |---------     | --------    |
 |    Rome      |   16.57     |
 |   Icelake    |   20.61     |
-|   AMDA64FX   |    33.9     |
-|   ThunderX2  |  116.34     |
+|   AMDA64FX   |   33.90     |
+|   ThunderX2  |  137.00     |
 
 # 2e)
 
@@ -235,14 +235,14 @@ Machine specific cache information is obtained with `lscpu` command. The size of
 |       cs     |              |              |              |              |
 |      thx     |      32K     |      32K     |     256K     |    32768K    |
 
-
+The data loaded and stored in our code is 20 byte for one element. Therefore, in the case of Rome machine, up to datasize N = 2048 can be stored in L1 cache and loaded for the next loop, since 20[byte] * 2048 is below 32000[byte] * 2 which is the L1 capacity of Rome. Therefore, the L1 latency of Rome is 2.97 [ns]. In the same way, the cache size works as the threshold of memory type. The threshold of L2 is 512000[byte], that of L3 is 16383000[byte]. Therefore, Rome uses L2 up to N = 16383 and L3 up to N = 4194304. The larger data is stored and loaded from the main memory. Likewise, L1, L2, L3 and memory latency for the other machines are derived from the results.
 
 | **Machines** |    **L1**    |    **L2**    |    **L3**    |   **Memory**  |
 | -------      | -------      | --------     | --------     | ---------     |
-|     rome     |     
-|      ice     |
-|       cs     |
-|      thx     |
+|     rome     |     2.97     |     2.98     |     8.23     |     16.57     |
+|      ice     |     9.85     |    26.75     |    32.73     |     33.90     |
+|       cs     |              |              |              |               |
+|      thx     |   114.13     |   114.99     |   134.84     |    137.00     |
 
 # 2f) 
 https://docs.google.com/document/d/1R_ex496kSarxw2wwGjKrnNCNYF1gRq-fGot8CG-biXI/edit?usp=sharing
