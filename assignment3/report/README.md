@@ -1,6 +1,7 @@
 # Assignment 3 Report
 Group: 104
 
+#### 1) Cache line utilization
 # 1a)
  
 In this part after copying the triad code changes were made according to the question. Firstly, the variable N was redefined to mean the “number of triad computations done over the arrays” as required by the worksheet itself. Since in the worksheet it is stated that “each array now needs to have N * STRIDE elements” i.e N*STRIDE=datasetSize, N is defined as
@@ -60,7 +61,7 @@ We see from the graphs that the syntax used to assign threads affects performanc
 
 ## 2) Linked list traversal
 
-#### a) 
+# 2a) 
 
 For this task, we implemented two versions to traverse a linked list. In the assignment3_part2_template code, we added the following routines and instructions:
 
@@ -104,7 +105,7 @@ The argument N*sizeof(struct entry) allocates a memory space that will be able t
 
 - With the obtained k, we then proceed to start with the traversal by calling `sum_indexcalc()` and `double sum_indexload()` with the newly computed k's.
 
-#### b) Try to explain the results of your experiments. Especially, what is the influence of the size N, setting of k, and the difference of the two code variants sum_indexcalc() and sum_indexload()?
+# 2b) Try to explain the results of your experiments. Especially, what is the influence of the size N, setting of k, and the difference of the two code variants sum_indexcalc() and sum_indexload()?
 
 Our ratio is defined as **N/K** as mentioned before, and two configurations were used to run the experiments in each of the four architectures:
 
@@ -229,5 +230,71 @@ With this logic, we derived the latency to the local memory of all machines. We 
 
 # 2f) 
 https://docs.google.com/document/d/1R_ex496kSarxw2wwGjKrnNCNYF1gRq-fGot8CG-biXI/edit?usp=sharing
+
+
 # 2g)
+
+Numa node distance: Inside the Advanced Configuration and Power Interface (ACPI) specification you'll find a description of a table called "SLIT"/System Locality (Distance) Information Table. This table is just an array (like d = array[numa_node][numa_node]) that an operating system uses to determine the relative distance between any 2 NUMA nodes; where the values in the array range from 10 to 254 
+(255 is used for "no connection between these NUMA domains"), whereas the value 10 represents how quickly something in a NUMA domain can access something in the same NUMA domain (the fastest case) and the value 254 would be 25.4 times slower.
+
+The distances are hardcoded by the firmware in ACPI SLIT tables and represent relative memory latency (emphasis on relative, as this is not an absolute reference frame) between NUMA nodes -- a distance of "10" means a latency of 1x and a distance of "20" is "2x" more latency than local node access. It’s basically a matrix that Linux reads on boot to build a map of NUMA memory  latencies, and you can view it multiple ways: with numactl, the node/nodeX/distance sysfs file, or by dumping the ACPI tables directly with acpidump.). The actual memory latency between 
+nodes is rarely as bad as the ACPI tables claim, at least from my testing.
+
+Evaluating:
+
+* Rome2
+
+numactl --hardware
+node   0   1   2   3   4   5   6   7 
+  0:  10  12  12  12  32  32  32  32 
+  1:  12  10  12  12  32  32  32  32 
+  2:  12  12  10  12  32  32  32  32 
+  3:  12  12  12  10  32  32  32  32 
+  4:  32  32  32  32  10  12  12  12 
+  5:  32  32  32  32  12  10  12  12 
+  6:  32  32  32  32  12  12  10  12 
+  7:  32  32  32  32  12  12  12  10 
+
+./mlc --latency_matrix (Intel Memory Latency Checker)
+Can't run the command (sudo rights necessary)
+
+* Ice2
+
+numactl --hardware
+node   0   1 
+  0:  10  20 
+  1:  20  10 
+
+./mlc --latency_matrix (Intel Memory Latency Checker) in ns
+                Numa node
+Numa node            0       1
+       0          91.5   142.6
+       1         146.3    87.4
+
+((91.2+87.4)/2)/10 = 8.93
+((142.6+146.3)/2)/8.93 = 16.17 => 1.6 times slower 
+
+* TX2
+
+numactl --hardware
+node   0   1 
+  0:  10  20 
+  1:  20  10 
+
+./mlc --latency_matrix (Intel Memory Latency Checker)
+Can't run the command (error)
+
+* FX
+
+numactl --hardware
+node   0   1   2   3 
+  0:  10  20  30  30 
+  1:  20  10  30  30 
+  2:  30  30  10  20 
+  3:  30  30  20  10 
+
+./mlc --latency_matrix (Intel Memory Latency Checker)
+Can't run the command (error)
+
+
 # 2h)
