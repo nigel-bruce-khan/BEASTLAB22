@@ -288,8 +288,7 @@ numactl --hardware
 | 6  | 32 | 32 | 32 | 32 | 12 | 12 | 10 | 12 |
 | 7  | 32 | 32 | 32 | 32 | 12 | 12 | 12 | 10 |
 
-./mlc --latency_matrix (Intel Memory Latency Checker)
-Can't run the command (sudo rights necessary)
+
 
 * Ice2
 
@@ -300,15 +299,7 @@ numactl --hardware
 | 0  | 10 | 20 | 
 | 1  | 20 | 10 |
 
-./mlc --latency_matrix (Intel Memory Latency Checker) in nanoseconds
 
-|node| 0     | 1     | 
-| -- | --    |--     |
-| 0  | 91.5  | 142.6 | 
-| 1  | 146.3 | 87.4  |
-
-((91.2+87.4)/2)/10 = 8.93 
-((142.6+146.3)/2)/8.93 = 16.17 => 1.6 times slower 
 
 * TX2
 
@@ -318,8 +309,7 @@ numactl --hardware
 | 0  | 10 | 20 | 
 | 1  | 20 | 10 |
 
-./mlc --latency_matrix (Intel Memory Latency Checker)
-Can't run the command (error)
+
 
 * FX
 
@@ -331,8 +321,7 @@ numactl --hardware
 | 2  | 30 | 30 | 10| 20|
 | 3  | 30 | 30 | 20| 10|
 
-./mlc --latency_matrix (Intel Memory Latency Checker)
-Can't run the command (error)
+
 
 
 # 2h)
@@ -385,3 +374,18 @@ The following table shows the results corresponding to latencies obtained for th
 | A64FX | 1x = 10      | 1.026x = 10.26 (20) |1.035x = 10.35 (30)| -                  |
 
 - In every architecture (except Fujitsu), we can see that the measured latency factors increased with the "distance" to the NUMA domain, however the increment was not as elevated as the reference SLIT table presented. 
+
+
+
+#### References
+
+- Linux.die.net. 2022. numactl(8) - Linux man page. [online] Available at: <https://linux.die.net/man/8/numactl> [Accessed 19 May 2022].
+- Terboven, C., 2015. Threading – Parallel Programming and High Performance Computing (HPC). [online] Parallel Programming and High Performance Computing (HPC).  Available at: <https://cterboven.wordpress.com/tag/threading/> [Accessed 19 May 2022].
+- Rabenseifner, Hager and Jost, n.d. OMP_PLACES and Thread Affinity.
+- Jones, M., 2017. C# Decimal vs Double and Other Tips About Number Types. [online] Exception Not Found. Available at: <https://exceptionnotfound.net/decimal-vs-double-and-other-tips-about-number-types-in-net/> [Accessed 19 May 2022].
+- Rusynov, D., 2017. [image] Available at: <https://youtu.be/T4VVC3eeZI0> [Accessed 19 May 2022].
+
+
+
+
+
