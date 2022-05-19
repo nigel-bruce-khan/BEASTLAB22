@@ -219,10 +219,10 @@ With this logic, we derived the latency to the local memory of all machines. We 
 
 | **Machines** | **Latency** |
 |---------     | --------    |
-|    Rome      |    3.63     |
+|    Rome      |   16.57     |
 |   Icelake    |   20.61     |
-|   AMDA64FX   |    7.41     |
-|   ThunderX2  |   24.13     |
+|   AMDA64FX   |    33.9     |
+|   ThunderX2  |  116.34     |
 
 # 2e)
 
