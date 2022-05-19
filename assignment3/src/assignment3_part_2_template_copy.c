@@ -9,8 +9,8 @@
 typedef std::chrono::time_point<std::chrono::high_resolution_clock> TimePoint;
 
 inline double get_duration(TimePoint t0, TimePoint t1) {
-    using dsec = std::chrono::duration<double>;
-    return std::chrono::duration_cast<dsec>(t1 - t0).count();
+    //using dsec = std::chrono::duration<double>;
+    return std::chrono::duration_cast<std::chrono::nanoseconds>(t1 - t0).count();
 }
 
 
@@ -67,9 +67,9 @@ double sum_indexcalc(int64_t N, int64_t k, int REP, double *psum, int64_t* pdumm
         int64_t next = 0;
         for (int64_t i = 0; i < N; ++i) {
             sum += A[next].v;
+            A[next].u = 1;
             dummy |= A[next].next;
             next = (k * (i + 1)) & mask;
-            A[next].u = 1;
         }
     }
     auto t1 = std::chrono::high_resolution_clock::now();
@@ -112,9 +112,9 @@ double sum_indexload(int64_t N, int64_t k, int REP, double *psum, int64_t* pdumm
         int64_t next = 0;
         for (int64_t i = 0; i < N; ++i) {
             sum += A[next].v;
+            A[next].u = 1;
             dummy |= (k * (i + 1)) & mask; //OR operation and assignment
             next = A[next].next; //gets the index of the next element to access from the previously accessed element.
-            A[next].u = 1;
                                 
         }
     }
@@ -188,9 +188,7 @@ int main(int argc, char **argv) {
     double sum_calc=0, sum_load=0;
     int64_t cycles;
     int64_t dummy;
-    //int gr = goldenRatio*10;
-    //double goldenRatio_2 = gr / 10.0; 
-    //printf("double goldenRatio_2 = %f\n", goldenRatio_2);
+   
     
 
     while (N <= maximumDatasetSize) 
