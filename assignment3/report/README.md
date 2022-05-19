@@ -232,7 +232,7 @@ Machine specific cache information is obtained with `lscpu` command. The size of
 | -------      | -------      | --------     | --------     | -------      |
 |     rome     |      32K     |      32K     |     512K     |    16383K    |
 |      ice     |     3.4Mi    |     2.3Mi    |     90Mi     |     108Mi    |
-|       cs     |              |              |              |              |
+|       cs     |     3 Mi     |              |     3Mi      |     32Mi     |
 |      thx     |      32K     |      32K     |     256K     |    32768K    |
 
 The data loaded and stored in our code is 20 byte for one element. Therefore, in the case of Rome machine, up to datasize N = 2048 can be stored in L1 cache and loaded for the next loop, since 20[byte] * 2048 is below 32000[byte] * 2 which is the L1 capacity of Rome. Therefore, the L1 latency of Rome is 2.97 [ns]. In the same way, the cache size works as the threshold of memory type. The threshold of L2 is 512000[byte], that of L3 is 16383000[byte]. Therefore, Rome uses L2 up to N = 16383 and L3 up to N = 4194304. The larger data is stored and loaded from the main memory. Likewise, L1, L2, L3 and memory latency for the other machines are derived from the results.
