@@ -257,8 +257,9 @@ We see that the results are given in terms of cycles. Using the CPU frequency gi
 We use the ‘For Data’ columns for the pictures above and the highest possible cycles shown for each cache. For the L1 cache the value is 11 cycles and for the L2 cache its 56 cycles.
 To get the value in nano-seconds, we would divide the cycles above by the computer frequency. This would give us
 
-11[cycles]/2GHz= 5.5 nano seconds
-56[cycles]/2GHz= 28 nano seconds
+11[cycles]/2GHz= 5.5 nano seconds for L1 cache
+
+56[cycles]/2GHz= 28 nano seconds for L2 cache
 
 These values are relatively close to the values we get from our experiments as can be seen above.
 
