@@ -1,6 +1,7 @@
 # Assignment 3 Report
 Group: 104
 
+#### 1) Cache line utilization
 # 1a)
  
 In this part after copying the triad code changes were made according to the question. Firstly, the variable N was redefined to mean the “number of triad computations done over the arrays” as required by the worksheet itself. Since in the worksheet it is stated that “each array now needs to have N * STRIDE elements” i.e N*STRIDE=datasetSize, N is defined as
@@ -58,15 +59,129 @@ For this task we set the number of threads equal to the cores for each system as
 
 We see from the graphs that the syntax used to assign threads affects performance because we set the number of threads exactly equal to what the function omp_get_max_threads() sets them to. This is probably due to the native compiler optimization differences on all systems. In the comparison graphs we see that the outlier spikes/peaks are still there for all systems. In some cases they are shifted, in some they match almost exactly and in some, and in the case of ice lake the peak for stride=1 even disappears. 
 
-# 2a)
+## 2) Linked list traversal
+
+# 2a) 
+
+For this task, we implemented two versions to traverse a linked list. In the assignment3_part2_template code, we added the following routines and instructions:
+
+- inside the `struct entry`, we added a variable `u` to check that all elements were accessed. After initialize it to zero on the `init` routine, this variable was checked in the function 'verify access'.
+
+- We allocated memory using `malloc` as follows:
+
+`
+    struct entry* A = (struct entry*) malloc(N*sizeof(struct entry));
+`
+The argument N*sizeof(struct entry) allocates a memory space that will be able to contain the N elements of the list, each with a size of `entry`. After allocation we proceed to initialize the list by calling `init`, with parameters N (number of elements in the list), k (will be discussed in the next question) and A, our array of structures/entries. 
+
+- This process takes place inside of two functions: `sum_indexcalc()` and `double sum_indexload()`, where we traverse along the list with indexes being either computed while traversing or loaded.  To guarantee the correctness of both routines, we call the function `verify access`, where we iterate along every item and check whether the variable u has a value equal to one, otherwise our list hasn't been traversed correctly.  
+
+- Next, we call the function `get duration()`, which was modified to output the in nanoseconds using the instruction `duration_cast`. This value reflects the time spent on going through the list of size N,  REP times (REP is the number of repetitions to traverse the entire list). Once the duration in nanoseconds is obtained, we simply divide by the total of elements transversed, which equals N*REPS. Finally we return the average time per element access via the variable `average time`.
+
+- We clean up the data structures by calling `free(A)`.
+
+- Inside `main()` we made a subroutine to test whether the selected K was coprime to N, by iterating along k's that aren't multiple of 2 in ascending order.  We changed k from `int` to `int64` to allow a bigger amount of comparisons against increasing N's. Then, we check if the ceiling of the ratio  Nn / k is close enough to the goldenRatio. Nn is N casted to double to obtain a ratio of datatype `double` (more precision). Next, we take the ceiling of this ratio to get an integer ratio (i. e rounding to next largest integer) and compare if our ratio is within 0,4 from the `const goldenRatio` (i.e, our most distant ratio is approximately 2). 
+  
+        for (k = 3;;k++)
+
+          {   Nn = (double)N;
+              double error = abs(goldenRatio - ceil(Nn/k));
+
+              if ((k % 2 != 0) && error < 0.4)
+              {
+                  //printf("chosen k = %ld with N/K =%f\n", k, Nn/k);
+
+                  break;
+              }
+              if (k > 10000000000000)
+              {
+                  printf("k was not found");
+                  exit(1);
+              }
+
+        }
+   
+  
+
+- With the obtained k, we then proceed to start with the traversal by calling `sum_indexcalc()` and `double sum_indexload()` with the newly computed k's.
+
+# 2b) Try to explain the results of your experiments. Especially, what is the influence of the size N, setting of k, and the difference of the two code variants sum_indexcalc() and sum_indexload()?
+
+Our ratio is defined as **N/K** as mentioned before, and two configurations were used to run the experiments in each of the four architectures:
+
+- `OMP_PLACES=1 OMP_PLACES=threads OMP_PROC_BIND=true` : pins one thread to a fixed *logical* core.
+- `OMP_PLACES=1 OMP_PLACES=cores OMP_PROC_BIND=true` : pins one thread to a fixed *physical* core. 
+
+We added two instructions to print the location of our thread.
+
+    int my_place = omp_get_place_num();
+    int place_num_procs = omp_get_place_num_procs(my_place);
+    printf("Place consists of %d processors and thread is at place= %d \n ", place_num_procs, my_place);
 
 
-# 2b)
+For example, running the code in the Rome machine (2 threads per core) with **places=threads** gives:
+ 
+![threads](omp_places_threads.png))
 
+Whereas with **places=cores** (OS counts both logical and physical cores):
+
+![cores](omp_places_cores.png)
+
+
+
+### - **Thread pinned to logical core**
+
+AF64FX        | ROME2
+:-------------------------:|:-------------------------:
+![threadsA](threadA64FX.png)  |  ![threadsR](threadRome2.png)
+
+Icelake       | Thunder
+:-------------------------:|:-------------------------:
+![threadsI](threadIcelake.png)  |  ![threadsT](threadThunder.png)
+
+
+
+We can observe that for both k's (1 and gold, marked in red and green), the loading routine exhibits higher latency values in all the machines. This is easy to distinguish at the AF64FX machine, where the plot shows two pairs of equidistant lines, and the two upper correspond to indexload. Even so, with this setup we notice a lot of fluctuations in Rome, Thunder and Icelake. For the first two, increasing the number of list elements increases the latency (can also be observed in AF64FX, where there is a slightly pronounced slope at N= 2^19). But with Thunder, we see a decrease followed by a rapid augment between N=2^25 and N=2^30)
+
+### - **Thread pinned to physical core**
+
+AF64FX        | ROME2
+:-------------------------:|:-------------------------:
+![coresA](coreAMDA64FX.png)  |  ![coresR](coreRome.png)
+
+Icelake       | Thunder
+:-------------------------:|:-------------------------:
+![coresI](CoreIcelake.png)  |  ![coresT](coreThunder.png)
+
+
+With this configuration it was easier to distinguish how loading indexes whilst traversing is associated with increasing latency. Also, as the size increases, we expect higher latency values, since the "distances" between elements arises when we add more of them to the list.
+
+For Icelake, we observe similar tendencies than those resulting from working with logical cores. In Rome, the pattern change. Aside from reduced latency values compared to threads, now the positive correlation between N and latency can also be distinguished with more clarity. For Thunder we still have oscillations but index_load keeps exceeding indexcalc in terms of latency. It is also worth pointing out that for this machine we saw a decrease of 10 times in the latency, compared to running this routine with logical cores. For AMDA64FX there were no changes, since there is only one thread pinned to each core (our hypothesis is that due to the fact that there is only one thread per core in this architecture, there is no distinction between logical and physical core when calling OMP_PLACES).
+
+As mentioned in the worksheet, we traverse along the same pattern for both routines. However, for `index_calc()`, we calculate the indexes during traversal from i, meaning **next** is computed during each i iteration.
+
+    next = (k * (i + 1)) & mask;
+
+Here, we are traversing the list in a similar manner to accessing an array, since we are only calculating the index and going to this specific location in memory. No memory access is required for obtaining **next**. 
+
+On the other hand, `index_load()`, retrieves the index of the next element to access from the previously accessed element. 
+
+    next = A[next].next;
+
+This implies a memory read operation, since we need to access such element and its attribute *next* to determine the next item, which can increase the running time due to memory constraints such as cache misses, N too big to fit on the cache, incurring in fetching from main memory, amongst others. Thus, it is expected that calls to this function will take longer execution times compared to `index_calc()`. 
+
+N and K also contribute to the latency. As stated above, bigger N may not fit in the cache and fetching from memory takes longer compared to cache. Also, the more elements we have, the longer it takes to traverse the entire list. The pseudo random effect can also dictate sequences where neighboring elements in memory are largely distant from each other in the ordering. This "order" is dictamined by k * i mod N, where N/k are close to the golden ratio (1,6180 with four digit precision). 
+
+By making k and N coprimes, we guarantee to have N different **next** values. Furthermore, k it has a direct impact on defining the sequency order for accessing elements. Choosing a wrong k will lead to an incomplete traversal of the list. We did a small run with N=128 to see what the effect of k was by selecting 3 different k's based on the  (N/golden) ratio: one distant from it (75) ,one with the ceiling (80) and another with the floor (79), all three are coprime with N. We counted the longest sequence without repetition of numbers, since a call to the element who has its next atribute assigned to 0 will cause a cycle, traversing only in a subset of elements from the entire list. 
+
+
+![k_effect](k_effect.png)
+
+With k = 75, after 64 iterations we head back to the element with index *next = 0*.This is not the case for k = 79 and 81, who complete 128 iterations without repetitions (i.e, traversal along the whole list). We can also see a cluster on K=75 (blue), so neighboring items are being accessed sequentially. Further improvement in our k routine is necessary, since we believe that this aspect is affecting our outcomes. Nonetheless, we proceed our analysis based on the results obtained for this task. 
 
 # 2c)
 
-The utilized memory bandwidth is calculated with the furmula below.
+The utilized memory bandwidth is calculated with the formula below.
 
 #### Bandwidth[Gbyte/s] = sizeof(struct)[byte] / duration[ns] 
 
@@ -131,5 +246,76 @@ Machine specific cache information is obtained with `lscpu` command. The size of
 
 # 2f) 
 https://docs.google.com/document/d/1R_ex496kSarxw2wwGjKrnNCNYF1gRq-fGot8CG-biXI/edit?usp=sharing
+
+
 # 2g)
+
+Numa node distance: Inside the Advanced Configuration and Power Interface (ACPI) specification one can find a description of a table called "SLIT"/System Locality (Distance) Information Table. This table is just an array (like d = array[numa_node][numa_node]) that an operating system uses to determine the relative distance between any 2 NUMA nodes. The entry value is a one-byte unsigned integer (ranges from 0-255). The relative distance from System Locality i to System Locality j is the i*N + j entry in the matrix, where N is the number of System Localities. Except for the relative distance from a System Locality to itself, each relative distance is stored twice in the matrix. This provides the capability to describe the scenario where the relative distances for the two directions between System Localities is different (see references). Values in the array range from 10 to 254 (255 is used for "no connection between these NUMA domains"), whereas the value 10 (diagonal) represents how quickly something in a NUMA domain can access something within the same NUMA domain, i.e the relative distances from a System Locality to itself are normalized to a value of 10 (the fastest case) and the value 254 would be 25.4 times slower. Distance values of 0-9 are reserved and have no meaning.
+
+The distances are hardcoded by the firmware in ACPI SLIT tables and represent relative memory latency (emphasis on relative, as this is not an absolute reference frame) between NUMA nodes -- a distance of "10" means latency factor of 1x and a distance of "20" is "2x" more latency than local node access. It’s basically a matrix that Linux reads on boot to build a map of NUMA memory  latencies, and it can visualized in multiple ways: with numactl, the node/nodeX/distance sysfs file, or by dumping the ACPI tables directly with acpidump. The diagonal values from each table (10) correspond to the measurements from task d, where we estimated the memory latency within a NUMA domain.  
+
+Evaluating:
+
+* Rome2
+
+numactl --hardware
+
+|node| 0  | 1  | 2  | 3  | 4  | 5  | 6  | 7  | 
+| -- | -- |--  |--  |--  |--  |--- |--- |--  |
+| 0  | 10 | 12 | 12 | 12 | 32 | 32 | 32 | 32 |
+| 1  | 12 | 10 | 12 | 12 | 32 | 32 | 32 | 32 |
+| 2  | 12 | 12 | 10 | 12 | 32 | 32 | 32 | 32 |
+| 3  | 12 | 12 | 12 | 10 | 32 | 32 | 32 | 32 |
+| 4  | 32 | 32 | 32 | 32 | 10 | 12 | 12 | 12 |
+| 5  | 32 | 32 | 32 | 32 | 12 | 10 | 12 | 12 |
+| 6  | 32 | 32 | 32 | 32 | 12 | 12 | 10 | 12 |
+| 7  | 32 | 32 | 32 | 32 | 12 | 12 | 12 | 10 |
+
+./mlc --latency_matrix (Intel Memory Latency Checker)
+Can't run the command (sudo rights necessary)
+
+* Ice2
+
+numactl --hardware
+
+|node| 0  | 1  | 
+| -- | -- |--  |
+| 0  | 10 | 20 | 
+| 1  | 20 | 10 |
+
+./mlc --latency_matrix (Intel Memory Latency Checker) in nanoseconds
+
+|node| 0     | 1     | 
+| -- | --    |--     |
+| 0  | 91.5  | 142.6 | 
+| 1  | 146.3 | 87.4  |
+
+((91.2+87.4)/2)/10 = 8.93 
+((142.6+146.3)/2)/8.93 = 16.17 => 1.6 times slower 
+
+* TX2
+
+numactl --hardware
+|node| 0  | 1  | 
+| -- | -- |--  |
+| 0  | 10 | 20 | 
+| 1  | 20 | 10 |
+
+./mlc --latency_matrix (Intel Memory Latency Checker)
+Can't run the command (error)
+
+* FX
+
+numactl --hardware
+|node| 0  | 1  | 2 | 3 |
+| -- | -- |--  | --| --|
+| 0  | 10 | 20 | 30| 30|
+| 1  | 20 | 10 | 30| 30|
+| 2  | 30 | 30 | 10| 20|
+| 3  | 30 | 30 | 20| 10|
+
+./mlc --latency_matrix (Intel Memory Latency Checker)
+Can't run the command (error)
+
+
 # 2h)
