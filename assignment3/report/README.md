@@ -336,3 +336,33 @@ Can't run the command (error)
 
 
 # 2h)
+We retrieve the memory information for each NUMA domain with the instruction `cat /sys/devices/system/node/node*/meminfo`. The results are listed below. For the N values we selected a list length such that it can't fit in the L3 cache (each entry is 20 bytes and the calculation follows the same procedure as in question 2e). 
+
+Rome:
+- 8 NUMA domains
+- 65.853836 GB NUMA domain 0; 66.053044 GB NUMA domains 1, 2, 5, 6; 66.040756 GB NUMA domain 3; 66.022944 GB NUMA domain 4; 66.050404 GB NUMA domain 7.
+- SLIT distances: 10, 12, 32 for 0-0, 0-1/2/3 and 0-4/5/6/7 node distances respectively.
+- N = 2^23
+
+Icelake: 
+- 2 NUMA domains
+- 263.727796 GB NUMA domain 0, 263.926236 GB NUMA domain 1.
+- SLIT distances: 10, 20 for 0-0 and 0-1 node distances respectively.
+- N = 2^24
+
+ThunderX2:
+- 2 NUMA domains
+- 267.427648 GB NUMA domain 0, 268.023104 GB NUMA domain 1.
+- SLIT distances: 10, 20 for 0-0 and 0-1 node distances respectively.
+- N = 2^22
+
+Fujitsu A64FX
+- 4 NUMA domains
+- 7.955008 GB NUMA domain 0, 8.372672 GB NUMA domains 1,2; 8.35168 GB NUMA domain 3.
+- SLIT distances: 10, 20, 30 for 0-0, 0-1 and 0-2/3 node distances respectively.
+- N = 2^22
+
+We used the following commands to run our experiments:
+
+- numactl --cpubind=0 --membind=0 /--membind=1 / => Run process on node 0 with memory allocated on node 0 / 1.
+
