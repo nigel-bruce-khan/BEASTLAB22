@@ -177,7 +177,7 @@ By making k and N coprimes, we guarantee to have N different **next** values. Fu
 
 ![k_effect](k_effect.png)
 
-With k = 75, after 64 iterations we head back to the element with index *next = 0*.This is not the case for k = 79 and 81, who complete 128 iterations without repetitions (i.e, traversal along the whole list). We can also see a cluster on K=75 (blue), so neighboring items are being accessed sequentially. Further improvement in our k routine is necessary, since we believe that this aspect is affecting our outcomes. Nonetheless, we proceed our analysis based on the results obtained for this task. 
+With k = 75, after 64 iterations we head back to the element with index *next = 0*.This is not the case for k = 79 and 81, who complete 128 iterations without repetitions (i.e, traversal along the whole list). We can also see a cluster on K=75 (blue), so neighboring items are being accessed one after another. Further improvement in our k routine is necessary, since we believe that this aspect is affecting our outcomes. Nonetheless, we proceed our analysis based on the results obtained for this task. 
 
 # 2c)
 
@@ -374,7 +374,6 @@ The following table shows the results corresponding to latencies obtained for th
 | A64FX | 1x = 10      | 1.026x = 10.26 (20) |1.035x = 10.35 (30)| -                  |
 
 - In every architecture (except Fujitsu), we can see that the measured latency factors increased with the "distance" to the NUMA domain, however the increment was not as elevated as the reference SLIT table presented. 
-
 
 
 #### References
