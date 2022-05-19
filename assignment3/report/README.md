@@ -172,7 +172,7 @@ This implies a memory read operation, since we need to access such element and i
 
 N and K also contribute to the latency. As stated above, bigger N may not fit in the cache and fetching from memory takes longer compared to cache. Also, the more elements we have, the longer it takes to traverse the entire list. The pseudo random effect can also dictate sequences where neighboring elements in memory are largely distant from each other in the ordering. This "order" is dictamined by k * i mod N, where N/k are close to the golden ratio (1,6180 with four digit precision). 
 
-By making k and N coprimes, we guarantee to have N different **next** values. Furthermore, k it has a direct impact on defining the sequency order for accessing elements. Choosing a wrong k will lead to an incomplete traversal of the list. We did a small run with N=128 to see what the effect of k was by selecting 3 different k's based on the  (N/golden) ratio: one distant from it (75) ,one with the ceiling (80) and another with the floor (79), all three are coprime with N. We counted the longest sequence without repetition of numbers, since a call to the element who has its next atribute assigned to 0 will cause a cycle, traversing only in a subset of elements from the entire list. 
+By making k and N coprimes, we guarantee to have N different **next** values. Furthermore, k has a direct impact on defining the sequence order for accessing elements. Choosing a wrong k will lead to an incomplete traversal of the list. We did a small run with N=128 to see what the effect of k was by selecting 3 different k's based on the  (N/golden) ratio: one distant from it (75) ,one with the ceiling (80) and another with the floor (79), all three are coprime with N. We counted the longest sequence without repetition of numbers, since a call to the element who has its next attribute assigned to 0 will cause a cycle, traversing only on a subset of elements from the entire list. 
 
 
 ![k_effect](k_effect.png)
@@ -187,7 +187,7 @@ The utilized memory bandwidth is calculated with the formula below.
 
 where, size of struct entry is 20 byte (double, int64_t, int) and the duration is the time spent to access the memory, which is calculated in each sum_indexcalc and sum_indexload functions in the code. 
 
-We assume that for random access traversal with a large enough N, the first access into a list element should be a cache miss. For large enough N, it is supposed that for every memory access, it access memory that locates away from the last accessed location. Therefore, all caches are missed in this case. Indeed, as shown in the figures below, for small N cases, we observe that there are jumping up of memory bandwidth. These behaviour occured because the random accesses sometimes hit a location which is next to or near the last access location, and caches which stored at the last access are utilized. The smaller data size has the higher chance of utilizing the cache. From the observation of results, we can define the large enough N as N greater than 10E+21, since the bandwidth are stable and stay around the same value after N=10E+21 for all the machines. 
+We assume that for random access traversal with a large enough N, the first access into a list element should be a cache miss. For large enough N, it is supposed that for every memory access, it access memory that locates away from the last accessed location. Therefore, all caches are missed in this case. Indeed, as shown in the figures below, for small N cases, we observe that there are jumping up of memory bandwidth. These behaviours occurred because the random accesses sometimes hit a location which is next to or near the last access location, and caches which stored at the last access are utilized. The smaller data size has the higher chance of utilizing the cache. From the observation of results, we can define the large enough N as N greater than 10E+21, since the bandwidth are stable and stay around the same value after N=10E+21 for all the machines. 
 
 The results below are from experiments performed on the logical cores.
 
@@ -245,7 +245,23 @@ The data loaded and stored in our code is 20 byte for one element. Therefore, in
 |      thx     |   114.13     |   114.99     |   134.84     |    137.00     |
 
 # 2f) 
-https://docs.google.com/document/d/1R_ex496kSarxw2wwGjKrnNCNYF1gRq-fGot8CG-biXI/edit?usp=sharing
+The results for memory access to the L1/L2 caches and main memory are shown below for a CPU of 2GHz (cycles/second). 
+![l12f](l12f.png)
+
+![l22f](l22f.png)
+
+![mem2f](mem2f.png)
+
+We see that the results are given in terms of cycles. Using the CPU frequency given and the latency in terms of cycles, we can calculate the latency in terms of nano-seconds to compare to our results for the A64FX system.
+
+We use the ‘For Data’ columns for the pictures above and the highest possible cycles shown for each cache. For the L1 cache the value is 11 cycles and for the L2 cache its 56 cycles.
+To get the value in nano-seconds, we would divide the cycles above by the computer frequency. This would give us
+
+11[cycles]/2GHz= 5.5 nano seconds
+56[cycles]/2GHz= 28 nano seconds
+
+These values are relatively close to the values we get from our experiments as can be seen above.
+
 
 
 # 2g)
