@@ -5,42 +5,10 @@
 # After editing any gitlab-ci.yml files, re-run the aggregator from the repository
 # root directory (util/generate_gitlab_ci.py). Alternatively, ensure that the git pre-commit hooks are
 # active so that the file is regenerated automatically.
-
-Assignment3-Q1:
+Assignment4:
   stage: test
   script:
-    - cd assignment3/src/
-    - srun make -B vector
-    - srun bash ./test_script.sh part1
-    - python3 ./util/generate_chart_part1.py --performance-data perf_data1.txt --reference-data ./util/reference_output_parallel_1.txt --output-file perf_data1.svg
-    - python3 ./util/generate_chart_part1.py --performance-data perf_data1.txt --reference-data ./util/reference_output_parallel_1.txt --output-file perf_data1.pdf
+    - 'echo -e "This assignment no longer makes use of CI. This CI script is a placeholder and does nothing useful."'
+  when: manual
 
-  artifacts:
-    paths:
-    - assignment3/src/perf_data1.svg
-    - assignment3/src/perf_data1.pdf
-    - assignment3/src/perf_data1.txt
-    expire_in: 6 months
-    when: always
-  only:
-    - main
-
-Assignment3-Q2:
-  stage: test
-  script:
-    - cd assignment3/src/
-    - srun make -B list
-    - srun bash ./test_script.sh part2
-    - python3 ./util/generate_chart_part2.py --performance-data perf_data2.txt --reference-data ./util/reference_output_parallel_2.txt --output-file perf_data2.svg
-    - python3 ./util/generate_chart_part2.py --performance-data perf_data2.txt --reference-data ./util/reference_output_parallel_2.txt --output-file perf_data2.pdf
-  artifacts:
-    paths:
-      - assignment3/src/perf_data2.svg
-      - assignment3/src/perf_data2.pdf
-      - assignment3/src/perf_data2.txt
-    expire_in: 6 months
-    when: always
-  only:
-    - main
-  
 
