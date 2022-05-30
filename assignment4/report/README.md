@@ -25,5 +25,12 @@ Group: 104
 We added the `distribute` construct in the  `pragma omp parallel for`, resulting in a composite accelerated worksharing construct. It distributes the iterations of the loop across two levels of parallelism. The first level is originated by the `target teams` construct, creating a league with 15 teams. Each initial thread in the league that encounters this last construct becomes the master thread of a team. The iterations of the i for loop are first distributed to the master threads. The subset of loop iterations assigned to the master threads are then again distributed to the threads in the team. In summary, we first create multiple thread teams executing in parallel, then we distribute the loop iterations to the teams and then to the threads in each team. 
 
 
-**3)** In this task we decided to measure the execution time of the whole triad routine to use it as a criteria for performance. For this, the changes can be found on the code ![assignment4_part_i_task1_3.cpp](). 
+**3)** In this task we decided to measure the execution time of the whole triad routine to use it as a criteria for performance. For this, the changes can be found on the code ![assignment4_part_i_task1_3.cpp](). The table below depicts the changes mades for the two variants specified on the worksheet. Left side displays the variant 1, with initialized vectors in CPU and then offloaded to GPU, whereas the right column shows allocation and initialization directly in the GPU. 
+
+| Variant 1                 |         Variant 2         |
+| ------                    |                    ------ |
+| ![variant1](variant1.png) | ![variant2](variant2.png) |
+
+Using `target enter data/exit` constructs allows us to map variables in an unstructured way. These are standalone constructs that are not associated with a statement or structured block of code. When a host thread encounters the `target enter data` construct, a **map-enter** phase occurs for variables that appear in **map** clauses on the construct. We used the clause alloc to create storage in the GPU for each of the vectors without initializing them. Then we proceed with their initialization in another target region, however the data remains in the device environment. Similarly, a **map-exit** phase occurs for variables in map clauses on the `target exit data`` construct when it is encountered. 
+
 
