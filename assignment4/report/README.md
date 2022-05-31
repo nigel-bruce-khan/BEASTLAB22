@@ -47,4 +47,39 @@ In **variant 1** we initialize the arrays in the CPU and then we map to the GPU 
 Considering both nodes and taking the MFLOPS as the indicator for performance, we found two trends: for small to medium sizes, the CPU variant performs better than the GPU variant, but starting at 2^21, the GPU slightly outperforms the CPU variant. However, we need to consider that the performance obtained here was based on the mflops, which only considers the floating point operations and the execution time **after** the arrays have been initialized, and since for both variants the routine is executed on the same device, we cannot clearly infer that one variant is better than the other. Therefore, we complemented our inspection with our time analysis and there we found stronger differences. On both nodes, longer execution times were seen in the second variant, for all data sizes. For the first variant, the order was _initialize -> transfer data -> perform work_ ,whereas for the second, it was _allocate -> initialize data -> perform work_. One possible explanation for the increase in times is that the initialization of the arrays as a **sequential** routine is computationally more expensive than copying the initialized array. Although the memory bandwidth is higher in the GPU than in the CPU, the caches are considerable smaller, so one could attribute that many accesses to the memory in GPU will eventually cost more as size keeps increasing. 
 
 
-**4)** We experimented with two loop scheduling policies, the first one was with **static, 1** to enable memory coalescing, and the second one without any schedule. By default, when OpenMP, executing with T threads, encounters a parallel loop of N iterations, it assigns the first N/T iterations to thread 0, the second chunk of N/T iterations to thread 1 and so on.
+**4)** We experimented with four loop scheduling policies:
+- #pragma omp distribute parallel for schedule**(static, 1)**,  to enable memory coalescing
+- #pragma omp distribute parallel for schedule**(static)** 
+- #pragma omp parallel for 
+- #pragma omp distribute parallel for.
+
+By default, when OpenMP, executing with T threads, encounters a parallel loop of N iterations, it assigns the first N/T iterations to thread 0, the second chunk of N/T iterations to thread 1 and so on. In our case, 15 threads encounter this parallel region, so chunks are of size datasetSize / 15. 
+
+
+
+
+
+
+#### Part II: Matrix Multiplication
+
+#### Part 2: Matrix Multiplication
+
+**1)** In line 33, it allocates array a, b and c of size ´data_size´ on gpu memory with ´omp target enter data´ clause, which only pass the data without any code. In line 35-37, it assignes number of teams and number of threads to be used for the following for loop. ´omp teams num_teams´ decides the total number of teams. ´omp parallel for´ in line 37 initiate parallelization. ´distribute´ clause let gpu distributes workload to the teams. Hence, the following for loop which initialize array a, b, c are parallelized on gpu. Now all arrays necessary for the matrix multiplication is already offloaded, therefore, in mm_kernel function, it calls target device and executes parallerized matrix multiplication. After the computation is done, it receives array a which contains the result of matrix multiplication from gpu with ´omp target exit data´ clause in line 60. Because only array a is necessary, it uses ´map(from: a[0:data_size])´ for array a, and release the other dynamically allocated arrays with ´map(release: b[0:data_size], c[0:data_size])´.
+
+**2)**
+We test the following tasks with two variants. The two variants have different matrix layouts, row-major and column-major. Since the matrix used in the code is an array which contains ´N * N´ data where N is the length of the matrix, we access each element either by ´N * row + column´ or ´N * column + row´. 
+
+**variant 1**
+In variant 1, both multiplicand B and multiplier C are in row-major layout, which means both matrix access the element by ´N * row + column´. This is the same access method as the original code.
+![part2_variant1](part2_variant1.png)
+
+**variant 2**
+In variant 2, the multiplicand B is row-major layout, and the multiplier C is column-major layout. Therefore, we modified the index calculation method of C in initialization and matrix multiplication. The elements in C matrix are accessed by ´c[column * N + row]´ while B is accessed by ´b[row * N + column]´ in the initialization. Furthermore, the index of C matrix in the matrix multiplication is changed from ´c[TWO_D_ACCESS(j, k, N)]´ to ´c[TWO_D_ACCESS(k, j, N)]´. 
+![part2_variant2](part2_variant2.png)
+
+**(a)** cache blocking is applied to the matrix multiplication loops. Similar to the assignment 2, we defined ´TILE_SIZE´ and experimented with different size of tiles. The first three loops in matrix multiplication traverse over the tiles. Therefore, in each looo iteration, it add TILE_SIZE to the index to move to the next tile. The inner three loops traverse within tiles. Therefore, the index goes from 0 to TILE_SIZE in each iteration. Accordingly, the indeces of array a, b, c are modified. The image below is the code of variant 1 with cache blocking.
+![cache_blocking](cache_blocking.png)
+
+As seen in the figures below, significant differences are observed in the computations with large matrices. On Rome, variant 1 has a peak performance around the matrix size 750 to 1750, depending on the tile size. The performance decrease for the larger data size. However, the performance of the variant 2 reaches nearly the same performance with the variant 1 or even higher, and it keeps the performance level even for the larger matrix sizes. This is because for the small data size region, it is computer bound. therefore, both variants have the same performances. As the data size gets bigger, variant 1 misses cache because of its element access order. Hence, the performance of variant 1 decreased. Indeed the element accessing order of variant 2 is the best out of all the orders, and hence, it achieved better performance in memory bound region than variant 1. On Thunder, similar trend is observed for tile size = 5. However, the variant 1 is in fact better for tile size = 25. This is due to the cache size of Thunder. cache cannot store the large data size, so that it is missed in both variants, and resulted in low performance.
+![part2_2a_rome](part2_2a_rome.png)
+![part2_2a_thx](part2_2a_thx.png)
