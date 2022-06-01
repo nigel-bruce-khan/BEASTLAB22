@@ -47,14 +47,23 @@ In **variant 1** we initialize the arrays in the CPU and then we map to the GPU 
 Considering both nodes and taking the MFLOPS as the indicator for performance, we found two trends: for small to medium sizes, the CPU variant performs better than the GPU variant, but starting at 2^21, the GPU slightly outperforms the CPU variant. However, we need to consider that the performance obtained here was based on the mflops, which only considers the floating point operations and the execution time **after** the arrays have been initialized, and since for both variants the routine is executed on the same device, we cannot clearly infer that one variant is better than the other. Therefore, we complemented our inspection with our time analysis and there we found stronger differences. On both nodes, longer execution times were seen in the second variant, for all data sizes. For the first variant, the order was _initialize -> transfer data -> perform work_ ,whereas for the second, it was _allocate -> initialize data -> perform work_. One possible explanation for the increase in times is that the initialization of the arrays as a **sequential** routine is computationally more expensive than copying the initialized array. Although the memory bandwidth is higher in the GPU than in the CPU, the caches are considerable smaller, so one could attribute that many accesses to the memory in GPU will eventually cost more as size keeps increasing. 
 
 
-**4)** We experimented with four loop scheduling policies:
-- #pragma omp distribute parallel for schedule**(static, 1)**,  to enable memory coalescing
-- #pragma omp distribute parallel for schedule**(static)** 
-- #pragma omp parallel for 
+**4)** We experimented with four loop scheduling policies (see assignment4_part_i_task1_4.cpp):
+- #pragma omp distribute parallel for schedule **(static, 1)**, to enable memory coalescing
+- #pragma omp distribute parallel for schedule **(static, 64)**
+- #pragma omp parallel for (static,1)
 - #pragma omp distribute parallel for.
 
-By default, when OpenMP, executing with T threads, encounters a parallel loop of N iterations, it assigns the first N/T iterations to thread 0, the second chunk of N/T iterations to thread 1 and so on. In our case, 15 threads encounter this parallel region, so chunks are of size datasetSize / 15. 
+The results for rome and thunder are shown below. Only for this task we decided to display the graphs using an irregular x-axis containing all data size values, to observe with more detail what happens with each size increment.
 
+
+| Thunder                          |   Rome                         |               
+| ------                           |  ------------                  |                  
+| ![thunder1_4](thunder1_4.png)    | ![rome1_4](rome1_4.png)        | 
+
+
+Looking at the OpenMP documentation, by default, when OpenMP, executing with T threads, encounters a parallel loop of N iterations, it assigns the first ceiling(N/T) iterations to thread 0, the second chunk of N/T iterations to thread 1 and so on. In our case, 15 threads (the master of each team) encounter this parallel region, so chunks are of size ceiling(datasetSize / 15). At most **one chunk** is assigned to each team. Moreover, the `omp distribute parallel for` directive executes the loop using multiple teams where the loop iterations are distributed across the teams in chunks in round robin fashion. Each chunk forms a parallel loop, and the parallel loop is distributed across the threads that participate in the team region according to the clauses that apply to the omp parallel for directive, which, again, is static when no scheduler is specified. However, unlike the first variant, for this 5th case the chunk sizes are rather big, and considering that each team is integrated by a relatively small number of threads (32), we reduce the overhead of calling the threads several times one after  another albeit at the cost of not exploiting the memory layout. 
+
+For Thunder, the 
 
 
 
@@ -71,6 +80,7 @@ We test the following tasks with two variants. The two variants have different m
 
 **variant 1**
 In variant 1, both multiplicand B and multiplier C are in row-major layout, which means both matrix access the element by ´N * row + column´. This is the same access method as the original code.
+
 ![part2_variant1](part2_variant1.png)
 
 **variant 2**
@@ -78,8 +88,10 @@ In variant 2, the multiplicand B is row-major layout, and the multiplier C is co
 ![part2_variant2](part2_variant2.png)
 
 **(a)** cache blocking is applied to the matrix multiplication loops. Similar to the assignment 2, we defined ´TILE_SIZE´ and experimented with different size of tiles. The first three loops in matrix multiplication traverse over the tiles. Therefore, in each looo iteration, it add TILE_SIZE to the index to move to the next tile. The inner three loops traverse within tiles. Therefore, the index goes from 0 to TILE_SIZE in each iteration. Accordingly, the indeces of array a, b, c are modified. The image below is the code of variant 1 with cache blocking.
+
 ![cache_blocking](cache_blocking.png)
 
 As seen in the figures below, significant differences are observed in the computations with large matrices. On Rome, variant 1 has a peak performance around the matrix size 750 to 1750, depending on the tile size. The performance decrease for the larger data size. However, the performance of the variant 2 reaches nearly the same performance with the variant 1 or even higher, and it keeps the performance level even for the larger matrix sizes. This is because for the small data size region, it is computer bound. therefore, both variants have the same performances. As the data size gets bigger, variant 1 misses cache because of its element access order. Hence, the performance of variant 1 decreased. Indeed the element accessing order of variant 2 is the best out of all the orders, and hence, it achieved better performance in memory bound region than variant 1. On Thunder, similar trend is observed for tile size = 5. However, the variant 1 is in fact better for tile size = 25. This is due to the cache size of Thunder. cache cannot store the large data size, so that it is missed in both variants, and resulted in low performance.
+
 ![part2_2a_rome](part2_2a_rome.png)
 ![part2_2a_thx](part2_2a_thx.png)
