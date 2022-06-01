@@ -25,7 +25,11 @@ Group: 104
 We added the `distribute` construct in the  `pragma omp parallel for`, resulting in a composite accelerated worksharing construct. It distributes the iterations of the loop across two levels of parallelism. The first level is originated by the `target teams` construct, creating a league with 15 teams. Each initial thread in the league that encounters this last construct becomes the master thread of a team. The iterations of the i for loop are first distributed to the master threads. The subset of loop iterations assigned to the master threads are then again distributed to the threads in the team. In summary, we first create multiple thread teams executing in parallel, then we distribute the loop iterations to the teams and then to the threads in each team. 
 
 
-**3)** In this task we decided to measure the execution time of the whole triad routine (i.e starting from initialization of the arrays) to use it as an criteria for performance, as well as the MFLOPS obtained from the sole computation of A. For this, the changes can be found on the code ![assignment4_part_i_task1_3.cpp](). The table below depicts the changes mades for the two variants specified on the worksheet. Upper side displays the variant 1, with initialized vectors in CPU and then offloaded to GPU, whereas the lower column shows allocation and initialization directly in the GPU. 
+**3)** In this task we decided to measure the execution time of the whole triad routine (i.e starting from initialization of the arrays) to use it as an criteria for performance, as well as the MFLOPS obtained from the sole computation of A. For this, the changes can be found on the code
+ 
+![assignment4_part_i_task1_3.cpp](). 
+
+The table below depicts the changes mades for the two variants specified on the worksheet. Upper side displays the variant 1, with initialized vectors in CPU and then offloaded to GPU, whereas the lower column shows allocation and initialization directly in the GPU. 
 
 | Variant 1                 |                 
 | ------                    |                    
@@ -47,13 +51,13 @@ In **variant 1** we initialize the arrays in the CPU and then we map to the GPU 
 Considering both nodes and taking the MFLOPS as the indicator for performance, we found two trends: for small to medium sizes, the CPU variant performs better than the GPU variant, but starting at 2^21, the GPU slightly outperforms the CPU variant. However, we need to consider that the performance obtained here was based on the mflops, which only considers the floating point operations and the execution time **after** the arrays have been initialized, and since for both variants the routine is executed on the same device, we cannot clearly infer that one variant is better than the other. Therefore, we complemented our inspection with our time analysis and there we found stronger differences. On both nodes, longer execution times were seen in the second variant, for all data sizes. For the first variant, the order was _initialize -> transfer data -> perform work_ ,whereas for the second, it was _allocate -> initialize data -> perform work_. One possible explanation for the increase in times is that the initialization of the arrays as a **sequential** routine is computationally more expensive than copying the initialized array. Although the memory bandwidth is higher in the GPU than in the CPU, the caches are considerable smaller, so one could attribute that many accesses to the memory in GPU will eventually cost more as size keeps increasing. 
 
 
-**4)** We experimented with four loop scheduling policies (see assignment4_part_i_task1_4.cpp):
+**4)** We experimented with many loop scheduling policies (see assignment4_part_i_task1_4.cpp) including:
 - #pragma omp distribute parallel for schedule **(static, 1)**, to enable memory coalescing
 - #pragma omp distribute parallel for schedule **(static, 64)**
 - #pragma omp parallel for (static,1)
-- #pragma omp distribute parallel for.
+- #pragma omp distribute parallel for
 
-The results for rome and thunder are shown below. Only for this task and 1.5a we decided to display the graphs using an irregular x-axis containing all data size values, to observe with more detail what happens with each size increment.
+Only the relevant results for rome and thunder are shown below. For this task and 1.5a we decided to display the graphs using labels for the x-axis containing all data size values, to observe with more detail what happens with each size increment.
 
 
 | Thunder                          |   Rome                         |               
@@ -61,9 +65,9 @@ The results for rome and thunder are shown below. Only for this task and 1.5a we
 | ![thunder1_4](thunder1_4.png)    | ![rome1_4](rome1_4.png)        | 
 
 
-Looking at the OpenMP documentation, by default, when OpenMP, executing with T threads, encounters a parallel loop of N iterations, it assigns the first ceiling(N/T) iterations to thread 0, the second chunk of N/T iterations to thread 1 and so on. In our case, 15 threads (the master of each team) encounter this parallel region, so chunks are of size ceiling(datasetSize / 15). At most **one chunk** is assigned to each team. Moreover, the `omp distribute parallel for` directive executes the loop using multiple teams where the loop iterations are distributed across the teams in chunks in round robin fashion. Each chunk forms a parallel loop, and the parallel loop is distributed across the threads that participate in the team region according to the clauses that apply to the omp parallel for directive, which, again, is static when no scheduler is specified. However, unlike the first variant, for this 5th case the chunk sizes are rather big, and considering that each team is integrated by a relatively small number of threads (32), we reduce the overhead of calling the threads several times one after  another albeit at the cost of not exploiting the memory layout. 
+Looking at the OpenMP documentation, by default, when OpenMP, executing with T threads, encounters a parallel loop of N iterations, it assigns the first ceiling(N/T) iterations to thread 0, the second chunk of N/T iterations to thread 1 and so on. In our case, 15 threads ( i.e the master thread of each of the 32 teams) encounters this parallel region, so chunks are of size std::ceil(datasetSize / 15). At most **one chunk** is assigned to each team. Moreover, the `omp distribute parallel for` directive executes the loop using multiple teams where the loop iterations are distributed across the teams in chunks in round robin fashion. Each chunk forms a parallel loop, and the parallel loop is distributed across the threads that participate in the team region according to the clauses that apply to the omp parallel for directive, which, again, is static when no scheduler is specified. However, unlike the first variant, for this 5th case the chunk sizes are rather big, and considering that each team is integrated by a relatively small number of threads (32), we reduce the overhead of calling the threads several times one after  another albeit at the cost of not exploiting the memory layout. 
 
-For Thunder, the 
+**With 15 teams and 32 threads per team, for Thunder, the best results are given by (static, 256) and for rome the best results are on (static, 16)** as seen in the graphs above. These results show that for the same number for teams and threads. The optimal chunk sizes varies greatly between the systems. This could be due to how powerful each of the individual gpu cores is and how fast they are able to go through each chunk with such a small number of assigned teams and threads. Given the numbers from the graph, GPUs on Rome seem much more powerful than Thunder's GPUs because they have higher performance. Rome uses small chunk sizes as the optimum here, which could mean that the memory for each gpu processing unit is small, thus each thread needs to have chunks close to each other, otherwise with larger chunks it would probably need to retrieve the data from a memory strucuture that is further away that causes increased memory retrieval time. Thunder on the other hand probably has higher cache type memory per GPU node, thus it can handle larger chunks although the performance of each compute node is lower. 
 
 
 **5)** 
@@ -76,6 +80,31 @@ For Thunder, the
 
 
   b) We set the numTeams to 1 and the number of threads as an argument, where numThreads is [32,64,128,256,512,1024,2048]. Running our experiments with the conditions described above, we observed higher number of MFLOPS for the last three values: 512, 1024 and 2048. Given that the differences amongst them were barely noticeable, we decided to take the MFLOPS average from the 10 largest datasetSizes. This results in **1024** threads per team as the optimal configuration for Rome, whereas for Thunder it is **2048**. 
+
+**6)** 
+
+![Task1.6flop](1.6_MFlop.png)
+
+![Task1.6band](1.6_band.png)
+
+In the graphs above we see the performance of CPU versus GPU for the same triad calculations. The above CPU performance is with 64 threads, and (spread) type binding. The GPU calculations were done using 100 teams with 1024 threads each, with schedule(static, 16). All calculations were done on the Rome2 machine. 
+   
+Here, we notice that the cpu performance is much higher than the GPU on all data-sizes. The first reason for this is the extra time taken to offload the data to the GPU. All the data that has been initialized on the CPU memory has to be moved to the GPU data environment before processing can start. This is a very expensive operation and significantly lowers performance. However, it must be accounted for in the performance graphs since this is a necessary operation every time. Similarly copying data back to the cpu at the end of the calculations is also accounted for which doubles the time taken in just moving memory. This is one of the major reasons why performance on the GPUs is lower.
+
+As we saw in assignment 1, the TRIAD calculation is only memory bound and not compute bound, thus the cpu performance was not a problem for this algorithm anyway. This means that moving to the GPU would not produce better results in terms of performance alone since memory transfer is the bottleneck and not a lack of parallel processing. The only thing the GPU actually added here was data transfer time, which again reduced performance.
+
+Finally, till this question we were not running the 2 GPUs on the system in parallel. This would have theoretically cut the processing time and half and almost doubled performance as you will see in question 1.7. However, again this will not be enough to beat the CPU performance for this calculation.
+
+**7)**
+
+![Task1.7flop](1.7_flop.png)
+
+![Task1.7band](1.7_band.png)
+
+Above you can see the results from multiple gpus on each system with the best configurations for schedules, threads, and teams. Both graphs give almost twice the speedup as compared to a single gpu. Both the machines also showed peak performances at the same data-size i.e 262144. Rome is still faster than Thunder, even when compared at the optimum settings. It could be that the Rome system deals with data offloading from cpu to gpu better than thunder. This can be seen from the data sheets for the Rome GPU (https://www.amd.com/system/files/documents/instinct-mi100-brochure.pdf) which has 1.2TB/sec memory bandwidth as compared to Thunder GPU(https://images.nvidia.com/content/technologies/volta/pdf/tesla-volta-v100-datasheet-letter-fnl-web.pdf) which has 900GB/sec of memory bandwidth. However, overall for both systems we notice significant speedups from using multiple gpus in parallel.
+
+
+
 
 #### Part II: Matrix Multiplication
 
@@ -103,3 +132,23 @@ As seen in the figures below, significant differences are observed in the comput
 
 ![part2_2a_rome](part2_2a_rome.png)
 ![part2_2a_thx](part2_2a_thx.png)
+
+**2.3)**
+
+![2.3rome](2.3rome.png)
+
+![2.3thunder](2.3Thunder.png)
+
+bove you can see the results of running the matrix multiplication program with a square matrix of size 4000. The optimum settings were variant 2 for both systems, schedules (static, 1) for rome, and (static) for thunder, both were initialized on gpu. The details of these configurations can be found in the answers above. It was noticed that Rome gave the highest performance of **49055.438 MFLOP/sec for Teams=80, and Threads=72, while Thunder’s best performance was 20670.808 MFLOP/sec for Teams=256, and Threads=128.**
+Firstly, Rome has higher performance because its memory bandwidth is higher as explained before. We decided to take offloading time into account in the calculations as it is part of the work done to perform calculations on the GPUs. It is difficult to compare these two gpu systems due to the technology they use. However the data sheets are available here. 
+ROME:  
+(https://www.amd.com/system/files/documents/instinct-mi100-brochure.pdf)
+THUNDER:
+(https://images.nvidia.com/content/technologies/volta/pdf/tesla-volta-v100-datasheet-letter-fnl-web.pdf)
+
+We can see that AMD has 120 “Compute Units” that give a performance of 11.5 TFLOPS on double floating point precision. NVIDIA has 640 “Tensor cores” that perform at 7TFLOPS on double floating point precision. Each of the AMD gpus can be assumed to have higher computational power, because it performs better with presumably less compute units. This is also the same pattern we notice in our own results obtained from the Rome and Thunder systems. Rome uses less threads in total than thunder. Here total threads are given by 
+
+**Total Threads used = Teams*Threads per team**
+
+Just by estimating from the 3d plots, at around 250 teams for Thunder and 80 Teams for Rome, there is an almost constant line, which shows us the optimum team size. Since a master thread in each team is responsible for dividing the work amongst other threads, this number for the master thread probably corresponds to a structure in the architecture, which groups hardware threads together. On this optimum team line, both systems behave similarly in that the performance keeps increasing as threads are increased for each team. Each thread also has memory coalescing to allow for reduced processing time. Since we used (omp distribute parallel for) it is likely that the round-robin execution is optimum for these numbers of team sizes on each system.
+
