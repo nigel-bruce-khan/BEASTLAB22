@@ -53,7 +53,7 @@ Considering both nodes and taking the MFLOPS as the indicator for performance, w
 - #pragma omp parallel for (static,1)
 - #pragma omp distribute parallel for.
 
-The results for rome and thunder are shown below. Only for this task we decided to display the graphs using an irregular x-axis containing all data size values, to observe with more detail what happens with each size increment.
+The results for rome and thunder are shown below. Only for this task and 1.5a we decided to display the graphs using an irregular x-axis containing all data size values, to observe with more detail what happens with each size increment.
 
 
 | Thunder                          |   Rome                         |               
@@ -68,7 +68,7 @@ For Thunder, the
 
 **5)** 
   
-  a)We played with different schedules (static and dynamic) and chunk sizes, as it can be seen on the graph below. For Rome, the most optimal configuration was **(static, 16)**, whereas for Thunder **(static, 256)** turned out to offer the better performance. 
+  a)We played with different schedules (static and dynamic) and chunk sizes, as it can be seen on the graph below. For Rome, the most optimal configuration was **(static, 16)**, whereas for Thunder **(static, 256)** turned out to offer the best performance. 
 
  Thunder                          |   Rome                         |               
 | ------                           |  ------------                  |                  
