@@ -68,14 +68,14 @@ For Thunder, the
 
 **5)** 
   
-  a)We played with different schedules (static and dynamic) and chunk sizes, as it can be seen on the graph below. For Rome, the most optimal configuration was **(static, 16)**, whereas for Thunder **(static, 256)** turned out to offer the best performance. 
+  a)We played with different schedules (static and dynamic) and chunk sizes, as it can be seen on the graphs below. For Rome, the most optimal configuration was **(static, 16)**, whereas for Thunder **(static, 256)** turned out to offer the best performance. For the following tasks we performed our experiments under these two configurations. 
 
- Thunder                          |   Rome                         |               
-| ------                           |  ------------                  |                  
-| ![thunder1_5a](thunder1_5a.png)    | ![rome1_5a](rome1_5a.png)        | 
+|Thunder                              |   Rome                         |               
+| ------                              |  ------------                  |                  
+| ![thunder1_5a](thunder1_5a.png)     | ![rome1_5a](rome1_5a.png)      | 
 
 
-  b) 
+  b) We set the numTeams to 1 and the number of threads as an argument, where numThreads is [32,64,128,256,512,1024,2048]. Running our experiments with the conditions described above, we observed higher number of MFLOPS for the last three values: 512, 1024 and 2048. Given that the differences amongst them were barely noticeable, we decided to take the MFLOPS average from the 10 largest datasetSizes. This results in **1024** threads per team as the optimal configuration for Rome, whereas for Thunder it is **2048**. 
 
 #### Part II: Matrix Multiplication
 
