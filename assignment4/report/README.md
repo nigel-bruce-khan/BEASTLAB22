@@ -72,7 +72,7 @@ Looking at the OpenMP documentation, by default, when OpenMP, executing with T t
 
 **5)** 
   
-  a)We played with different schedules (static and dynamic) and chunk sizes, as it can be seen on the graphs below. For Rome, the most optimal configuration was **(static, 16)**, whereas for Thunder **(static, 256)** turned out to offer the best performance. For the following tasks we performed our experiments under these two configurations. 
+  a) We played with different schedules (static and dynamic) and chunk sizes, as it can be seen on the graphs below. For Rome, the most optimal configuration was **(static, 16)**, whereas for Thunder **(static, 256)** turned out to offer the best performance. For the following tasks we performed our experiments under these two configurations. 
 
 |Thunder                              |   Rome                         |               
 | ------                              |  ------------                  |                  
@@ -80,6 +80,16 @@ Looking at the OpenMP documentation, by default, when OpenMP, executing with T t
 
 
   b) We set the numTeams to 1 and the number of threads as an argument, where numThreads is [32,64,128,256,512,1024,2048]. Running our experiments with the conditions described above, we observed higher number of MFLOPS for the last three values: 512, 1024 and 2048. Given that the differences amongst them were barely noticeable, we decided to take the MFLOPS average from the 10 largest datasetSizes. This results in **1024** threads per team as the optimal configuration for Rome, whereas for Thunder it is **2048**. 
+  
+|Thunder                              |   Rome                         |               
+| ------                              |  ------------                  |                  
+| ![thunder1_5b](t1.5bTunder.png)     | ![rome1_5b](1.5bRome.png) 
+
+c) 
+
+|Thunder                              |   Rome                         |               
+| ------                              |  ------------                  |                  
+| ![thunder1_5c](t1.5cTunder.png)     | ![rome1_5c](1.5cRome.png) 
 
 **6)** 
 
@@ -132,6 +142,20 @@ As seen in the figures below, significant differences are observed in the comput
 
 ![part2_2a_rome](part2_2a_rome.png)
 ![part2_2a_thx](part2_2a_thx.png)
+
+**(b)** We did experiments with static, dynamic, guided and runtime, and different chunk sizes for static and dynamic cases. The result is shown in the figures below. For both variants, smaller chunk size had better performance. Also both variants have the peak performance in the small matrix size region, and the performance decrease a little after the peak, and then it keeps the same performance level. Because some scheduling policies resulted nearly the same performances, we took the average of the performance over the matrix sizes, and decided the best scheduling policy. On Rome, static 1 and static is the most suitable for the variant 1 and 2 respectively. On Thunder, dynamic and static are the best choice for variant 1 and 2 respectively. As seen in the figures, chunk size affects the performance more than the type of scheduling policy since the same chunk size of static and dynamic poliyies are alomst identical.
+![part2_2b_rome_variant1](part2_2b_rome_variant1.png)
+![part2_2b_rome_variant2](part2_2b_rome_variant2.png)
+![part2_2b_thunder_variant1](part2_2b_thunder_variant1.png)
+![part2_2b_thunder_variant2](part2_2b_thunder_variant2.png)
+
+**(c)** Bandwidth are calculated as we did in the assignemnt 1, which is to multiply MFLOPS by a factor of 16. This is because we have 3 load and 1 store in each iteration, we multiply 4 by the size of the element of the arrays, which is 8 byte. Therefore, the bandwidth shown here are scaled version  of performance values. On Rome, it is clearly observed that at 200 matrix size the variant 1 reached its peak performance, and at 750 variant 2 reached the peak performance. the two variants stays the same performance level after thier peaks. On Thunder, we can see a different treand for variant 1. Its performance does not dramatically decrease like on Rome, but it stays as nearly the same performance level as the variant 2. However, on average, variant 2 performes better than variant 1 for both on Rome and on Thunder.
+![part2_2c_p_rome](part2_2c_p_rome.png)
+![part2_2c_p_thx](part2_2c_p_thx.png)
+![part2_2c_bw_rome](part2_2c_bw_rome.png)
+![part2_2c_bw_thx](part2_2c_bw_thx.png)
+
+**(d)** From the results of assignment 2, we know that variant 2 is the most optimized version of element accessing. And it has 2 to 3 times higher performances than the element access order of variant 1. However, we did not observe the same degree of performance difference on gpu experiment. Especially, two variants almost performed the same on Thunder. One reason behind this result is, in the code, we measure the time spent on the matrix multiplication with chrono time. Since we need to offload the arrays to gpu before we run the matrix multiplication, we have to add start time before the offloading command. Therefore, the results are not purely the performance of matrix multiplications, but it includes the time spent on offloading. It affects the MFLOPS. In fact, the performances on gpu are not so different from the performance on cpu, even though theoretically they are significantly different. Hence, we can not fairly compare FLOPS of gpu version and cpu version. 
 
 **2.3)**
 
