@@ -66,8 +66,16 @@ Looking at the OpenMP documentation, by default, when OpenMP, executing with T t
 For Thunder, the 
 
 
+**5)** 
+  
+  a)We played with different schedules (static and dynamic) and chunk sizes, as it can be seen on the graph below. For Rome, the most optimal configuration was **(static, 16)**, whereas for Thunder **(static, 256)** turned out to offer the better performance. 
+
+ Thunder                          |   Rome                         |               
+| ------                           |  ------------                  |                  
+| ![thunder1_5a](thunder1_5a.png)    | ![rome1_5a](rome1_5a.png)        | 
 
 
+  b) 
 
 #### Part II: Matrix Multiplication
 
