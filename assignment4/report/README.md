@@ -113,6 +113,23 @@ Finally, till this question we were not running the 2 GPUs on the system in para
 
 Above you can see the results from multiple gpus on each system with the best configurations for schedules, threads, and teams. Both graphs give almost twice the speedup as compared to a single gpu. Both the machines also showed peak performances at the same data-size i.e 262144. Rome is still faster than Thunder, even when compared at the optimum settings. It could be that the Rome system deals with data offloading from cpu to gpu better than thunder. This can be seen from the data sheets for the Rome GPU (https://www.amd.com/system/files/documents/instinct-mi100-brochure.pdf) which has 1.2TB/sec memory bandwidth as compared to Thunder GPU(https://images.nvidia.com/content/technologies/volta/pdf/tesla-volta-v100-datasheet-letter-fnl-web.pdf) which has 900GB/sec of memory bandwidth. However, overall for both systems we notice significant speedups from using multiple gpus in parallel.
 
+**8)** For the cpu only version of the code, we removed ´#pragma omp target´ and ´#pragma omp teams´ before the main for loop. ´#pragma omp parallel for´ remains at the same line to maximize the efficiency. From the results of assignment 1, we chose number of threads **256** and **static 16** clause for cpu only version. For the other versions, we chose the most optimal clauses and number of teams, number of threads, which measured in the tasks above. Before discussing about the results, we have to mention that the codes can not fairly compare the performances because in gpu versions it includes the offloading of arrays in the calculation of time, while the cpu version only consider the for loop. Therefore, we expect that the performances of gpu versions are lower than the theoretical expectation. Indeed, as seen in the figures below, cpu version achieved higher performance than the other two. Two gpu version is nearly twice as higher performance as the single gpu version. Likewise, cpu version consumed the most power, and two gpu follows, and single gpu consumed the least among three. The table below shows the comparison of the three versions in detail. Apparently, we know that using cpu version is not a good choice as it increase the power consumption 7 times more than the single gpu version while it only double the performance. Changing one gpu to two gpu yields almost the same improvement and power cost. 
+
+Performance difference (column/row)
+|              |   cpu only   |  single gpu  |    two gpu   |
+|   cpu only   |         1    |     0.435    |     0.665    |
+|  single gpu  |     2.299    |         1    |     1.528    |
+|    two gpu   |     1.505    |     0.654    |         1    |
+
+Power consumption difference (column/row)
+|              |   cpu only   |  single gpu  |    two gpu   |
+|   cpu only   |         1    |     0.137    |     0.179    |
+|  single gpu  |     7.322    |         1    |     1.311    |
+|    two gpu   |     5.585    |     0.763    |         1    |
+
+![part1_8_flops_rome](part1_8_flops_rome.jpg)
+![part1_8_power_rome](part1_8_power_rome.jpeg)
+
 
 
 
@@ -175,4 +192,15 @@ We can see that AMD has 120 “Compute Units” that give a performance of 11.5 
 **Total Threads used = Teams*Threads per team**
 
 Just by estimating from the 3d plots, at around 250 teams for Thunder and 80 Teams for Rome, there is an almost constant line, which shows us the optimum team size. Since a master thread in each team is responsible for dividing the work amongst other threads, this number for the master thread probably corresponds to a structure in the architecture, which groups hardware threads together. On this optimum team line, both systems behave similarly in that the performance keeps increasing as threads are increased for each team. Each thread also has memory coalescing to allow for reduced processing time. Since we used (omp distribute parallel for) it is likely that the round-robin execution is optimum for these numbers of team sizes on each system.
+
+**4)**
+**(a)** The speed up of matrix multiplication and power consumption change are listed in the table below. Both rates are the division of the values of single gpu by the values of cpu only. To generalize over the data set size, we used the average of each version for the calculation. It achieved 2.7 times speed up from cpu version, while it consumed less power than that. 
+
+|  speed up  |  power consumption  |
+| --------   | ----------------    |
+|    2.722   |        0.503        |
+
+**(b)** Mflops/Watt is calculated by dividing mflops at each data set size by the average of power consumption. As seen in the figure below, single gpu version is obviouly efficient than cpu version. 
+
+![part2_4](part2_4.png)
 
