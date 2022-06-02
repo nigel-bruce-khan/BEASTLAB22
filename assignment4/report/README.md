@@ -85,11 +85,14 @@ Looking at the OpenMP documentation, by default, when OpenMP, executing with T t
 | ------                              |  ------------                  |                  
 | ![thunder1_5b](1.5bThunder.png)     | ![rome1_5b](1.5bRome.png) 
 
+Since we have applied the distribute function along with static, we know that each gpu node will get a small time to process in a round robin fashion so that each thread is used as much as possible. However, there is only 1 master team thread fo such a large number of slave threads. This is why so many different thread numbers give almost exactly the same output. The round-robin processing time on each thread being managed by one master for so many threads cannot give a huge just in performance for even doubling the number of threads. However, Rome performs better than Thunder again, probably because each thread has more power to it. We also notice that small or large data sizes do not cause performance to increase or decrease. This can be understood again by how fast each thread can be given instructions within one team which is hard with just one master thread. The threads can work faster but they are just limited by how fast they get data, which is why the speed doesnt fall with increasing datasizes. Here we simply draw the conclusion that both systems have an optimum number which each team master thread can handle and it is 1024 for Rome, and 2048 for Thunder.
 c) 
 
 |Thunder                              |   Rome                         |               
 | ------                              |  ------------                  |                  
 | ![thunder1_5c](1.5cThunder.png)     | ![rome1_5c](1.5cRome.png) 
+
+Here we see a major increase in performance as the teams have increased, almost 50-100 times imporvement in the performance. Since each team of 1024 or 2048 threads is now being monitored by a large number of teams, each master thread performs at its limit, which we found in the answer above. Each team, also has less data to handle since each team only handles a certain chunk. The round-robin processing doesnt effect the processing time as much, because there is less data on each team. The optimum team sizes are **160 Teams for Thunder, and 100 teams for Rome** These numbers were found from taking the average of the last 10 highest data sizes, as well as averaging over the whole data, both averages agreed with each other each time. We see that again, even though we have clear winners for team sizes, it was still noticeable that different team sizes that were close together performed almost equally well. Again, this shows that instead of the threads themselves being the bottle-neck it is how well the master threads of each team can handle the distribution of work that is the bottle neck for these cases. Thus although omp distribute works best for different data sizes because it adjusts processing time accordingly, perhaps for a constant data size another clause that divides the data exactly amongst the threads only at the beginning would be able to give better performance. It is also noticeable here that performance goes up till a certain data size and then goes down. This is due to larger data sizes being harder to retrieve and store in memory and is a memory bound, rather than a compute bound problem.
 
 **6)** 
 
@@ -117,20 +120,20 @@ Above you can see the results from multiple gpus on each system with the best co
 
 Performance difference (column/row)
 |              |   cpu only   |  single gpu  |    two gpu   |
-| ------                              |  ---------------------   
+| ------                              |  ---------------------   |   
 |   cpu only   |         1    |     0.435    |     0.665    |
-| ------                              |  ---------------------   
-|  single gpu  |     2.299    |         1    |     1.528    |
-| ------                              |  ---------------------   
+| ------                              |  ---------------------   |   
+|  single gpu  |     2.299    |         1    |     1.528    | 
+| ------                              |  ---------------------   |   
 |    two gpu   |     1.505    |     0.654    |         1    |
 
 Power consumption difference (column/row)
 |              |   cpu only   |  single gpu  |    two gpu   |
-| ------                              |  ---------------------   
+| ------                              |  ---------------------   |   
 |   cpu only   |         1    |     0.137    |     0.179    |
-| ------                              |  ---------------------   
+| ------                              |  --------------------    |   
 |  single gpu  |     7.322    |         1    |     1.311    |
-| ------                              |  ---------------------   
+| ------                              |  ---------------------   |     
 |    two gpu   |     5.585    |     0.763    |         1    |
 
 ![part1_8_flops_rome](part1_8_flops_rome.jpg)
