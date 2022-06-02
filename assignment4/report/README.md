@@ -83,13 +83,13 @@ Looking at the OpenMP documentation, by default, when OpenMP, executing with T t
   
 |Thunder                              |   Rome                         |               
 | ------                              |  ------------                  |                  
-| ![thunder1_5b](t1.5bTunder.png)     | ![rome1_5b](1.5bRome.png) 
+| ![thunder1_5b](t1.5bThunder.png)     | ![rome1_5b](1.5bRome.png) 
 
 c) 
 
 |Thunder                              |   Rome                         |               
 | ------                              |  ------------                  |                  
-| ![thunder1_5c](t1.5cTunder.png)     | ![rome1_5c](1.5cRome.png) 
+| ![thunder1_5c](t1.5cThunder.png)     | ![rome1_5c](1.5cRome.png) 
 
 **6)** 
 
