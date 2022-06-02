@@ -88,7 +88,8 @@ Looking at the OpenMP documentation, by default, when OpenMP, executing with T t
 | ![thunder1_5b](1.5bThunder.png)     | ![rome1_5b](1.5bRome.png) 
 
 Since we have applied the distribute function along with static, we know that each gpu node will get a small time to process in a round robin fashion so that each thread is used as much as possible. However, there is only 1 master team thread fo such a large number of slave threads. This is why so many different thread numbers give almost exactly the same output. The round-robin processing time on each thread being managed by one master for so many threads cannot give a huge just in performance for even doubling the number of threads. However, Rome performs better than Thunder again, probably because each thread has more power to it. We also notice that small or large data sizes do not cause performance to increase or decrease. This can be understood again by how fast each thread can be given instructions within one team which is hard with just one master thread. The threads can work faster but they are just limited by how fast they get data, which is why the speed doesnt fall with increasing datasizes. Here we simply draw the conclusion that both systems have an optimum number which each team master thread can handle and it is 1024 for Rome, and 2048 for Thunder.
-c) 
+
+**c)**
 
 |Thunder                              |   Rome                         |               
 | ------                              |  ------------                  |                  
@@ -227,7 +228,7 @@ Just by estimating from the 3d plots, at around 250 teams for Thunder and 80 Tea
 
 *********************************************************
 
-**Appenix**
+####Appenix
 
 Qs1.4)
 
