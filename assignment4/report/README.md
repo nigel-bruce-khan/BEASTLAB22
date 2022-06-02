@@ -117,14 +117,20 @@ Above you can see the results from multiple gpus on each system with the best co
 
 Performance difference (column/row)
 |              |   cpu only   |  single gpu  |    two gpu   |
+| ------                              |  ---------------------   
 |   cpu only   |         1    |     0.435    |     0.665    |
+| ------                              |  ---------------------   
 |  single gpu  |     2.299    |         1    |     1.528    |
+| ------                              |  ---------------------   
 |    two gpu   |     1.505    |     0.654    |         1    |
 
 Power consumption difference (column/row)
 |              |   cpu only   |  single gpu  |    two gpu   |
+| ------                              |  ---------------------   
 |   cpu only   |         1    |     0.137    |     0.179    |
+| ------                              |  ---------------------   
 |  single gpu  |     7.322    |         1    |     1.311    |
+| ------                              |  ---------------------   
 |    two gpu   |     5.585    |     0.763    |         1    |
 
 ![part1_8_flops_rome](part1_8_flops_rome.jpg)
