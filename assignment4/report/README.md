@@ -230,25 +230,25 @@ We can see that AMD has 120 “Compute Units” that give a performance of 11.5 
 Just by estimating from the 3d plots, at around 250 teams for Thunder and 80 Teams for Rome, there is an almost constant line, which shows us the optimum team size. Since a master thread in each team is responsible for dividing the work amongst other threads, this number for the master thread probably corresponds to a structure in the architecture, which groups hardware threads together. On this optimum team line, both systems behave similarly in that the performance keeps increasing as threads are increased for each team. Each thread also has memory coalescing to allow for reduced processing time. Since we used (omp distribute parallel for) it is likely that the round-robin execution is optimum for these numbers of team sizes on each system.
 
 **4)**
-**(a)** The speed up of matrix multiplication and power consumption change are listed in the table below. Both rates are the division of the values of single gpu by the values of cpu only. To generalize over the data set size, we used the average of each version for the calculation. It achieved 2.7 times speed up from cpu version, while it consumed only half the power of the cpu version. 
+**(a)** The speed up of matrix multiplication and power consumption change are listed in the table below. Both rates are the division of the values of single gpu by the values of cpu only. To generalize over the data set size, we used the average of each version for the calculation. Rome GPUs achieved 2.7 times speed up from cpu version, while it consumed only half the power of the cpu version. Thunder achieved 12 times the speed up while conuming only 0.1 times the power. This clearly shows that Thunder GPUs are built to save power while giving major boosts to performance as compared to their CPUs.
 
 #### Rome
 |  speed up  |  power consumption  |
 | --------   | ----------------    |
 |    2.722   |        0.503        |
 
-**(b)** Mflops/Watt is calculated by dividing mflops at each data set size by the average of power consumption. As seen in the figure below, single gpu version is obviouly much more efficient than cpu version. It is also able to maintain flops/watt for larger datasizes at a consistent rate.  
-
-#### Rome
-
-![part2_4](part2_4.png)
-
-
 #### Thunder
 
   speed up  |  power consumption  |
 | --------   | ----------------   |
 |    12.14   |        0.137       |
+
+
+**(b)** Mflops/Watt is calculated by dividing mflops at each data set size by the average of power consumption. As seen in the figure below, single gpu version is obviouly much more efficient than cpu version. It is also able to maintain flops/watt for larger datasizes at a consistent rate. The thunder gpu has much better MFlops/Watt values than the Rome ones, which shows that the power consumption is much lower for Thunder than Rome, even though Rome gives better performance in most of the tests, the obvious cost is power consumption.
+
+#### Rome
+
+![part2_4](part2_4.png)
 
  
 #### Thunder
