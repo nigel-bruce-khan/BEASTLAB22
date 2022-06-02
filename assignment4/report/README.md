@@ -57,6 +57,8 @@ Considering both nodes and taking the MFLOPS as the indicator for performance, w
 - #pragma omp parallel for (static,1)
 - #pragma omp distribute parallel for
 
+The plots for all the schedules that were teseted are in the appendix.
+
 Only the relevant results for rome and thunder are shown below. For this task and 1.5a we decided to display the graphs using labels for the x-axis containing all data size values, to observe with more detail what happens with each size increment.
 
 
@@ -120,16 +122,22 @@ Above you can see the results from multiple gpus on each system with the best co
 
 Performance difference (column/row)
 
-|              |   cpu only   |  single gpu  |    two gpu                      |
+| -------------|   cpu only   |  single gpu  |    two gpu                      |
+| -------------|--------------|--------------|--------------                   |
 |   cpu only   |         1    |     0.435    |     0.665                       |
+| -------------|--------------|--------------|--------------                   |   
 |  single gpu  |     2.299    |         1    |     1.528                       | 
+| -------------|--------------|--------------|--------------                   |
 |    two gpu   |     1.505    |     0.654    |         1                       |
 
 Power consumption difference (column/row)
 
-|   		   |  cpu only    |  single gpu  |    two gpu                      |
-|   cpu only   |         1    |     0.137    |     0.179                       | 
+|------------- |   cpu only   |  single gpu  |    two gpu                      |
+| -------------|--------------|--------------|--------------                   |   
+|   cpu only   |         1    |     0.137    |     0.179                       |
+| -------------|--------------|--------------|--------------                   |   
 |  single gpu  |     7.322    |         1    |     1.311                       |
+| -------------|--------------|--------------|--------------                   |   
 |    two gpu   |     5.585    |     0.763    |         1                       |
 
 ![part1_8_flops_rome](part1_8_flops_rome.jpg)
