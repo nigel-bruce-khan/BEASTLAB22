@@ -244,8 +244,16 @@ Just by estimating from the 3d plots, at around 250 teams for Thunder and 80 Tea
 ![part2_4](part2_4.png)
 
 
+#### Thunder
 
+  speed up  |  power consumption  |
+| --------   | ----------------   |
+|    12.14   |        0.137       |
 
+ 
+#### Thunder
+
+![part2_4_thx](part2_4_thx.jpeg)
 
 
 
