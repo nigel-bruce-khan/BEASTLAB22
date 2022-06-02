@@ -123,7 +123,7 @@ Above you can see the results from multiple gpus on each system with the best co
 
 A gap of at least 5 minutes should be taken between running the codes on cpu, sinlge gpu, and multiple gpu each, if the code given in the assignemtn is being used. This is because it measures power usage from the last 5 minutes till now and averages it. Taking at least 5 minutes breaks in between prevents the different code runs from interfering with each other. Another reason why the values could be inaccurate is because many groups are running the code at usually the same time on the same systems, which use the same PDUs. These will probably cause interference in the power measurements. Thus, the analysis and the results below should be considered while taking these points into account.
 
-Performance difference (column/row)
+Performance difference Rome (column/row)
 
 | -------------|   cpu only   |  single gpu  |    two gpu                      |
 | -------------|--------------|--------------|--------------                   |
@@ -133,7 +133,7 @@ Performance difference (column/row)
 | -------------|--------------|--------------|--------------                   |
 |    two gpu   |     1.505    |     0.654    |         1                       |
 
-Power consumption difference (column/row)
+Power consumption difference Rome (column/row)
 
 |------------- |   cpu only   |  single gpu  |    two gpu                      |
 | -------------|--------------|--------------|--------------                   |   
@@ -147,6 +147,26 @@ Power consumption difference (column/row)
 ![part1_8_power_rome](part1_8_power_rome.jpeg)
 
 
+Performance difference Thunder (column/row)
+|------------- |   cpu only   |  single gpu  |    two gpu                     |
+| -------------|--------------|--------------|--------------                  |  
+|   cpu only   |         1    |     3.034    |     4.794                      |
+| -------------|--------------|--------------|--------------                  |  
+|  single gpu  |     0.330    |         1    |     1.580                      |
+| -------------|--------------|--------------|--------------                  |  
+|    two gpu   |     0.209    |     0.633    |         1                      |
+
+Power consumption difference Thunder (column/row)
+| -------------|   cpu only   |  single gpu  |    two gpu                     |
+| -------------|--------------|--------------|--------------                  |  
+|   cpu only   |         1    |     0.076    |     0.029                      |
+| -------------|--------------|--------------|--------------                  |  
+|  single gpu  |     13.15    |         1    |     0.386                      |
+| -------------|--------------|--------------|--------------                  |  
+|    two gpu   |     34.11    |     2.593    |         1                      |
+
+![part1_8_flops_thx](part1_8_flops_thx.jpeg)
+![part1_8_power_thx](part1_8_power_thx.jpeg)
 
 
 #### Part II: Matrix Multiplication
