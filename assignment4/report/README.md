@@ -119,22 +119,24 @@ Above you can see the results from multiple gpus on each system with the best co
 **8)** For the cpu only version of the code, we removed ´#pragma omp target´ and ´#pragma omp teams´ before the main for loop. ´#pragma omp parallel for´ remains at the same line to maximize the efficiency. From the results of assignment 1, we chose number of threads **256** and **static 16** clause for cpu only version. For the other versions, we chose the most optimal clauses and number of teams, number of threads, which measured in the tasks above. Before discussing about the results, we have to mention that the codes can not fairly compare the performances because in gpu versions it includes the offloading of arrays in the calculation of time, while the cpu version only consider the for loop. Therefore, we expect that the performances of gpu versions are lower than the theoretical expectation. Indeed, as seen in the figures below, cpu version achieved higher performance than the other two. Two gpu version is nearly twice as higher performance as the single gpu version. Likewise, cpu version consumed the most power, and two gpu follows, and single gpu consumed the least among three. The table below shows the comparison of the three versions in detail. Apparently, we know that using cpu version is not a good choice as it increase the power consumption 7 times more than the single gpu version while it only double the performance. Changing one gpu to two gpu yields almost the same improvement and power cost. 
 
 Performance difference (column/row)
-|              |   cpu only   |  single gpu  |    two gpu   |
-| ------                              |  ---------------------   |   
-|   cpu only   |         1    |     0.435    |     0.665    |
-| ------                              |  ---------------------   |   
-|  single gpu  |     2.299    |         1    |     1.528    | 
-| ------                              |  ---------------------   |   
-|    two gpu   |     1.505    |     0.654    |         1    |
+
+| -------------|   cpu only   |  single gpu  |    two gpu                      |
+| -------------|--------------|--------------|--------------                   |
+|   cpu only   |         1    |     0.435    |     0.665                       |
+| -------------|--------------|--------------|--------------                   |   
+|  single gpu  |     2.299    |         1    |     1.528                       | 
+| -------------|--------------|--------------|--------------                   |
+|    two gpu   |     1.505    |     0.654    |         1                       |
 
 Power consumption difference (column/row)
-|              |   cpu only   |  single gpu  |    two gpu   |
-| ------                              |  ---------------------   |   
-|   cpu only   |         1    |     0.137    |     0.179    |
-| ------                              |  --------------------    |   
-|  single gpu  |     7.322    |         1    |     1.311    |
-| ------                              |  ---------------------   |     
-|    two gpu   |     5.585    |     0.763    |         1    |
+
+|------------- |   cpu only   |  single gpu  |    two gpu                      |
+| -------------|--------------|--------------|--------------                   |   
+|   cpu only   |         1    |     0.137    |     0.179                       |
+| -------------|--------------|--------------|--------------                   |   
+|  single gpu  |     7.322    |         1    |     1.311                       |
+| -------------|--------------|--------------|--------------                   |   
+|    two gpu   |     5.585    |     0.763    |         1                       |
 
 ![part1_8_flops_rome](part1_8_flops_rome.jpg)
 ![part1_8_power_rome](part1_8_power_rome.jpeg)
