@@ -120,22 +120,16 @@ Above you can see the results from multiple gpus on each system with the best co
 
 Performance difference (column/row)
 
-| -------------|   cpu only   |  single gpu  |    two gpu                      |
-| -------------|--------------|--------------|--------------                   |
+|              |   cpu only   |  single gpu  |    two gpu                      |
 |   cpu only   |         1    |     0.435    |     0.665                       |
-| -------------|--------------|--------------|--------------                   |   
 |  single gpu  |     2.299    |         1    |     1.528                       | 
-| -------------|--------------|--------------|--------------                   |
 |    two gpu   |     1.505    |     0.654    |         1                       |
 
 Power consumption difference (column/row)
 
-|------------- |   cpu only   |  single gpu  |    two gpu                      |
-| -------------|--------------|--------------|--------------                   |   
-|   cpu only   |         1    |     0.137    |     0.179                       |
-| -------------|--------------|--------------|--------------                   |   
+|   		   |  cpu only    |  single gpu  |    two gpu                      |
+|   cpu only   |         1    |     0.137    |     0.179                       | 
 |  single gpu  |     7.322    |         1    |     1.311                       |
-| -------------|--------------|--------------|--------------                   |   
 |    two gpu   |     5.585    |     0.763    |         1                       |
 
 ![part1_8_flops_rome](part1_8_flops_rome.jpg)
@@ -214,4 +208,23 @@ Just by estimating from the 3d plots, at around 250 teams for Thunder and 80 Tea
 **(b)** Mflops/Watt is calculated by dividing mflops at each data set size by the average of power consumption. As seen in the figure below, single gpu version is obviouly efficient than cpu version. 
 
 ![part2_4](part2_4.png)
+
+
+
+
+
+
+
+
+
+**Appenix**
+
+Qs1.4)
+
+![RomeDistributeSchedule](RomeDistributeSchedule.png)
+
+![romeScheduleChunk.png](romeScheduleChunk.png)
+
+![thunderSchdule](thunderSchdule.png)
+![thunderChunk.png](thunderChunk.png)
 
