@@ -228,7 +228,7 @@ Just by estimating from the 3d plots, at around 250 teams for Thunder and 80 Tea
 
 *********************************************************
 
-####Appenix
+#### Appenix:
 
 Qs1.4)
 
