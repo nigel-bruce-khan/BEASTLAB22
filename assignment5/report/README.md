@@ -79,7 +79,9 @@ We also tried with a bigger N=1900, and we expected to see a considerable increm
 
 
 
-One possible explanation can be that our chosen Performance Monitors aren't very reliable for the floating point instructions, as it has been noticed by some other Intel processors users (see references). For the memory output, due to the optimal memory layout instructed within the code, we can see a rather moderate increase in the number of memory fetching instructions when comparing the matrix dimensions (160x more memory operations for the second case compared to the first case, but the number of array elements increased by a factor of 361 ). Given the small size of the matrices for the first case, they might be instead stored in one of the cache levels, so not many events will increase the DRAM counters. Another potential explanation can be multiple users running experiments at the same time in Icelake. No roofline model is drawn for this case, since the measurements can't be proven to be consistent with the problem. 
+One possible explanation can be that our chosen Performance Monitors aren't very reliable for the floating point instructions, as it has been noticed by some other Intel processors users (see references). For the memory output, due to the optimal memory layout instructed within the code, we can see a rather moderate increase in the number of memory fetching instructions when comparing the matrix dimensions (160x more memory operations for the second case compared to the first case, but the number of array elements increased by a factor of 361 ). Given the small size of the matrices for the first case, they might be instead stored in one of the cache levels, so not many events will increase the DRAM counters. Another potential explanation can be multiple users running experiments at the same time in Icelake.
+
+ We omitted drawing roofline models, since the measurements can't be proven to be consistent with the problems given (also the flop count is lower than our codes themselves compute). 
 
 
 
@@ -94,7 +96,6 @@ With `perf report` we are able to read the values. The first screen shows the ev
 
 
 We press enter to select a specific event, and from there we can get an overview of the report. The report contains 4 columns, which have their own specific meaning (when using `top` the command column doesn't appear):
-
 
 
 	1-	Overhead: the percentage of overall samples collected in the corresponding function
