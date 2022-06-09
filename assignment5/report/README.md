@@ -172,6 +172,39 @@ Same as vector triad in (a), MFLOPS computed in assignment2 is within the range 
 
 **(c)** From the experiments in task (a) and (b), we observed that FLOPS results from PAPI counter is corresponding to the results we got in assignment 2. However the bandwidth does not correspond for both triad and matrix multilplication cases. The reason we got got this difference is that the number of load instructions counted by PAPI is not as we expected. Theoretically, the number of load instructions both in vector triad and matrix multiplication must be three times larger than the number of store instructions because there are 1 store and 3 loads in each iteration. However, PAPI_LD_INS is about 8 to 10 times larger than PAPI_SR_INS. Therefore, we need to use another PAPI event which counts the number of load instructions as we expected. 
 
+We tested all events which can give us expected the number of load instructions. We found that using PAPI_L1_ICA (Level 1 instruction cache accesses) instead of PAPI_LD_INS (Load instructions) shows the closest value to the expected memory bandwidth. The result is as below:
+
+**Vector triad**
+N = 32768, cycles = 32768
+**MFLOPS (computed in assignment1) = 282.18**
+**Bandwidth (computed in assignment1) = 4514.88**
+| PAPI_FP_INS | PAPI_L1_ICA | PAPI_SR_INS | PAPI_TOT_CYC |
+| -----       | -----       | -----       | -----        |
+|  2510778643 |  5409552784 |  2147549351 |  18974291020 |
+bandwidth is calculated with the below formula. PAPI_LD_INS is replaced by PAPI_L1_ICA.
+**Bandwidth[Mbyte/s] = ((PAPI_L1_ICA) + (PAPI_SR_INS)) * (size of double) / (PAPI_TOT_CYC) * (CPU frequency [MHz])**
+and we get the results below:
+|         | **Bandwidth**|
+| -----   | -----        |
+|   max   |    7965.62   |
+|   min   |    3186.25   |
+
+**Matrix multiplication**
+N = 100, REP = 3200
+**MFLOPS (computed in assignment2) = 257.785**
+**Bandwidth (computed in assignment2) = 4124.56**
+| PAPI_FP_INS | PAPI_L1_ICA | PAPI_SR_INS | PAPI_TOT_CYC |
+| -----       | -----       | -----       | -----        |
+|  6943658628 | 23139499177 |  6464646567 |  61783990089 |
+In the same way as triad, bandwidth is calculated with the below formula. PAPI_LD_INS is replaced by PAPI_L1_ICA.
+**Bandwidth[Mbyte/s] = ((PAPI_L1_ICA) + (PAPI_SR_INS)) * (size of double) / (PAPI_TOT_CYC) * (CPU frequency [MHz])**
+and we get the results below:
+|         | **Bandwidth**|
+| -----   | -----        |
+|   max   |    9583.11   |
+|   min   |    3833.24   |
+
+Therefore, in both vector triad and matrix multiplication, the expected bandwidth (computed in assignment 1 and 2) are within the range of bandwidth calculated from PAPI events. 
 
 **3a)**
 
@@ -227,6 +260,25 @@ This means that the gpus in both machines work very similarly. We notice that th
 
 The files containing the results are stored in the metrics folder
 
+**4b**
+
+For this question we used the command below to produce results for the timeline. the (-l) alias option stands for timeline according to the github readme. The command is shown below:
+
+iprof -l ./assignment4_i 134217728 268435456 160 2048
+
+This gives us a output of the trace events. This is in a way a summary of the order in which the steps to execute a program took place and information related to these steps.
+
+Next we used the command below on the directory produced by the trace to get further output information. Example screenshots of the outputs is shown below.
+
+babeltrace2 /home/h039y13/lttng-traces/iprof-20220609-131659
+
+![babel1](4b_babel1.png)
+
+![babel2](4b_babel2.png)
+
+We see that the babelTrace2 outputs (also stored in the metrics folder) show us the order of events like streamCreate, cuModuleLoadData, cuMemcpyDtoH_v2 and the virtual process id and virtual terminal id that executed these processes. 
+
+The events trace files for both triad and matrix multiplication have been provided with the code.
 
 
 
