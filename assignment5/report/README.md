@@ -49,18 +49,44 @@ For Icelake, the theoretical peak performance (without hyperthreading) is given 
 
 Looking at the results from perf, we added the read and write operations from the _entire code_to obtain the MiB, and we converted these to Megabytes, resulting in 14183.489864 MB, equal to 14.183 GB. To compute the operational intensity, we simply divide the flops by the transferred bytes, in this case:
 
-    OI_PERF= 0.172844005 GFlop/14.183 GB = 0.01218
+    OI_PERF= 0.172844005 GFlop/14.183 GByte = 0.01218 Flop/byte
 
-which compared to our previous result from assignment 1, which was 2/32 = 0.0625 is significantly higher (almost twice). 
 
-On the other hand, if we only consider the **memory** results from perf, we assume FLOPS = 2*datasize = 2*2^27 = 0.268435 GFlop, hence our operational intensity is:
+which compared to our previous result from assignment 1, 2/32 = 0.0625 is significantly higher (almost twice). 
 
-    OI_PERF= 0.268435GFlop/14.183 GB = 0.0189265
+For the matrix multiplication, we chose N=100, and 72 threads, with a static schedule and spread binding. We ran the same commands as with triad in perf: 
+
+Again, using the values obtained for flops and memory read/writes, we calculate the operational intensity:
+
+    30929 MiB = 32431.407 MBytes
+    OI = 1464.410 MFlop / 32431.407 MBytes =  0.04515 Flop/Byte
+
+
+We also tried with a bigger N=1900, and we expected to see a considerable increment on operational intensity, since matrix multiplication does more arithmetic per byte loaded for larger matrix sizes. (The arithmetic intensity is n/16). However, this was not the case judging by the values obtained in perf:
+
+
+    85913.119 = 90086.43571 MBytes
+    OI = 1712.199026 MFlop/90086.43571 MBytes = 0.019 Flop/Byte
+
+
+One possible explanation can be that our chosen Performance Monitors aren't very reliable for the floating point instructions, as it has been noticed by some other Intel processors users (see references). For the memory output, due to the optimal memory layout instructed within the code, we can see a rather moderate increase in the number of memory fetching instructions when comparing the matrix dimensions (160x more memory operations for the second case compared to the first case, but the number of array elements increased by a factor of 361 ). Given the small size of the matrices for the first case, they might be instead stored in one of the cache levels, so not many events will take increase the DRAM counter.  
+
+**c)** We ran both routines with the same events as before, only this time we recorded the aggregate results using `perf record`. Furthermore, we added two new events after observing the results of the matrix multiplication: LLC-load-misses and LLC-store-misses, to observe the cache calls for the first and last level. Using `perf report` allows us to take a deeper look at the collected data.
+
+The report contains 4 columns, which have their own specific meaning (when using `top` the command column doesn't appear):
+	1	Overhead: the percentage of overall samples collected in the corresponding function
+	2	Command: the command to which the samples belong
+	3	Shared object: the name of the image from where the samples came
+	4	Symbol: the symbol name which constitutes the sample, and the privilege level at which the sample was taken. 
+    
+There are 5 privilege levels: [.] user level, [k] kernel level, [g] guest kernel level (virtualization), [u] guest OS userspace, and [H] hypervisor. With this data, we can identify the functions that generate the highest overhead in our code.
+
+
 
 
 
 **2)**
-**(a)** For this taske, we tested with Rome2 and ThunderX2 machines. PAPI is enabled by commanding ´module load papi/5.7.0_rocm´ on Rome. On Thunder, firstly CUDA have to be loaded with ´module load cuda/11.1.1´ and then load PAPI with ´module load papi/5.7.0_cuda´. ´papi_avail´ command shows availability of PAPI commands. In this task, since we measure the CPU performance and memory bandwidth, we used following PAPI events:
+**(a)** For this task, we tested with Rome2 and ThunderX2 machines. PAPI is enabled by commanding ´module load papi/5.7.0_rocm´ on Rome. On Thunder, firstly CUDA have to be loaded with ´module load cuda/11.1.1´ and then load PAPI with ´module load papi/5.7.0_cuda´. ´papi_avail´ command shows availability of PAPI commands. In this task, since we measure the CPU performance and memory bandwidth, we used following PAPI events:
  - PAPI_FP_INS (Floating point instructions)
  - PAPI_LD_INS (Load instructions)
  - PAPI_SR_INS  (Store instructions)
@@ -181,5 +207,10 @@ The files containing the results are stored in the metrics folder
 3. https://forums.developer.nvidia.com/t/cudamemcpydevicetohost-200-x-longer-than-cudamemcpyhosttodevice/25011
 4. https://docs.nvidia.com/nsight-systems/pdf/UserGuide.pdf
 5. https://github.com/ROCm-Developer-Tools/rocprofiler
+6. https://sites.utexas.edu/jdm4372/2013/07/14/notes-on-the-mystery-of-hardware-cache-performance-counters/
+7. https://linux-perf-users.vger.kernel.narkive.com/s7GIb114/some-troubles-with-perf-and-measuring-flops
+8. https://www.brendangregg.com/blog/2014-06-22/perf-cpu-sample.html
+9. https://web.eece.maine.edu/~vweaver/projects/perf_events/perf_event_open.html
+
 
 
