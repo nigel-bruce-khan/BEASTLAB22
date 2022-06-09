@@ -1,7 +1,52 @@
-# Assignment 6 Report
+# Assignment 5 Report
 Group: 104
 
-**TODO@Students: Write your report in this folder using Markdown.**
+## 1. Measurements with Linux Perf
+
+**a)** PERF consists of two major subsystems:
+
+- A kernel SYSCALL that provides access to performance data including operating system software events and hardware performance events, and
+- A collection of user-space tools to collect, display and analyze performance data.
+
+Perf_events instruments "events", which are a unified interface for different kernel instrumentation frameworks. PERF supports a large number of **predefined** events: hardware events and software events, while also offering other types of events which are hard-coded (Kernel Tracepoint Events, User Statically-Defined Tracing (USDT), Dynamic Tracing:). 
+
+With the command `perf list` we can observe the events and their corresponding type. The following table summarizes the types of events available in PERF and a brief description [perf event types](https://www.brendangregg.com/perf.html). The available events are **processor implementation specific**. Hence, on each architecture we can observe different events, and how some architectures offer more predefined events than others.  
+
+|**Event**| **Description**|
+|---------|----------------|
+|Hardware|CPU performance monitoring counters. These instrument low-level processor activity|
+|Software|Low level events based on kernel counters|
+|Kernel Tracepoints|Static kernel-level instrumentation points that are hardcoded in interesting and logical places in the kernel|
+|User Statically Defined Tracing|Static tracepoints for user-level programs and applications.|
+|Dynamic Tracing|Software can be dynamically instrumented, creating events in any location.|
+
+We listed the events whose measurements will help us with the performance analysis and gather the necessary data for the roofline model, specially for the _operational intensity_ (FLOP/byte).
+
+- cpu-cycles OR cpu/cpu-cycles/: The counter increments on every CPU cycle
+- mem-loads OR cpu/mem-loads/ (Icelake): Counts all retired load instructions. This event accounts for SW prefetch instructions for loads.
+- mem-stores OR cpu/mem-stores/ (Icelake): Counts all retired store instructions. This event account for SW prefetch instructions and PREFETCHW instruction for stores.
+- L1-dcache-stores: for measuring Level 1 Data Cache store instructions
+- L1-dcache-loads: or measuring Level 1 Data Cache load instructions
+- duration_time: time elapsed in nanoseconds
+- armv8_pmuv3_0/mem_access/ (Thunder): Data Memory Access
+- uncore_imc_*/cas_count_read-write/ (Icelake) : performance counters for memory controllers  
+
+For FLOPS we made use of the library `libpf4m` to get the codes for raw events that could help us to get events that counted these operations, obtaining the following events: 
+- FP_ARITH_INST_RETIRED.SCALAR_DOUBLE: Number of SSE/AVX computational scalar double precision floating-point instructions retired. Applies to SSE* and AVX* scalar double precision. FMA is counted twice. (Icelake and Thunder). In Thunder is described as "speculatively executed".
+- raw events: r81d0 (DRAM loads Icelake)
+- raw events: r82d0 (DRAM stores Icelake)
+
+b) We used Icelake to profile our benchmarks. For triad we set N=2^27, with 72 threads and 80 repetitions (to allow for more samples collection), and we execute `perf stat` without any event. The executable file **triad** was compiled using the same optimization flags as in assignment 1. The image on the left shows the default events, and the image on the right shows the results obtained with `perf stat -a -e` with FLOPS counting, DRAM loads and stores, L1-dcache stores/loads, uncore_imc_*/cas_count_read/  as well as duration time for the whole system. 
+
+|**perf stat**                  | **perf stat -a -e **           |
+|---------                      |---------------------           |
+|![task1a](triad_perf_stat.png) |![task1a](triad_perf_stat_a.png)|
+
+
+![task1a](triad_perf_stat.png) 
+
+
+
 
 **2)**
 **(a)** For this taske, we tested with Rome2 and ThunderX2 machines. PAPI is enabled by commanding ´module load papi/5.7.0_rocm´ on Rome. On Thunder, firstly CUDA have to be loaded with ´module load cuda/11.1.1´ and then load PAPI with ´module load papi/5.7.0_cuda´. ´papi_avail´ command shows availability of PAPI commands. In this task, since we measure the CPU performance and memory bandwidth, we used following PAPI events:
