@@ -70,12 +70,12 @@ We also tried with a bigger N=1900, and we expected to see a considerable increm
 
 |**perf stat for N=100, 1900**                  | 
 |------------------                             |
-|![task1b_stat](mm_perf_stat.png)               |
+|![task1b_stat](mm_stat.png)                    |
 
 
 |**perf stat -e for N=100, 1900**               | 
 |------------------                             |
-|![task1b](mm_perf_stat.png)                    |
+|![task1b](mm_stat_events.png)                  |
 
 
 
