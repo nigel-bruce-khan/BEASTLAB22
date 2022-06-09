@@ -70,7 +70,7 @@ The cuMemcpyHtoDAsync_v2 and cuMemcpyDtoHAsync_v2 probably include the time for 
 The time calculations in the same table received after synchronization through running cuStreamSynchronize shows much smaller results on cuMemcpyDtoH_v2, cuMemcpyHtoD_v2 because those are just the transfer times between HtoD (Host to Device) and DtoH (Device to Host). The times also agree in their values since 4 arrays are sent to the device and only one is returned; the times for these have corresponding durations. The table below is from the triad program run on the thunder system. It uses the assignment 4 code with variant 1, optimum settings for threads, teams, schedule on a single GPU.
 
 |Time(%) | Total Time (ns)  | Num Calls   |  Average         | Minimum  | Maximum       | Name                    |
-| ------ |  --------------  |  ---------- |  --------------- |     -------------------- |   ----------------      |
+| ------ |  --------------  |  ---------- |  --------------- | -------- |  ------------ |   ----------------      |
 |  2.0   | 1,103,078,185    |     110     |   10,027,983.5   |   6,155  |  133,354,885  | cuMemcpyHtoDAsync_v2    |
 |  0.7   | 391,789,930      |      44     |     8,904,316.6  |   31,370 |   191,003,830 | cuMemcpyDtoHAsync_v2    |
 |  0.0   |      60,775      |      2      |        30,387.5  |  26,340  |       34,435  | cuMemcpyDtoH_v2         |
