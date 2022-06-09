@@ -87,16 +87,30 @@ One possible explanation can be that our chosen Performance Monitors aren't very
 
 ![task1c](perf_record.png)
 
-The report contains 4 columns, which have their own specific meaning (when using `top` the command column doesn't appear):
-	1	Overhead: the percentage of overall samples collected in the corresponding function
-	2	Command: the command to which the samples belong
-	3	Shared object: the name of the image from where the samples came
-	4	Symbol: the symbol name which constitutes the sample, and the privilege level at which the sample was taken. 
+With `perf report` we are able to read the values. The first screen shows the events and their respective number of samples. 
+
+![report_samples](report_samples.png)
+![perf_samples ](perf_samples.png)
+
+
+We press enter to select a specific event, and from there we can get an overview of the report. The report contains 4 columns, which have their own specific meaning (when using `top` the command column doesn't appear):
+
+
+
+	1-	Overhead: the percentage of overall samples collected in the corresponding function
+	2-	Command: the command to which the samples belong
+	3-	Shared object: the name of the image from where the samples came
+	4-	Symbol: the symbol name which constitutes the sample, and the privilege level at which the sample was taken. 
     
 There are 5 privilege levels: [.] user level, [k] kernel level, [g] guest kernel level (virtualization), [u] guest OS userspace, and [H] hypervisor. With this data, we can identify the functions that generate the highest overhead in our code.
 
+![report_perf](perf_report_triad.png)
 
+From here we can see that executions from other users are somewhat included in our measurements, since the "assignment3_par" wasn't part of the codes submitted in our experiments. 
 
+After selecting a certain command (function), we press `a`, for annotate, to get the disassembly of the chosen section.
+
+![mm_annotate](mm_annotate.png)
 
 
 
