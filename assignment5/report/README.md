@@ -68,8 +68,20 @@ We also tried with a bigger N=1900, and we expected to see a considerable increm
     85913.119 = 90086.43571 MBytes
     OI = 1712.199026 MFlop/90086.43571 MBytes = 0.019 Flop/Byte
 
+|**perf stat for N=100, 1900**                  | 
+|------------------                             |
+|![task1b_stat](mm_perf_stat.png)               |
 
-One possible explanation can be that our chosen Performance Monitors aren't very reliable for the floating point instructions, as it has been noticed by some other Intel processors users (see references). For the memory output, due to the optimal memory layout instructed within the code, we can see a rather moderate increase in the number of memory fetching instructions when comparing the matrix dimensions (160x more memory operations for the second case compared to the first case, but the number of array elements increased by a factor of 361 ). Given the small size of the matrices for the first case, they might be instead stored in one of the cache levels, so not many events will take increase the DRAM counter.  
+
+|**perf stat -e for N=100, 1900**               | 
+|------------------                             |
+|![task1b](mm_perf_stat.png)                    |
+
+
+
+One possible explanation can be that our chosen Performance Monitors aren't very reliable for the floating point instructions, as it has been noticed by some other Intel processors users (see references). For the memory output, due to the optimal memory layout instructed within the code, we can see a rather moderate increase in the number of memory fetching instructions when comparing the matrix dimensions (160x more memory operations for the second case compared to the first case, but the number of array elements increased by a factor of 361 ). Given the small size of the matrices for the first case, they might be instead stored in one of the cache levels, so not many events will take increase the DRAM counter. Another potential explanation can be multiple users running experiments at the same time in Icelake.
+
+
 
 **c)** We ran both routines with the same events as before, only this time we recorded the aggregate results using `perf record`. Furthermore, we added two new events after observing the results of the matrix multiplication: LLC-load-misses and LLC-store-misses, to observe the cache calls for the first and last level. Using `perf report` allows us to take a deeper look at the collected data.
 
@@ -80,6 +92,8 @@ The report contains 4 columns, which have their own specific meaning (when using
 	4	Symbol: the symbol name which constitutes the sample, and the privilege level at which the sample was taken. 
     
 There are 5 privilege levels: [.] user level, [k] kernel level, [g] guest kernel level (virtualization), [u] guest OS userspace, and [H] hypervisor. With this data, we can identify the functions that generate the highest overhead in our code.
+
+
 
 
 
