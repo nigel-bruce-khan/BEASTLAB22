@@ -112,8 +112,7 @@ After selecting a certain command (function), we press `a`, for annotate, to get
 
 ![mm_annotate](mm_annotate.png)
 
-Using `perf top -a` generates and displays a performance counter profile in real time 
-
+Using `perf top -a` generates and displays a performance counter profile in real time. The user can then identify functions that are in use on the computer right at the command execution. 
 
 **2)**
 **(a)** For this task, we tested with Rome2 and ThunderX2 machines. PAPI is enabled by commanding ´module load papi/5.7.0_rocm´ on Rome. On Thunder, firstly CUDA have to be loaded with ´module load cuda/11.1.1´ and then load PAPI with ´module load papi/5.7.0_cuda´. ´papi_avail´ command shows availability of PAPI commands. In this task, since we measure the CPU performance and memory bandwidth, we used following PAPI events:
