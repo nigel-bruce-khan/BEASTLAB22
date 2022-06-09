@@ -118,7 +118,7 @@ The files containing the results are stored in the metrics folder
 
 
 
-####References:
+#### References:
 
 1. https://indico.cern.ch/event/962112/contributions/4110591/attachments/2159863/3643851/CERN_Nsight_Compute.pdf
 2. https://docs.nvidia.com/nsight-compute/ProfilingGuide/index.html#metrics-structure
