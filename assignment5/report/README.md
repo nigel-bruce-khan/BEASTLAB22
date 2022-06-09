@@ -85,6 +85,8 @@ One possible explanation can be that our chosen Performance Monitors aren't very
 
 **c)** We ran both routines with the same events as before, only this time we recorded the aggregate results using `perf record`. Furthermore, we added two new events after observing the results of the matrix multiplication: LLC-load-misses and LLC-store-misses, to observe the cache calls for the first and last level. Using `perf report` allows us to take a deeper look at the collected data.
 
+![task1c](perf_record.png)
+
 The report contains 4 columns, which have their own specific meaning (when using `top` the command column doesn't appear):
 	1	Overhead: the percentage of overall samples collected in the corresponding function
 	2	Command: the command to which the samples belong
@@ -225,6 +227,6 @@ The files containing the results are stored in the metrics folder
 7. https://linux-perf-users.vger.kernel.narkive.com/s7GIb114/some-troubles-with-perf-and-measuring-flops
 8. https://www.brendangregg.com/blog/2014-06-22/perf-cpu-sample.html
 9. https://web.eece.maine.edu/~vweaver/projects/perf_events/perf_event_open.html
-
+10. https://perfmon-events.intel.com/#
 
 
