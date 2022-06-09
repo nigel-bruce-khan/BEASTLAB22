@@ -112,7 +112,7 @@ After selecting a certain command (function), we press `a`, for annotate, to get
 
 ![mm_annotate](mm_annotate.png)
 
-
+Using `perf top -a` generates and displays a performance counter profile in real time 
 
 
 **2)**
