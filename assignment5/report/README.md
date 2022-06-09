@@ -20,7 +20,7 @@ With the command `perf list` we can observe the events and their corresponding t
 |User Statically Defined Tracing|Static tracepoints for user-level programs and applications.|
 |Dynamic Tracing|Software can be dynamically instrumented, creating events in any location.|
 
-We listed the events whose measurements will help us with the performance analysis and gather the necessary data for the roofline model, specially for the _operational intensity_ (FLOP/byte).
+We listed the events whose measurements will help us with the performance analysis and gather the necessary data for the roofline model, specially for the _operational intensity_ (FLOP/byte). Since triad is a memory bound problem, and matrix multiplication a computer bound, we look for events that account for data transfers in different levels and flops. 
 
 - cpu-cycles OR cpu/cpu-cycles/: The counter increments on every CPU cycle
 - mem-loads OR cpu/mem-loads/ (Icelake): Counts all retired load instructions. This event accounts for SW prefetch instructions for loads.
@@ -36,15 +36,26 @@ For FLOPS we made use of the library `libpf4m` to get the codes for raw events t
 - raw events: r81d0 (DRAM loads Icelake)
 - raw events: r82d0 (DRAM stores Icelake)
 
-b) We used Icelake to profile our benchmarks. For triad we set N=2^27, with 72 threads and 80 repetitions (to allow for more samples collection), and we execute `perf stat` without any event. The executable file **triad** was compiled using the same optimization flags as in assignment 1. The image on the left shows the default events, and the image on the right shows the results obtained with `perf stat -a -e` with FLOPS counting, DRAM loads and stores, L1-dcache stores/loads, uncore_imc_*/cas_count_read/  as well as duration time for the whole system. 
+b) We used Icelake to profile our benchmarks. For triad we set N=2^27, with 72 threads and 80 repetitions (to allow for more samples collection), and we execute `perf stat` without any event. The executable file **triad** was compiled using the same optimization flags as in assignment 1. The image on the left shows the default events, and the image on the right shows the results obtained with `perf stat -a -e` with FLOPS counting, DRAM loads and stores, L1-dcache stores/loads, uncore_imc_*/cas_count_read/  as well as duration time for the whole system, indicated by the -a command. 
 
 |**perf stat**                  | **perf stat -a -e **           |
 |---------                      |---------------------           |
 |![task1a](triad_perf_stat.png) |![task1a](triad_perf_stat_a.png)|
 
+For Icelake, the theoretical peak performance (without hyperthreading) is given by:
 
-![task1a](triad_perf_stat.png) 
+    PP = CPU_clockspeed * CPU_cores * CPU instructions per cycle * number of vector units per core * units
+    PP = 2.4 GHz * 36 cores * (2*8)flops/vector * 2 vector/core * 2 = 5.529 TFlOP/s
 
+Looking at the results from perf, we added the read and write operations from the _entire code_to obtain the MiB, and we converted these to Megabytes, resulting in 14183.489864 MB, equal to 14.183 GB. To compute the operational intensity, we simply divide the flops by the transferred bytes, in this case:
+
+    OI_PERF= 0.172844005 GFlop/14.183 GB = 0.01218
+
+which compared to our previous result from assignment 1, which was 2/32 = 0.0625 is significantly higher (almost twice). 
+
+On the other hand, if we only consider the **memory** results from perf, we assume FLOPS = 2*datasize = 2*2^27 = 0.268435 GFlop, hence our operational intensity is:
+
+    OI_PERF= 0.268435GFlop/14.183 GB = 0.0189265
 
 
 
