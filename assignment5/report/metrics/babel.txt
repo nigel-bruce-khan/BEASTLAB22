@@ -1,0 +1,312 @@
+[16:17:39.161417341] (+?.?????????) ice1 lttng_ust_cuda:cuInit_entry: { cpu_id = 72 }, { vpid = 50754, vtid = 50754 }, { Flags = 0 }
+[16:17:39.161430368] (+0.000013027) ice1 lttng_ust_cuda:cuInit_exit: { cpu_id = 72 }, { vpid = 50754, vtid = 50754 }, { cuResult = 0 }
+[16:17:39.161444287] (+0.000013919) ice1 lttng_ust_cuda:cuDeviceGetCount_entry: { cpu_id = 72 }, { vpid = 50754, vtid = 50754 }, { count = 0x7FE2A38D52A0 }
+[16:17:39.161447081] (+0.000002794) ice1 lttng_ust_cuda:cuDeviceGetCount_exit: { cpu_id = 72 }, { vpid = 50754, vtid = 50754 }, { cuResult = 0, count_val = 1 }
+[16:17:39.162129210] (+0.000682129) ice1 lttng_ust_cuda:cuDeviceGet_entry: { cpu_id = 72 }, { vpid = 50754, vtid = 50754 }, { device = 0x7FFF2F5E7FF4, ordinal = 0 }
+[16:17:39.162130613] (+0.000001403) ice1 lttng_ust_cuda:cuDeviceGet_exit: { cpu_id = 72 }, { vpid = 50754, vtid = 50754 }, { cuResult = 0, device_val = 0 }
+[16:17:39.162134692] (+0.000004079) ice1 lttng_ust_cuda:cuDevicePrimaryCtxGetState_entry: { cpu_id = 72 }, { vpid = 50754, vtid = 50754 }, { dev = 0, flags = 0x7FFF2F5E800C, active = 0x7FFF2F5E7FFC }
+[16:17:39.162138508] (+0.000003816) ice1 lttng_ust_cuda:cuDevicePrimaryCtxGetState_exit: { cpu_id = 72 }, { vpid = 50754, vtid = 50754 }, { cuResult = 0, flags_val = 0, active_val = 0 }
+[16:17:39.162140262] (+0.000001754) ice1 lttng_ust_cuda:cuDevicePrimaryCtxSetFlags_v2_entry: { cpu_id = 72 }, { vpid = 50754, vtid = 50754 }, { dev = 0, flags = 4 }
+[16:17:39.162141048] (+0.000000786) ice1 lttng_ust_cuda:cuDevicePrimaryCtxSetFlags_v2_exit: { cpu_id = 72 }, { vpid = 50754, vtid = 50754 }, { cuResult = 0 }
+[16:17:39.162143450] (+0.000002402) ice1 lttng_ust_cuda:cuDevicePrimaryCtxRetain_entry: { cpu_id = 72 }, { vpid = 50754, vtid = 50754 }, { pctx = 0xBA8C10, dev = 0 }
+[16:17:39.269098141] (+0.106954691) ice1 lttng_ust_cuda:cuDevicePrimaryCtxRetain_exit: { cpu_id = 72 }, { vpid = 50754, vtid = 50754 }, { cuResult = 0, pctx_val = 0xBB0100 }
+[16:17:39.269105654] (+0.000007513) ice1 lttng_ust_cuda:cuCtxSetCurrent_entry: { cpu_id = 72 }, { vpid = 50754, vtid = 50754 }, { ctx = 0xBB0100 }
+[16:17:39.269108790] (+0.000003136) ice1 lttng_ust_cuda:cuCtxSetCurrent_exit: { cpu_id = 72 }, { vpid = 50754, vtid = 50754 }, { cuResult = 0 }
+[16:17:39.269109417] (+0.000000627) ice1 lttng_ust_cuda:cuCtxSetCurrent_entry: { cpu_id = 72 }, { vpid = 50754, vtid = 50754 }, { ctx = 0xBB0100 }
+[16:17:39.269109962] (+0.000000545) ice1 lttng_ust_cuda:cuCtxSetCurrent_exit: { cpu_id = 72 }, { vpid = 50754, vtid = 50754 }, { cuResult = 0 }
+[16:17:39.269127505] (+0.000017543) ice1 lttng_ust_cuda:cuStreamCreate_entry: { cpu_id = 72 }, { vpid = 50754, vtid = 50754 }, { phStream = 0x1265720, Flags = 1 }
+[16:17:39.269154035] (+0.000026530) ice1 lttng_ust_cuda:cuStreamCreate_exit: { cpu_id = 72 }, { vpid = 50754, vtid = 50754 }, { cuResult = 0, phStream_val = 0x13A5550 }
+[16:17:39.269154529] (+0.000000494) ice1 lttng_ust_cuda:cuStreamCreate_entry: { cpu_id = 72 }, { vpid = 50754, vtid = 50754 }, { phStream = 0x1265728, Flags = 1 }
+[16:17:39.269170120] (+0.000015591) ice1 lttng_ust_cuda:cuStreamCreate_exit: { cpu_id = 72 }, { vpid = 50754, vtid = 50754 }, { cuResult = 0, phStream_val = 0x144C920 }
+[16:17:39.269170588] (+0.000000468) ice1 lttng_ust_cuda:cuStreamCreate_entry: { cpu_id = 72 }, { vpid = 50754, vtid = 50754 }, { phStream = 0x1265730, Flags = 1 }
+[16:17:39.269172472] (+0.000001884) ice1 lttng_ust_cuda:cuStreamCreate_exit: { cpu_id = 72 }, { vpid = 50754, vtid = 50754 }, { cuResult = 0, phStream_val = 0x1436780 }
+[16:17:39.269172763] (+0.000000291) ice1 lttng_ust_cuda:cuStreamCreate_entry: { cpu_id = 72 }, { vpid = 50754, vtid = 50754 }, { phStream = 0x1265738, Flags = 1 }
+[16:17:39.269174611] (+0.000001848) ice1 lttng_ust_cuda:cuStreamCreate_exit: { cpu_id = 72 }, { vpid = 50754, vtid = 50754 }, { cuResult = 0, phStream_val = 0x14367A0 }
+[16:17:39.269175135] (+0.000000524) ice1 lttng_ust_cuda:cuStreamCreate_entry: { cpu_id = 72 }, { vpid = 50754, vtid = 50754 }, { phStream = 0x1265740, Flags = 1 }
+[16:17:39.269176981] (+0.000001846) ice1 lttng_ust_cuda:cuStreamCreate_exit: { cpu_id = 72 }, { vpid = 50754, vtid = 50754 }, { cuResult = 0, phStream_val = 0x1451F80 }
+[16:17:39.269177691] (+0.000000710) ice1 lttng_ust_cuda:cuStreamCreate_entry: { cpu_id = 72 }, { vpid = 50754, vtid = 50754 }, { phStream = 0x1265748, Flags = 1 }
+[16:17:39.269179488] (+0.000001797) ice1 lttng_ust_cuda:cuStreamCreate_exit: { cpu_id = 72 }, { vpid = 50754, vtid = 50754 }, { cuResult = 0, phStream_val = 0x1436810 }
+[16:17:39.269179777] (+0.000000289) ice1 lttng_ust_cuda:cuStreamCreate_entry: { cpu_id = 72 }, { vpid = 50754, vtid = 50754 }, { phStream = 0x1265750, Flags = 1 }
+[16:17:39.269181333] (+0.000001556) ice1 lttng_ust_cuda:cuStreamCreate_exit: { cpu_id = 72 }, { vpid = 50754, vtid = 50754 }, { cuResult = 0, phStream_val = 0x13A5570 }
+[16:17:39.269181627] (+0.000000294) ice1 lttng_ust_cuda:cuStreamCreate_entry: { cpu_id = 72 }, { vpid = 50754, vtid = 50754 }, { phStream = 0x1265758, Flags = 1 }
+[16:17:39.269183360] (+0.000001733) ice1 lttng_ust_cuda:cuStreamCreate_exit: { cpu_id = 72 }, { vpid = 50754, vtid = 50754 }, { cuResult = 0, phStream_val = 0x1308350 }
+[16:17:39.269183691] (+0.000000331) ice1 lttng_ust_cuda:cuStreamCreate_entry: { cpu_id = 72 }, { vpid = 50754, vtid = 50754 }, { phStream = 0x1265760, Flags = 1 }
+[16:17:39.269185614] (+0.000001923) ice1 lttng_ust_cuda:cuStreamCreate_exit: { cpu_id = 72 }, { vpid = 50754, vtid = 50754 }, { cuResult = 0, phStream_val = 0x1462AC0 }
+[16:17:39.269186202] (+0.000000588) ice1 lttng_ust_cuda:cuStreamCreate_entry: { cpu_id = 72 }, { vpid = 50754, vtid = 50754 }, { phStream = 0x1265768, Flags = 1 }
+[16:17:39.269343709] (+0.000157507) ice1 lttng_ust_cuda:cuStreamCreate_exit: { cpu_id = 72 }, { vpid = 50754, vtid = 50754 }, { cuResult = 0, phStream_val = 0x1462B60 }
+[16:17:39.269344410] (+0.000000701) ice1 lttng_ust_cuda:cuStreamCreate_entry: { cpu_id = 72 }, { vpid = 50754, vtid = 50754 }, { phStream = 0x1265770, Flags = 1 }
+[16:17:39.269346142] (+0.000001732) ice1 lttng_ust_cuda:cuStreamCreate_exit: { cpu_id = 72 }, { vpid = 50754, vtid = 50754 }, { cuResult = 0, phStream_val = 0x146B240 }
+[16:17:39.269346565] (+0.000000423) ice1 lttng_ust_cuda:cuStreamCreate_entry: { cpu_id = 72 }, { vpid = 50754, vtid = 50754 }, { phStream = 0x1265778, Flags = 1 }
+[16:17:39.269348269] (+0.000001704) ice1 lttng_ust_cuda:cuStreamCreate_exit: { cpu_id = 72 }, { vpid = 50754, vtid = 50754 }, { cuResult = 0, phStream_val = 0x146B2E0 }
+[16:17:39.269348672] (+0.000000403) ice1 lttng_ust_cuda:cuStreamCreate_entry: { cpu_id = 72 }, { vpid = 50754, vtid = 50754 }, { phStream = 0x1265780, Flags = 1 }
+[16:17:39.269350878] (+0.000002206) ice1 lttng_ust_cuda:cuStreamCreate_exit: { cpu_id = 72 }, { vpid = 50754, vtid = 50754 }, { cuResult = 0, phStream_val = 0x146B380 }
+[16:17:39.269351164] (+0.000000286) ice1 lttng_ust_cuda:cuStreamCreate_entry: { cpu_id = 72 }, { vpid = 50754, vtid = 50754 }, { phStream = 0x1265788, Flags = 1 }
+[16:17:39.269353008] (+0.000001844) ice1 lttng_ust_cuda:cuStreamCreate_exit: { cpu_id = 72 }, { vpid = 50754, vtid = 50754 }, { cuResult = 0, phStream_val = 0x146B420 }
+[16:17:39.269353293] (+0.000000285) ice1 lttng_ust_cuda:cuStreamCreate_entry: { cpu_id = 72 }, { vpid = 50754, vtid = 50754 }, { phStream = 0x1265790, Flags = 1 }
+[16:17:39.269354835] (+0.000001542) ice1 lttng_ust_cuda:cuStreamCreate_exit: { cpu_id = 72 }, { vpid = 50754, vtid = 50754 }, { cuResult = 0, phStream_val = 0x146B4C0 }
+[16:17:39.269355302] (+0.000000467) ice1 lttng_ust_cuda:cuStreamCreate_entry: { cpu_id = 72 }, { vpid = 50754, vtid = 50754 }, { phStream = 0x1265798, Flags = 1 }
+[16:17:39.269356823] (+0.000001521) ice1 lttng_ust_cuda:cuStreamCreate_exit: { cpu_id = 72 }, { vpid = 50754, vtid = 50754 }, { cuResult = 0, phStream_val = 0x146B560 }
+[16:17:39.269357355] (+0.000000532) ice1 lttng_ust_cuda:cuStreamCreate_entry: { cpu_id = 72 }, { vpid = 50754, vtid = 50754 }, { phStream = 0x12657A0, Flags = 1 }
+[16:17:39.269358763] (+0.000001408) ice1 lttng_ust_cuda:cuStreamCreate_exit: { cpu_id = 72 }, { vpid = 50754, vtid = 50754 }, { cuResult = 0, phStream_val = 0x146B600 }
+[16:17:39.269359052] (+0.000000289) ice1 lttng_ust_cuda:cuStreamCreate_entry: { cpu_id = 72 }, { vpid = 50754, vtid = 50754 }, { phStream = 0x12657A8, Flags = 1 }
+[16:17:39.269371722] (+0.000012670) ice1 lttng_ust_cuda:cuStreamCreate_exit: { cpu_id = 72 }, { vpid = 50754, vtid = 50754 }, { cuResult = 0, phStream_val = 0x146B6A0 }
+[16:17:39.269372025] (+0.000000303) ice1 lttng_ust_cuda:cuStreamCreate_entry: { cpu_id = 72 }, { vpid = 50754, vtid = 50754 }, { phStream = 0x12657B0, Flags = 1 }
+[16:17:39.269376973] (+0.000004948) ice1 lttng_ust_cuda:cuStreamCreate_exit: { cpu_id = 72 }, { vpid = 50754, vtid = 50754 }, { cuResult = 0, phStream_val = 0x1470FC0 }
+[16:17:39.269377274] (+0.000000301) ice1 lttng_ust_cuda:cuStreamCreate_entry: { cpu_id = 72 }, { vpid = 50754, vtid = 50754 }, { phStream = 0x12657B8, Flags = 1 }
+[16:17:39.269378826] (+0.000001552) ice1 lttng_ust_cuda:cuStreamCreate_exit: { cpu_id = 72 }, { vpid = 50754, vtid = 50754 }, { cuResult = 0, phStream_val = 0x1471060 }
+[16:17:39.269379338] (+0.000000512) ice1 lttng_ust_cuda:cuStreamCreate_entry: { cpu_id = 72 }, { vpid = 50754, vtid = 50754 }, { phStream = 0x12657C0, Flags = 1 }
+[16:17:39.269380670] (+0.000001332) ice1 lttng_ust_cuda:cuStreamCreate_exit: { cpu_id = 72 }, { vpid = 50754, vtid = 50754 }, { cuResult = 0, phStream_val = 0x1471100 }
+[16:17:39.269381175] (+0.000000505) ice1 lttng_ust_cuda:cuStreamCreate_entry: { cpu_id = 72 }, { vpid = 50754, vtid = 50754 }, { phStream = 0x12657C8, Flags = 1 }
+[16:17:39.269383176] (+0.000002001) ice1 lttng_ust_cuda:cuStreamCreate_exit: { cpu_id = 72 }, { vpid = 50754, vtid = 50754 }, { cuResult = 0, phStream_val = 0x14711A0 }
+[16:17:39.269383464] (+0.000000288) ice1 lttng_ust_cuda:cuStreamCreate_entry: { cpu_id = 72 }, { vpid = 50754, vtid = 50754 }, { phStream = 0x12657D0, Flags = 1 }
+[16:17:39.269385096] (+0.000001632) ice1 lttng_ust_cuda:cuStreamCreate_exit: { cpu_id = 72 }, { vpid = 50754, vtid = 50754 }, { cuResult = 0, phStream_val = 0x1471240 }
+[16:17:39.269385381] (+0.000000285) ice1 lttng_ust_cuda:cuStreamCreate_entry: { cpu_id = 72 }, { vpid = 50754, vtid = 50754 }, { phStream = 0x12657D8, Flags = 1 }
+[16:17:39.269386776] (+0.000001395) ice1 lttng_ust_cuda:cuStreamCreate_exit: { cpu_id = 72 }, { vpid = 50754, vtid = 50754 }, { cuResult = 0, phStream_val = 0x14712E0 }
+[16:17:39.269387063] (+0.000000287) ice1 lttng_ust_cuda:cuStreamCreate_entry: { cpu_id = 72 }, { vpid = 50754, vtid = 50754 }, { phStream = 0x12657E0, Flags = 1 }
+[16:17:39.269388484] (+0.000001421) ice1 lttng_ust_cuda:cuStreamCreate_exit: { cpu_id = 72 }, { vpid = 50754, vtid = 50754 }, { cuResult = 0, phStream_val = 0x1471380 }
+[16:17:39.269388769] (+0.000000285) ice1 lttng_ust_cuda:cuStreamCreate_entry: { cpu_id = 72 }, { vpid = 50754, vtid = 50754 }, { phStream = 0x12657E8, Flags = 1 }
+[16:17:39.269495541] (+0.000106772) ice1 lttng_ust_cuda:cuStreamCreate_exit: { cpu_id = 72 }, { vpid = 50754, vtid = 50754 }, { cuResult = 0, phStream_val = 0x1471420 }
+[16:17:39.269496057] (+0.000000516) ice1 lttng_ust_cuda:cuStreamCreate_entry: { cpu_id = 72 }, { vpid = 50754, vtid = 50754 }, { phStream = 0x12657F0, Flags = 1 }
+[16:17:39.269498063] (+0.000002006) ice1 lttng_ust_cuda:cuStreamCreate_exit: { cpu_id = 72 }, { vpid = 50754, vtid = 50754 }, { cuResult = 0, phStream_val = 0xBAC700 }
+[16:17:39.269498522] (+0.000000459) ice1 lttng_ust_cuda:cuStreamCreate_entry: { cpu_id = 72 }, { vpid = 50754, vtid = 50754 }, { phStream = 0x12657F8, Flags = 1 }
+[16:17:39.269500033] (+0.000001511) ice1 lttng_ust_cuda:cuStreamCreate_exit: { cpu_id = 72 }, { vpid = 50754, vtid = 50754 }, { cuResult = 0, phStream_val = 0xBAC7A0 }
+[16:17:39.269500424] (+0.000000391) ice1 lttng_ust_cuda:cuStreamCreate_entry: { cpu_id = 72 }, { vpid = 50754, vtid = 50754 }, { phStream = 0x1265800, Flags = 1 }
+[16:17:39.269501912] (+0.000001488) ice1 lttng_ust_cuda:cuStreamCreate_exit: { cpu_id = 72 }, { vpid = 50754, vtid = 50754 }, { cuResult = 0, phStream_val = 0xBAC840 }
+[16:17:39.269502306] (+0.000000394) ice1 lttng_ust_cuda:cuStreamCreate_entry: { cpu_id = 72 }, { vpid = 50754, vtid = 50754 }, { phStream = 0x1265808, Flags = 1 }
+[16:17:39.269503951] (+0.000001645) ice1 lttng_ust_cuda:cuStreamCreate_exit: { cpu_id = 72 }, { vpid = 50754, vtid = 50754 }, { cuResult = 0, phStream_val = 0xBAC8E0 }
+[16:17:39.269504260] (+0.000000309) ice1 lttng_ust_cuda:cuStreamCreate_entry: { cpu_id = 72 }, { vpid = 50754, vtid = 50754 }, { phStream = 0x1265810, Flags = 1 }
+[16:17:39.269506151] (+0.000001891) ice1 lttng_ust_cuda:cuStreamCreate_exit: { cpu_id = 72 }, { vpid = 50754, vtid = 50754 }, { cuResult = 0, phStream_val = 0xBAC980 }
+[16:17:39.269506437] (+0.000000286) ice1 lttng_ust_cuda:cuStreamCreate_entry: { cpu_id = 72 }, { vpid = 50754, vtid = 50754 }, { phStream = 0x1265818, Flags = 1 }
+[16:17:39.269507758] (+0.000001321) ice1 lttng_ust_cuda:cuStreamCreate_exit: { cpu_id = 72 }, { vpid = 50754, vtid = 50754 }, { cuResult = 0, phStream_val = 0xBACA20 }
+[16:17:39.269509470] (+0.000001712) ice1 lttng_ust_cuda:cuDeviceGetAttribute_entry: { cpu_id = 72 }, { vpid = 50754, vtid = 50754 }, { pi = 0x7FFF2F5E8008, attrib = 5, dev = 0 }
+[16:17:39.269512085] (+0.000002615) ice1 lttng_ust_cuda:cuDeviceGetAttribute_exit: { cpu_id = 72 }, { vpid = 50754, vtid = 50754 }, { cuResult = 0, pi_val = 2147483647 }
+[16:17:39.269512421] (+0.000000336) ice1 lttng_ust_cuda:cuDeviceGetAttribute_entry: { cpu_id = 72 }, { vpid = 50754, vtid = 50754 }, { pi = 0x7FFF2F5E8004, attrib = 2, dev = 0 }
+[16:17:39.269512789] (+0.000000368) ice1 lttng_ust_cuda:cuDeviceGetAttribute_exit: { cpu_id = 72 }, { vpid = 50754, vtid = 50754 }, { cuResult = 0, pi_val = 1024 }
+[16:17:39.269513186] (+0.000000397) ice1 lttng_ust_cuda:cuDeviceGetAttribute_entry: { cpu_id = 72 }, { vpid = 50754, vtid = 50754 }, { pi = 0x7FFF2F5E8000, attrib = 10, dev = 0 }
+[16:17:39.269513751] (+0.000000565) ice1 lttng_ust_cuda:cuDeviceGetAttribute_exit: { cpu_id = 72 }, { vpid = 50754, vtid = 50754 }, { cuResult = 0, pi_val = 32 }
+[16:17:39.269520777] (+0.000007026) ice1 lttng_ust_cuda:cuCtxSetCurrent_entry: { cpu_id = 72 }, { vpid = 50754, vtid = 50754 }, { ctx = 0xBB0100 }
+[16:17:39.269521374] (+0.000000597) ice1 lttng_ust_cuda:cuCtxSetCurrent_exit: { cpu_id = 72 }, { vpid = 50754, vtid = 50754 }, { cuResult = 0 }
+[16:17:39.269527507] (+0.000006133) ice1 lttng_ust_cuda:cuModuleLoadDataEx_entry: { cpu_id = 72 }, { vpid = 50754, vtid = 50754 }, { module = 0x7FFF2F5E8038, image = 0x402200, numOptions = 0, options = 0x0, optionValues = 0x0, _options_vals_length = 0, options_vals = [ ], _optionValues_vals_length = 0, optionValues_vals = [ ] }
+[16:17:39.273479055] (+0.003951548) ice1 lttng_ust_cuda:cuModuleLoadDataEx_exit: { cpu_id = 72 }, { vpid = 50754, vtid = 50754 }, { cuResult = 0, module_val = 0x147A5C0 }
+[16:17:39.273487543] (+0.000008488) ice1 lttng_ust_cuda:cuModuleGetFunction_entry: { cpu_id = 72 }, { vpid = 50754, vtid = 50754 }, { hfunc = 0x7FFF2F5E7FE8, hmod = 0x147A5C0, name = 0x4021A0, name_val = "__omp_offloading_53_b5a8332__Z5triadmmll_l34" }
+[16:17:39.273490612] (+0.000003069) ice1 lttng_ust_cuda:cuModuleGetFunction_exit: { cpu_id = 72 }, { vpid = 50754, vtid = 50754 }, { cuResult = 0, hfunc_val = 0x14F88C0 }
+[16:17:39.273506476] (+0.000015864) ice1 lttng_ust_cuda:cuModuleGetGlobal_v2_entry: { cpu_id = 72 }, { vpid = 50754, vtid = 50754 }, { dptr = 0x7FFF2F5E8030, bytes = 0x7FFF2F5E8060, hmod = 0x147A5C0, name = 0x12B53D0, name_val = "__omp_offloading_53_b5a8332__Z5triadmmll_l34_exec_mode" }
+[16:17:39.273509264] (+0.000002788) ice1 lttng_ust_cuda:cuModuleGetGlobal_v2_exit: { cpu_id = 72 }, { vpid = 50754, vtid = 50754 }, { cuResult = 0, dptr_val = 0x7FE175E00000, bytes_val = 1 }
+[16:17:39.273524572] (+0.000015308) ice1 lttng_ust_cuda:cuMemcpyDtoH_v2_entry: { cpu_id = 72 }, { vpid = 50754, vtid = 50754 }, { dstHost = 0x7FFF2F5E7FE7, srcDevice = 0x7FE175E00000, ByteCount = 1 }
+[16:17:39.273576543] (+0.000051971) ice1 lttng_ust_cuda_profiling:event_profiling: { cpu_id = 72 }, { vpid = 50754, vtid = 50754 }, { hStart = 0x14AB8B0, hStop = 0x14ABA90 }
+[16:17:39.273577656] (+0.000001113) ice1 lttng_ust_cuda:cuMemcpyDtoH_v2_exit: { cpu_id = 72 }, { vpid = 50754, vtid = 50754 }, { cuResult = 0 }
+[16:17:39.273579045] (+0.000001389) ice1 lttng_ust_cuda:cuModuleGetFunction_entry: { cpu_id = 72 }, { vpid = 50754, vtid = 50754 }, { hfunc = 0x7FFF2F5E7FE8, hmod = 0x147A5C0, name = 0x4021D0, name_val = "__omp_offloading_53_b5a8332__Z5triadmmll_l49" }
+[16:17:39.273580109] (+0.000001064) ice1 lttng_ust_cuda:cuModuleGetFunction_exit: { cpu_id = 72 }, { vpid = 50754, vtid = 50754 }, { cuResult = 0, hfunc_val = 0x14E7970 }
+[16:17:39.273580869] (+0.000000760) ice1 lttng_ust_cuda:cuModuleGetGlobal_v2_entry: { cpu_id = 72 }, { vpid = 50754, vtid = 50754 }, { dptr = 0x7FFF2F5E8030, bytes = 0x7FFF2F5E8060, hmod = 0x147A5C0, name = 0x12B53D0, name_val = "__omp_offloading_53_b5a8332__Z5triadmmll_l49_exec_mode" }
+[16:17:39.273582403] (+0.000001534) ice1 lttng_ust_cuda:cuModuleGetGlobal_v2_exit: { cpu_id = 72 }, { vpid = 50754, vtid = 50754 }, { cuResult = 0, dptr_val = 0x7FE175E00100, bytes_val = 1 }
+[16:17:39.273583133] (+0.000000730) ice1 lttng_ust_cuda:cuMemcpyDtoH_v2_entry: { cpu_id = 72 }, { vpid = 50754, vtid = 50754 }, { dstHost = 0x7FFF2F5E7FE7, srcDevice = 0x7FE175E00100, ByteCount = 1 }
+[16:17:39.273601911] (+0.000018778) ice1 lttng_ust_cuda_profiling:event_profiling: { cpu_id = 72 }, { vpid = 50754, vtid = 50754 }, { hStart = 0x14ABCA0, hStop = 0x14ABE80 }
+[16:17:39.273602470] (+0.000000559) ice1 lttng_ust_cuda:cuMemcpyDtoH_v2_exit: { cpu_id = 72 }, { vpid = 50754, vtid = 50754 }, { cuResult = 0 }
+[16:17:39.273603448] (+0.000000978) ice1 lttng_ust_cuda:cuModuleGetGlobal_v2_entry: { cpu_id = 72 }, { vpid = 50754, vtid = 50754 }, { dptr = 0x7FFF2F5E7FF0, bytes = 0x7FFF2F5E8010, hmod = 0x147A5C0, name = 0x7FE2A36D3349, name_val = "omptarget_device_environment" }
+[16:17:39.273604521] (+0.000001073) ice1 lttng_ust_cuda:cuModuleGetGlobal_v2_exit: { cpu_id = 72 }, { vpid = 50754, vtid = 50754 }, { cuResult = 500, dptr_val = 0x0, bytes_val = 0 }
+[16:17:39.273620864] (+0.000016343) ice1 lttng_ust_cuda:cuCtxSetCurrent_entry: { cpu_id = 72 }, { vpid = 50754, vtid = 50754 }, { ctx = 0xBB0100 }
+[16:17:39.273621904] (+0.000001040) ice1 lttng_ust_cuda:cuCtxSetCurrent_exit: { cpu_id = 72 }, { vpid = 50754, vtid = 50754 }, { cuResult = 0 }
+[16:17:39.273626156] (+0.000004252) ice1 lttng_ust_cuda:cuMemAlloc_v2_entry: { cpu_id = 72 }, { vpid = 50754, vtid = 50754 }, { dptr = 0x7FFF2F5E7D10, bytesize = 4 }
+[16:17:39.273795759] (+0.000169603) ice1 lttng_ust_cuda:cuMemAlloc_v2_exit: { cpu_id = 72 }, { vpid = 50754, vtid = 50754 }, { cuResult = 0, dptr_val = 0x7FE126C00000 }
+[16:17:39.273800972] (+0.000005213) ice1 lttng_ust_cuda:cuCtxSetCurrent_entry: { cpu_id = 72 }, { vpid = 50754, vtid = 50754 }, { ctx = 0xBB0100 }
+[16:17:39.273801803] (+0.000000831) ice1 lttng_ust_cuda:cuCtxSetCurrent_exit: { cpu_id = 72 }, { vpid = 50754, vtid = 50754 }, { cuResult = 0 }
+[16:17:39.273816405] (+0.000014602) ice1 lttng_ust_cuda:cuMemcpyHtoDAsync_v2_entry: { cpu_id = 72 }, { vpid = 50754, vtid = 50754 }, { dstDevice = 0x7FE126C00000, srcHost = 0x7FFF2F5E84E4, ByteCount = 4, hStream = 0x13A5550 }
+[16:17:39.273834545] (+0.000018140) ice1 lttng_ust_cuda_profiling:event_profiling: { cpu_id = 72 }, { vpid = 50754, vtid = 50754 }, { hStart = 0x14AD130, hStop = 0x14AD310 }
+[16:17:39.273835571] (+0.000001026) ice1 lttng_ust_cuda:cuMemcpyHtoDAsync_v2_exit: { cpu_id = 72 }, { vpid = 50754, vtid = 50754 }, { cuResult = 0 }
+[16:17:39.273838735] (+0.000003164) ice1 lttng_ust_cuda:cuCtxSetCurrent_entry: { cpu_id = 72 }, { vpid = 50754, vtid = 50754 }, { ctx = 0xBB0100 }
+[16:17:39.273839112] (+0.000000377) ice1 lttng_ust_cuda:cuCtxSetCurrent_exit: { cpu_id = 72 }, { vpid = 50754, vtid = 50754 }, { cuResult = 0 }
+[16:17:39.273839660] (+0.000000548) ice1 lttng_ust_cuda:cuMemAlloc_v2_entry: { cpu_id = 72 }, { vpid = 50754, vtid = 50754 }, { dptr = 0x7FFF2F5E7D10, bytesize = 8 }
+[16:17:39.273845168] (+0.000005508) ice1 lttng_ust_cuda:cuMemAlloc_v2_exit: { cpu_id = 72 }, { vpid = 50754, vtid = 50754 }, { cuResult = 0, dptr_val = 0x7FE126C00200 }
+[16:17:39.273845940] (+0.000000772) ice1 lttng_ust_cuda:cuCtxSetCurrent_entry: { cpu_id = 72 }, { vpid = 50754, vtid = 50754 }, { ctx = 0xBB0100 }
+[16:17:39.273846270] (+0.000000330) ice1 lttng_ust_cuda:cuCtxSetCurrent_exit: { cpu_id = 72 }, { vpid = 50754, vtid = 50754 }, { cuResult = 0 }
+[16:17:39.273846819] (+0.000000549) ice1 lttng_ust_cuda:cuMemcpyHtoDAsync_v2_entry: { cpu_id = 72 }, { vpid = 50754, vtid = 50754 }, { dstDevice = 0x7FE126C00200, srcHost = 0x7FFF2F5E8510, ByteCount = 8, hStream = 0x13A5550 }
+[16:17:39.273856118] (+0.000009299) ice1 lttng_ust_cuda_profiling:event_profiling: { cpu_id = 72 }, { vpid = 50754, vtid = 50754 }, { hStart = 0x14ADA70, hStop = 0x14ADC50 }
+[16:17:39.273856663] (+0.000000545) ice1 lttng_ust_cuda:cuMemcpyHtoDAsync_v2_exit: { cpu_id = 72 }, { vpid = 50754, vtid = 50754 }, { cuResult = 0 }
+[16:17:39.273857269] (+0.000000606) ice1 lttng_ust_cuda:cuCtxSetCurrent_entry: { cpu_id = 72 }, { vpid = 50754, vtid = 50754 }, { ctx = 0xBB0100 }
+[16:17:39.273857590] (+0.000000321) ice1 lttng_ust_cuda:cuCtxSetCurrent_exit: { cpu_id = 72 }, { vpid = 50754, vtid = 50754 }, { cuResult = 0 }
+[16:17:39.273858136] (+0.000000546) ice1 lttng_ust_cuda:cuMemAlloc_v2_entry: { cpu_id = 72 }, { vpid = 50754, vtid = 50754 }, { dptr = 0x7FFF2F5E7D10, bytesize = 8 }
+[16:17:39.273862671] (+0.000004535) ice1 lttng_ust_cuda:cuMemAlloc_v2_exit: { cpu_id = 72 }, { vpid = 50754, vtid = 50754 }, { cuResult = 0, dptr_val = 0x7FE126C00400 }
+[16:17:39.273864948] (+0.000002277) ice1 lttng_ust_cuda:cuCtxSetCurrent_entry: { cpu_id = 72 }, { vpid = 50754, vtid = 50754 }, { ctx = 0xBB0100 }
+[16:17:39.273865275] (+0.000000327) ice1 lttng_ust_cuda:cuCtxSetCurrent_exit: { cpu_id = 72 }, { vpid = 50754, vtid = 50754 }, { cuResult = 0 }
+[16:17:39.273865593] (+0.000000318) ice1 lttng_ust_cuda:cuMemcpyHtoDAsync_v2_entry: { cpu_id = 72 }, { vpid = 50754, vtid = 50754 }, { dstDevice = 0x7FE126C00400, srcHost = 0x7FFF2F5E8508, ByteCount = 8, hStream = 0x13A5550 }
+[16:17:39.273874782] (+0.000009189) ice1 lttng_ust_cuda_profiling:event_profiling: { cpu_id = 72 }, { vpid = 50754, vtid = 50754 }, { hStart = 0x14AE3B0, hStop = 0x14AE590 }
+[16:17:39.273875104] (+0.000000322) ice1 lttng_ust_cuda:cuMemcpyHtoDAsync_v2_exit: { cpu_id = 72 }, { vpid = 50754, vtid = 50754 }, { cuResult = 0 }
+[16:17:39.273882255] (+0.000007151) ice1 lttng_ust_cuda:cuCtxSetCurrent_entry: { cpu_id = 72 }, { vpid = 50754, vtid = 50754 }, { ctx = 0xBB0100 }
+[16:17:39.273882582] (+0.000000327) ice1 lttng_ust_cuda:cuCtxSetCurrent_exit: { cpu_id = 72 }, { vpid = 50754, vtid = 50754 }, { cuResult = 0 }
+[16:17:39.273889252] (+0.000006670) ice1 lttng_ust_cuda:cuFuncGetAttribute_entry: { cpu_id = 72 }, { vpid = 50754, vtid = 50754 }, { pi = 0x14AC16C, attrib = 0, hfunc = 0x14F88C0 }
+[16:17:39.273890930] (+0.000001678) ice1 lttng_ust_cuda:cuFuncGetAttribute_exit: { cpu_id = 72 }, { vpid = 50754, vtid = 50754 }, { cuResult = 0, pi_val = 1024 }
+[16:17:39.273898469] (+0.000007539) ice1 lttng_ust_cuda:cuLaunchKernel_entry: { cpu_id = 72 }, { vpid = 50754, vtid = 50754 }, { f = 0x14F88C0, gridDimX = 1, gridDimY = 1, gridDimZ = 1, blockDimX = 33, blockDimY = 1, blockDimZ = 1, sharedMemBytes = 0, hStream = 0x13A5550, kernelParams = 0xBACBA0, extra = 0x0, _extra_vals_length = 0, extra_vals = [ ] }
+[16:17:39.273920885] (+0.000022416) ice1 lttng_ust_cuda_profiling:event_profiling: { cpu_id = 72 }, { vpid = 50754, vtid = 50754 }, { hStart = 0x14AE7A0, hStop = 0x14AE980 }
+[16:17:39.273923261] (+0.000002376) ice1 lttng_ust_cuda:cuLaunchKernel_exit: { cpu_id = 72 }, { vpid = 50754, vtid = 50754 }, { cuResult = 0 }
+[16:17:39.273925266] (+0.000002005) ice1 lttng_ust_cuda:cuCtxSetCurrent_entry: { cpu_id = 72 }, { vpid = 50754, vtid = 50754 }, { ctx = 0xBB0100 }
+[16:17:39.273926863] (+0.000001597) ice1 lttng_ust_cuda:cuCtxSetCurrent_exit: { cpu_id = 72 }, { vpid = 50754, vtid = 50754 }, { cuResult = 0 }
+[16:17:39.273928235] (+0.000001372) ice1 lttng_ust_cuda:cuMemcpyDtoHAsync_v2_entry: { cpu_id = 72 }, { vpid = 50754, vtid = 50754 }, { dstHost = 0x7FFF2F5E8508, srcDevice = 0x7FE126C00400, ByteCount = 8, hStream = 0x13A5550 }
+[16:17:39.274021999] (+0.000093764) ice1 lttng_ust_cuda_profiling:event_profiling: { cpu_id = 72 }, { vpid = 50754, vtid = 50754 }, { hStart = 0x14AEB90, hStop = 0x14AED70 }
+[16:17:39.274022949] (+0.000000950) ice1 lttng_ust_cuda:cuMemcpyDtoHAsync_v2_exit: { cpu_id = 72 }, { vpid = 50754, vtid = 50754 }, { cuResult = 0 }
+[16:17:39.274023950] (+0.000001001) ice1 lttng_ust_cuda:cuCtxSetCurrent_entry: { cpu_id = 72 }, { vpid = 50754, vtid = 50754 }, { ctx = 0xBB0100 }
+[16:17:39.274024482] (+0.000000532) ice1 lttng_ust_cuda:cuCtxSetCurrent_exit: { cpu_id = 72 }, { vpid = 50754, vtid = 50754 }, { cuResult = 0 }
+[16:17:39.274024823] (+0.000000341) ice1 lttng_ust_cuda:cuMemcpyDtoHAsync_v2_entry: { cpu_id = 72 }, { vpid = 50754, vtid = 50754 }, { dstHost = 0x7FFF2F5E8510, srcDevice = 0x7FE126C00200, ByteCount = 8, hStream = 0x13A5550 }
+[16:17:39.274039988] (+0.000015165) ice1 lttng_ust_cuda_profiling:event_profiling: { cpu_id = 72 }, { vpid = 50754, vtid = 50754 }, { hStart = 0x14AEF80, hStop = 0x14AF160 }
+[16:17:39.274040387] (+0.000000399) ice1 lttng_ust_cuda:cuMemcpyDtoHAsync_v2_exit: { cpu_id = 72 }, { vpid = 50754, vtid = 50754 }, { cuResult = 0 }
+[16:17:39.274041059] (+0.000000672) ice1 lttng_ust_cuda:cuCtxSetCurrent_entry: { cpu_id = 72 }, { vpid = 50754, vtid = 50754 }, { ctx = 0xBB0100 }
+[16:17:39.274041531] (+0.000000472) ice1 lttng_ust_cuda:cuCtxSetCurrent_exit: { cpu_id = 72 }, { vpid = 50754, vtid = 50754 }, { cuResult = 0 }
+[16:17:39.274041852] (+0.000000321) ice1 lttng_ust_cuda:cuMemcpyDtoHAsync_v2_entry: { cpu_id = 72 }, { vpid = 50754, vtid = 50754 }, { dstHost = 0x7FFF2F5E84E4, srcDevice = 0x7FE126C00000, ByteCount = 4, hStream = 0x13A5550 }
+[16:17:39.274056933] (+0.000015081) ice1 lttng_ust_cuda_profiling:event_profiling: { cpu_id = 72 }, { vpid = 50754, vtid = 50754 }, { hStart = 0x14AF3B0, hStop = 0x14AF590 }
+[16:17:39.274057308] (+0.000000375) ice1 lttng_ust_cuda:cuMemcpyDtoHAsync_v2_exit: { cpu_id = 72 }, { vpid = 50754, vtid = 50754 }, { cuResult = 0 }
+[16:17:39.274059235] (+0.000001927) ice1 lttng_ust_cuda:cuStreamSynchronize_entry: { cpu_id = 72 }, { vpid = 50754, vtid = 50754 }, { hStream = 0x13A5550 }
+[16:17:39.274066482] (+0.000007247) ice1 lttng_ust_cuda:cuStreamSynchronize_exit: { cpu_id = 72 }, { vpid = 50754, vtid = 50754 }, { cuResult = 0 }
+[16:17:40.638115026] (+1.364048544) ice1 lttng_ust_cuda:cuCtxSetCurrent_entry: { cpu_id = 72 }, { vpid = 50754, vtid = 50754 }, { ctx = 0xBB0100 }
+[16:17:40.638121000] (+0.000005974) ice1 lttng_ust_cuda:cuCtxSetCurrent_exit: { cpu_id = 72 }, { vpid = 50754, vtid = 50754 }, { cuResult = 0 }
+[16:17:40.638122710] (+0.000001710) ice1 lttng_ust_cuda:cuMemAlloc_v2_entry: { cpu_id = 72 }, { vpid = 50754, vtid = 50754 }, { dptr = 0x7FFF2F5E7D80, bytesize = 1073741824 }
+[16:17:40.639817957] (+0.001695247) ice1 lttng_ust_cuda:cuMemAlloc_v2_exit: { cpu_id = 72 }, { vpid = 50754, vtid = 50754 }, { cuResult = 0, dptr_val = 0x7FE0D2000000 }
+[16:17:40.639820589] (+0.000002632) ice1 lttng_ust_cuda:cuCtxSetCurrent_entry: { cpu_id = 72 }, { vpid = 50754, vtid = 50754 }, { ctx = 0xBB0100 }
+[16:17:40.639821656] (+0.000001067) ice1 lttng_ust_cuda:cuCtxSetCurrent_exit: { cpu_id = 72 }, { vpid = 50754, vtid = 50754 }, { cuResult = 0 }
+[16:17:40.639824124] (+0.000002468) ice1 lttng_ust_cuda:cuMemcpyHtoDAsync_v2_entry: { cpu_id = 72 }, { vpid = 50754, vtid = 50754 }, { dstDevice = 0x7FE0D2000000, srcHost = 0x7FE23FFFF010, ByteCount = 1073741824, hStream = 0x13A5550 }
+[16:17:40.768056366] (+0.128232242) ice1 lttng_ust_cuda_profiling:event_profiling: { cpu_id = 72 }, { vpid = 50754, vtid = 50754 }, { hStart = 0x14FBB40, hStop = 0x14FBD20 }
+[16:17:40.768062226] (+0.000005860) ice1 lttng_ust_cuda:cuMemcpyHtoDAsync_v2_exit: { cpu_id = 72 }, { vpid = 50754, vtid = 50754 }, { cuResult = 0 }
+[16:17:40.768074867] (+0.000012641) ice1 lttng_ust_cuda:cuCtxSetCurrent_entry: { cpu_id = 72 }, { vpid = 50754, vtid = 50754 }, { ctx = 0xBB0100 }
+[16:17:40.768076298] (+0.000001431) ice1 lttng_ust_cuda:cuCtxSetCurrent_exit: { cpu_id = 72 }, { vpid = 50754, vtid = 50754 }, { cuResult = 0 }
+[16:17:40.768079911] (+0.000003613) ice1 lttng_ust_cuda:cuMemAlloc_v2_entry: { cpu_id = 72 }, { vpid = 50754, vtid = 50754 }, { dptr = 0x7FFF2F5E7D80, bytesize = 1073741824 }
+[16:17:40.769590723] (+0.001510812) ice1 lttng_ust_cuda:cuMemAlloc_v2_exit: { cpu_id = 72 }, { vpid = 50754, vtid = 50754 }, { cuResult = 0, dptr_val = 0x7FE092000000 }
+[16:17:40.769593257] (+0.000002534) ice1 lttng_ust_cuda:cuCtxSetCurrent_entry: { cpu_id = 72 }, { vpid = 50754, vtid = 50754 }, { ctx = 0xBB0100 }
+[16:17:40.769594081] (+0.000000824) ice1 lttng_ust_cuda:cuCtxSetCurrent_exit: { cpu_id = 72 }, { vpid = 50754, vtid = 50754 }, { cuResult = 0 }
+[16:17:40.769596525] (+0.000002444) ice1 lttng_ust_cuda:cuMemcpyHtoDAsync_v2_entry: { cpu_id = 72 }, { vpid = 50754, vtid = 50754 }, { dstDevice = 0x7FE092000000, srcHost = 0x7FE1FFFFE010, ByteCount = 1073741824, hStream = 0x13A5550 }
+[16:17:40.885800841] (+0.116204316) ice1 lttng_ust_cuda_profiling:event_profiling: { cpu_id = 72 }, { vpid = 50754, vtid = 50754 }, { hStart = 0x14FCB40, hStop = 0x14FCD20 }
+[16:17:40.885803133] (+0.000002292) ice1 lttng_ust_cuda:cuMemcpyHtoDAsync_v2_exit: { cpu_id = 72 }, { vpid = 50754, vtid = 50754 }, { cuResult = 0 }
+[16:17:40.885807573] (+0.000004440) ice1 lttng_ust_cuda:cuCtxSetCurrent_entry: { cpu_id = 72 }, { vpid = 50754, vtid = 50754 }, { ctx = 0xBB0100 }
+[16:17:40.885808814] (+0.000001241) ice1 lttng_ust_cuda:cuCtxSetCurrent_exit: { cpu_id = 72 }, { vpid = 50754, vtid = 50754 }, { cuResult = 0 }
+[16:17:40.885810322] (+0.000001508) ice1 lttng_ust_cuda:cuMemAlloc_v2_entry: { cpu_id = 72 }, { vpid = 50754, vtid = 50754 }, { dptr = 0x7FFF2F5E7D80, bytesize = 1073741824 }
+[16:17:40.887243046] (+0.001432724) ice1 lttng_ust_cuda:cuMemAlloc_v2_exit: { cpu_id = 72 }, { vpid = 50754, vtid = 50754 }, { cuResult = 0, dptr_val = 0x7FE052000000 }
+[16:17:40.887245586] (+0.000002540) ice1 lttng_ust_cuda:cuCtxSetCurrent_entry: { cpu_id = 72 }, { vpid = 50754, vtid = 50754 }, { ctx = 0xBB0100 }
+[16:17:40.887246441] (+0.000000855) ice1 lttng_ust_cuda:cuCtxSetCurrent_exit: { cpu_id = 72 }, { vpid = 50754, vtid = 50754 }, { cuResult = 0 }
+[16:17:40.887247505] (+0.000001064) ice1 lttng_ust_cuda:cuMemcpyHtoDAsync_v2_entry: { cpu_id = 72 }, { vpid = 50754, vtid = 50754 }, { dstDevice = 0x7FE052000000, srcHost = 0x7FE1BFFFD010, ByteCount = 1073741824, hStream = 0x13A5550 }
+[16:17:41.003438272] (+0.116190767) ice1 lttng_ust_cuda_profiling:event_profiling: { cpu_id = 72 }, { vpid = 50754, vtid = 50754 }, { hStart = 0x14FDB50, hStop = 0x14FDD30 }
+[16:17:41.003440375] (+0.000002103) ice1 lttng_ust_cuda:cuMemcpyHtoDAsync_v2_exit: { cpu_id = 72 }, { vpid = 50754, vtid = 50754 }, { cuResult = 0 }
+[16:17:41.003445201] (+0.000004826) ice1 lttng_ust_cuda:cuCtxSetCurrent_entry: { cpu_id = 72 }, { vpid = 50754, vtid = 50754 }, { ctx = 0xBB0100 }
+[16:17:41.003446291] (+0.000001090) ice1 lttng_ust_cuda:cuCtxSetCurrent_exit: { cpu_id = 72 }, { vpid = 50754, vtid = 50754 }, { cuResult = 0 }
+[16:17:41.003447632] (+0.000001341) ice1 lttng_ust_cuda:cuMemAlloc_v2_entry: { cpu_id = 72 }, { vpid = 50754, vtid = 50754 }, { dptr = 0x7FFF2F5E7D80, bytesize = 1073741824 }
+[16:17:41.005020109] (+0.001572477) ice1 lttng_ust_cuda:cuMemAlloc_v2_exit: { cpu_id = 72 }, { vpid = 50754, vtid = 50754 }, { cuResult = 0, dptr_val = 0x7FE012000000 }
+[16:17:41.005023059] (+0.000002950) ice1 lttng_ust_cuda:cuCtxSetCurrent_entry: { cpu_id = 72 }, { vpid = 50754, vtid = 50754 }, { ctx = 0xBB0100 }
+[16:17:41.005023796] (+0.000000737) ice1 lttng_ust_cuda:cuCtxSetCurrent_exit: { cpu_id = 72 }, { vpid = 50754, vtid = 50754 }, { cuResult = 0 }
+[16:17:41.005024968] (+0.000001172) ice1 lttng_ust_cuda:cuMemcpyHtoDAsync_v2_entry: { cpu_id = 72 }, { vpid = 50754, vtid = 50754 }, { dstDevice = 0x7FE012000000, srcHost = 0x7FE17FFFC010, ByteCount = 1073741824, hStream = 0x13A5550 }
+[16:17:41.121362903] (+0.116337935) ice1 lttng_ust_cuda_profiling:event_profiling: { cpu_id = 72 }, { vpid = 50754, vtid = 50754 }, { hStart = 0x14FEBB0, hStop = 0x14FED90 }
+[16:17:41.121365071] (+0.000002168) ice1 lttng_ust_cuda:cuMemcpyHtoDAsync_v2_exit: { cpu_id = 72 }, { vpid = 50754, vtid = 50754 }, { cuResult = 0 }
+[16:17:41.121385034] (+0.000019963) ice1 lttng_ust_cuda:cuCtxSetCurrent_entry: { cpu_id = 72 }, { vpid = 50754, vtid = 50754 }, { ctx = 0xBB0100 }
+[16:17:41.121386120] (+0.000001086) ice1 lttng_ust_cuda:cuCtxSetCurrent_exit: { cpu_id = 72 }, { vpid = 50754, vtid = 50754 }, { cuResult = 0 }
+[16:17:41.121391391] (+0.000005271) ice1 lttng_ust_cuda:cuFuncGetAttribute_entry: { cpu_id = 72 }, { vpid = 50754, vtid = 50754 }, { pi = 0x14AC0AC, attrib = 0, hfunc = 0x14E7970 }
+[16:17:41.121395883] (+0.000004492) ice1 lttng_ust_cuda:cuFuncGetAttribute_exit: { cpu_id = 72 }, { vpid = 50754, vtid = 50754 }, { cuResult = 0, pi_val = 1024 }
+[16:17:41.121402853] (+0.000006970) ice1 lttng_ust_cuda:cuLaunchKernel_entry: { cpu_id = 72 }, { vpid = 50754, vtid = 50754 }, { f = 0x14E7970, gridDimX = 160, gridDimY = 1, gridDimZ = 1, blockDimX = 128, blockDimY = 1, blockDimZ = 1, sharedMemBytes = 0, hStream = 0x13A5550, kernelParams = 0x14FF070, extra = 0x0, _extra_vals_length = 0, extra_vals = [ ] }
+[16:17:41.121658415] (+0.000255562) ice1 lttng_ust_cuda_profiling:event_profiling: { cpu_id = 72 }, { vpid = 50754, vtid = 50754 }, { hStart = 0x14FF110, hStop = 0x14FFF10 }
+[16:17:41.121661188] (+0.000002773) ice1 lttng_ust_cuda:cuLaunchKernel_exit: { cpu_id = 72 }, { vpid = 50754, vtid = 50754 }, { cuResult = 0 }
+[16:17:41.121665163] (+0.000003975) ice1 lttng_ust_cuda:cuCtxSetCurrent_entry: { cpu_id = 72 }, { vpid = 50754, vtid = 50754 }, { ctx = 0xBB0100 }
+[16:17:41.121665802] (+0.000000639) ice1 lttng_ust_cuda:cuCtxSetCurrent_exit: { cpu_id = 72 }, { vpid = 50754, vtid = 50754 }, { cuResult = 0 }
+[16:17:41.121667431] (+0.000001629) ice1 lttng_ust_cuda:cuMemcpyDtoHAsync_v2_entry: { cpu_id = 72 }, { vpid = 50754, vtid = 50754 }, { dstHost = 0x7FE23FFFF010, srcDevice = 0x7FE0D2000000, ByteCount = 1073741824, hStream = 0x13A5550 }
+[16:17:41.581861184] (+0.460193753) ice1 lttng_ust_cuda_profiling:event_profiling: { cpu_id = 72 }, { vpid = 50754, vtid = 50754 }, { hStart = 0x1500160, hStop = 0x1500340 }
+[16:17:41.581863920] (+0.000002736) ice1 lttng_ust_cuda:cuMemcpyDtoHAsync_v2_exit: { cpu_id = 72 }, { vpid = 50754, vtid = 50754 }, { cuResult = 0 }
+[16:17:41.581867200] (+0.000003280) ice1 lttng_ust_cuda:cuStreamSynchronize_entry: { cpu_id = 72 }, { vpid = 50754, vtid = 50754 }, { hStream = 0x13A5550 }
+[16:17:41.581872284] (+0.000005084) ice1 lttng_ust_cuda:cuStreamSynchronize_exit: { cpu_id = 72 }, { vpid = 50754, vtid = 50754 }, { cuResult = 0 }
+[16:17:41.581878517] (+0.000006233) ice1 lttng_ust_cuda:cuCtxSetCurrent_entry: { cpu_id = 72 }, { vpid = 50754, vtid = 50754 }, { ctx = 0xBB0100 }
+[16:17:41.581879436] (+0.000000919) ice1 lttng_ust_cuda:cuCtxSetCurrent_exit: { cpu_id = 72 }, { vpid = 50754, vtid = 50754 }, { cuResult = 0 }
+[16:17:41.581881376] (+0.000001940) ice1 lttng_ust_cuda:cuMemFree_v2_entry: { cpu_id = 72 }, { vpid = 50754, vtid = 50754 }, { dptr = 0x7FE012000000 }
+[16:17:41.583193105] (+0.001311729) ice1 lttng_ust_cuda:cuMemFree_v2_exit: { cpu_id = 72 }, { vpid = 50754, vtid = 50754 }, { cuResult = 0 }
+[16:17:41.583197047] (+0.000003942) ice1 lttng_ust_cuda:cuCtxSetCurrent_entry: { cpu_id = 72 }, { vpid = 50754, vtid = 50754 }, { ctx = 0xBB0100 }
+[16:17:41.583197753] (+0.000000706) ice1 lttng_ust_cuda:cuCtxSetCurrent_exit: { cpu_id = 72 }, { vpid = 50754, vtid = 50754 }, { cuResult = 0 }
+[16:17:41.583198197] (+0.000000444) ice1 lttng_ust_cuda:cuMemFree_v2_entry: { cpu_id = 72 }, { vpid = 50754, vtid = 50754 }, { dptr = 0x7FE052000000 }
+[16:17:41.584484223] (+0.001286026) ice1 lttng_ust_cuda:cuMemFree_v2_exit: { cpu_id = 72 }, { vpid = 50754, vtid = 50754 }, { cuResult = 0 }
+[16:17:41.584485947] (+0.000001724) ice1 lttng_ust_cuda:cuCtxSetCurrent_entry: { cpu_id = 72 }, { vpid = 50754, vtid = 50754 }, { ctx = 0xBB0100 }
+[16:17:41.584486703] (+0.000000756) ice1 lttng_ust_cuda:cuCtxSetCurrent_exit: { cpu_id = 72 }, { vpid = 50754, vtid = 50754 }, { cuResult = 0 }
+[16:17:41.584487319] (+0.000000616) ice1 lttng_ust_cuda:cuMemFree_v2_entry: { cpu_id = 72 }, { vpid = 50754, vtid = 50754 }, { dptr = 0x7FE092000000 }
+[16:17:41.585699902] (+0.001212583) ice1 lttng_ust_cuda:cuMemFree_v2_exit: { cpu_id = 72 }, { vpid = 50754, vtid = 50754 }, { cuResult = 0 }
+[16:17:41.585700982] (+0.000001080) ice1 lttng_ust_cuda:cuCtxSetCurrent_entry: { cpu_id = 72 }, { vpid = 50754, vtid = 50754 }, { ctx = 0xBB0100 }
+[16:17:41.585701544] (+0.000000562) ice1 lttng_ust_cuda:cuCtxSetCurrent_exit: { cpu_id = 72 }, { vpid = 50754, vtid = 50754 }, { cuResult = 0 }
+[16:17:41.585701914] (+0.000000370) ice1 lttng_ust_cuda:cuMemFree_v2_entry: { cpu_id = 72 }, { vpid = 50754, vtid = 50754 }, { dptr = 0x7FE0D2000000 }
+[16:17:41.586887759] (+0.001185845) ice1 lttng_ust_cuda:cuMemFree_v2_exit: { cpu_id = 72 }, { vpid = 50754, vtid = 50754 }, { cuResult = 0 }
+[16:17:42.243086449] (+0.656198690) ice1 lttng_ust_cuda:cuCtxSetCurrent_entry: { cpu_id = 72 }, { vpid = 50754, vtid = 50754 }, { ctx = 0xBB0100 }
+[16:17:42.243095177] (+0.000008728) ice1 lttng_ust_cuda:cuCtxSetCurrent_exit: { cpu_id = 72 }, { vpid = 50754, vtid = 50754 }, { cuResult = 0 }
+[16:17:42.243101290] (+0.000006113) ice1 lttng_ust_cuda:cuStreamDestroy_v2_entry: { cpu_id = 72 }, { vpid = 50754, vtid = 50754 }, { hStream = 0x13A5550 }
+[16:17:42.243138909] (+0.000037619) ice1 lttng_ust_cuda:cuStreamDestroy_v2_exit: { cpu_id = 72 }, { vpid = 50754, vtid = 50754 }, { cuResult = 0 }
+[16:17:42.243139254] (+0.000000345) ice1 lttng_ust_cuda:cuStreamDestroy_v2_entry: { cpu_id = 72 }, { vpid = 50754, vtid = 50754 }, { hStream = 0x144C920 }
+[16:17:42.243145789] (+0.000006535) ice1 lttng_ust_cuda:cuStreamDestroy_v2_exit: { cpu_id = 72 }, { vpid = 50754, vtid = 50754 }, { cuResult = 0 }
+[16:17:42.243146080] (+0.000000291) ice1 lttng_ust_cuda:cuStreamDestroy_v2_entry: { cpu_id = 72 }, { vpid = 50754, vtid = 50754 }, { hStream = 0x1436780 }
+[16:17:42.243152467] (+0.000006387) ice1 lttng_ust_cuda:cuStreamDestroy_v2_exit: { cpu_id = 72 }, { vpid = 50754, vtid = 50754 }, { cuResult = 0 }
+[16:17:42.243152992] (+0.000000525) ice1 lttng_ust_cuda:cuStreamDestroy_v2_entry: { cpu_id = 72 }, { vpid = 50754, vtid = 50754 }, { hStream = 0x14367A0 }
+[16:17:42.243158014] (+0.000005022) ice1 lttng_ust_cuda:cuStreamDestroy_v2_exit: { cpu_id = 72 }, { vpid = 50754, vtid = 50754 }, { cuResult = 0 }
+[16:17:42.243158319] (+0.000000305) ice1 lttng_ust_cuda:cuStreamDestroy_v2_entry: { cpu_id = 72 }, { vpid = 50754, vtid = 50754 }, { hStream = 0x1451F80 }
+[16:17:42.243164827] (+0.000006508) ice1 lttng_ust_cuda:cuStreamDestroy_v2_exit: { cpu_id = 72 }, { vpid = 50754, vtid = 50754 }, { cuResult = 0 }
+[16:17:42.243165136] (+0.000000309) ice1 lttng_ust_cuda:cuStreamDestroy_v2_entry: { cpu_id = 72 }, { vpid = 50754, vtid = 50754 }, { hStream = 0x1436810 }
+[16:17:42.243170140] (+0.000005004) ice1 lttng_ust_cuda:cuStreamDestroy_v2_exit: { cpu_id = 72 }, { vpid = 50754, vtid = 50754 }, { cuResult = 0 }
+[16:17:42.243170675] (+0.000000535) ice1 lttng_ust_cuda:cuStreamDestroy_v2_entry: { cpu_id = 72 }, { vpid = 50754, vtid = 50754 }, { hStream = 0x13A5570 }
+[16:17:42.243175160] (+0.000004485) ice1 lttng_ust_cuda:cuStreamDestroy_v2_exit: { cpu_id = 72 }, { vpid = 50754, vtid = 50754 }, { cuResult = 0 }
+[16:17:42.243175461] (+0.000000301) ice1 lttng_ust_cuda:cuStreamDestroy_v2_entry: { cpu_id = 72 }, { vpid = 50754, vtid = 50754 }, { hStream = 0x1308350 }
+[16:17:42.243179086] (+0.000003625) ice1 lttng_ust_cuda:cuStreamDestroy_v2_exit: { cpu_id = 72 }, { vpid = 50754, vtid = 50754 }, { cuResult = 0 }
+[16:17:42.243179364] (+0.000000278) ice1 lttng_ust_cuda:cuStreamDestroy_v2_entry: { cpu_id = 72 }, { vpid = 50754, vtid = 50754 }, { hStream = 0x1462AC0 }
+[16:17:42.243185198] (+0.000005834) ice1 lttng_ust_cuda:cuStreamDestroy_v2_exit: { cpu_id = 72 }, { vpid = 50754, vtid = 50754 }, { cuResult = 0 }
+[16:17:42.243185484] (+0.000000286) ice1 lttng_ust_cuda:cuStreamDestroy_v2_entry: { cpu_id = 72 }, { vpid = 50754, vtid = 50754 }, { hStream = 0x1462B60 }
+[16:17:42.243193329] (+0.000007845) ice1 lttng_ust_cuda:cuStreamDestroy_v2_exit: { cpu_id = 72 }, { vpid = 50754, vtid = 50754 }, { cuResult = 0 }
+[16:17:42.243193653] (+0.000000324) ice1 lttng_ust_cuda:cuStreamDestroy_v2_entry: { cpu_id = 72 }, { vpid = 50754, vtid = 50754 }, { hStream = 0x146B240 }
+[16:17:42.243197130] (+0.000003477) ice1 lttng_ust_cuda:cuStreamDestroy_v2_exit: { cpu_id = 72 }, { vpid = 50754, vtid = 50754 }, { cuResult = 0 }
+[16:17:42.243197595] (+0.000000465) ice1 lttng_ust_cuda:cuStreamDestroy_v2_entry: { cpu_id = 72 }, { vpid = 50754, vtid = 50754 }, { hStream = 0x146B2E0 }
+[16:17:42.243202182] (+0.000004587) ice1 lttng_ust_cuda:cuStreamDestroy_v2_exit: { cpu_id = 72 }, { vpid = 50754, vtid = 50754 }, { cuResult = 0 }
+[16:17:42.243202463] (+0.000000281) ice1 lttng_ust_cuda:cuStreamDestroy_v2_entry: { cpu_id = 72 }, { vpid = 50754, vtid = 50754 }, { hStream = 0x146B380 }
+[16:17:42.243208591] (+0.000006128) ice1 lttng_ust_cuda:cuStreamDestroy_v2_exit: { cpu_id = 72 }, { vpid = 50754, vtid = 50754 }, { cuResult = 0 }
+[16:17:42.243208876] (+0.000000285) ice1 lttng_ust_cuda:cuStreamDestroy_v2_entry: { cpu_id = 72 }, { vpid = 50754, vtid = 50754 }, { hStream = 0x146B420 }
+[16:17:42.243212501] (+0.000003625) ice1 lttng_ust_cuda:cuStreamDestroy_v2_exit: { cpu_id = 72 }, { vpid = 50754, vtid = 50754 }, { cuResult = 0 }
+[16:17:42.243212780] (+0.000000279) ice1 lttng_ust_cuda:cuStreamDestroy_v2_entry: { cpu_id = 72 }, { vpid = 50754, vtid = 50754 }, { hStream = 0x146B4C0 }
+[16:17:42.243216722] (+0.000003942) ice1 lttng_ust_cuda:cuStreamDestroy_v2_exit: { cpu_id = 72 }, { vpid = 50754, vtid = 50754 }, { cuResult = 0 }
+[16:17:42.243217000] (+0.000000278) ice1 lttng_ust_cuda:cuStreamDestroy_v2_entry: { cpu_id = 72 }, { vpid = 50754, vtid = 50754 }, { hStream = 0x146B560 }
+[16:17:42.243219814] (+0.000002814) ice1 lttng_ust_cuda:cuStreamDestroy_v2_exit: { cpu_id = 72 }, { vpid = 50754, vtid = 50754 }, { cuResult = 0 }
+[16:17:42.243220094] (+0.000000280) ice1 lttng_ust_cuda:cuStreamDestroy_v2_entry: { cpu_id = 72 }, { vpid = 50754, vtid = 50754 }, { hStream = 0x146B600 }
+[16:17:42.243223717] (+0.000003623) ice1 lttng_ust_cuda:cuStreamDestroy_v2_exit: { cpu_id = 72 }, { vpid = 50754, vtid = 50754 }, { cuResult = 0 }
+[16:17:42.243223991] (+0.000000274) ice1 lttng_ust_cuda:cuStreamDestroy_v2_entry: { cpu_id = 72 }, { vpid = 50754, vtid = 50754 }, { hStream = 0x146B6A0 }
+[16:17:42.243229518] (+0.000005527) ice1 lttng_ust_cuda:cuStreamDestroy_v2_exit: { cpu_id = 72 }, { vpid = 50754, vtid = 50754 }, { cuResult = 0 }
+[16:17:42.243229793] (+0.000000275) ice1 lttng_ust_cuda:cuStreamDestroy_v2_entry: { cpu_id = 72 }, { vpid = 50754, vtid = 50754 }, { hStream = 0x1470FC0 }
+[16:17:42.243234441] (+0.000004648) ice1 lttng_ust_cuda:cuStreamDestroy_v2_exit: { cpu_id = 72 }, { vpid = 50754, vtid = 50754 }, { cuResult = 0 }
+[16:17:42.243234723] (+0.000000282) ice1 lttng_ust_cuda:cuStreamDestroy_v2_entry: { cpu_id = 72 }, { vpid = 50754, vtid = 50754 }, { hStream = 0x1471060 }
+[16:17:42.243237690] (+0.000002967) ice1 lttng_ust_cuda:cuStreamDestroy_v2_exit: { cpu_id = 72 }, { vpid = 50754, vtid = 50754 }, { cuResult = 0 }
+[16:17:42.243237972] (+0.000000282) ice1 lttng_ust_cuda:cuStreamDestroy_v2_entry: { cpu_id = 72 }, { vpid = 50754, vtid = 50754 }, { hStream = 0x1471100 }
+[16:17:42.243242466] (+0.000004494) ice1 lttng_ust_cuda:cuStreamDestroy_v2_exit: { cpu_id = 72 }, { vpid = 50754, vtid = 50754 }, { cuResult = 0 }
+[16:17:42.243242746] (+0.000000280) ice1 lttng_ust_cuda:cuStreamDestroy_v2_entry: { cpu_id = 72 }, { vpid = 50754, vtid = 50754 }, { hStream = 0x14711A0 }
+[16:17:42.243247970] (+0.000005224) ice1 lttng_ust_cuda:cuStreamDestroy_v2_exit: { cpu_id = 72 }, { vpid = 50754, vtid = 50754 }, { cuResult = 0 }
+[16:17:42.243248253] (+0.000000283) ice1 lttng_ust_cuda:cuStreamDestroy_v2_entry: { cpu_id = 72 }, { vpid = 50754, vtid = 50754 }, { hStream = 0x1471240 }
+[16:17:42.243261368] (+0.000013115) ice1 lttng_ust_cuda:cuStreamDestroy_v2_exit: { cpu_id = 72 }, { vpid = 50754, vtid = 50754 }, { cuResult = 0 }
+[16:17:42.243261653] (+0.000000285) ice1 lttng_ust_cuda:cuStreamDestroy_v2_entry: { cpu_id = 72 }, { vpid = 50754, vtid = 50754 }, { hStream = 0x14712E0 }
+[16:17:42.243263986] (+0.000002333) ice1 lttng_ust_cuda:cuStreamDestroy_v2_exit: { cpu_id = 72 }, { vpid = 50754, vtid = 50754 }, { cuResult = 0 }
+[16:17:42.243264253] (+0.000000267) ice1 lttng_ust_cuda:cuStreamDestroy_v2_entry: { cpu_id = 72 }, { vpid = 50754, vtid = 50754 }, { hStream = 0x1471380 }
+[16:17:42.243266404] (+0.000002151) ice1 lttng_ust_cuda:cuStreamDestroy_v2_exit: { cpu_id = 72 }, { vpid = 50754, vtid = 50754 }, { cuResult = 0 }
+[16:17:42.243266679] (+0.000000275) ice1 lttng_ust_cuda:cuStreamDestroy_v2_entry: { cpu_id = 72 }, { vpid = 50754, vtid = 50754 }, { hStream = 0x1471420 }
+[16:17:42.243272584] (+0.000005905) ice1 lttng_ust_cuda:cuStreamDestroy_v2_exit: { cpu_id = 72 }, { vpid = 50754, vtid = 50754 }, { cuResult = 0 }
+[16:17:42.243272862] (+0.000000278) ice1 lttng_ust_cuda:cuStreamDestroy_v2_entry: { cpu_id = 72 }, { vpid = 50754, vtid = 50754 }, { hStream = 0xBAC700 }
+[16:17:42.243278104] (+0.000005242) ice1 lttng_ust_cuda:cuStreamDestroy_v2_exit: { cpu_id = 72 }, { vpid = 50754, vtid = 50754 }, { cuResult = 0 }
+[16:17:42.243278430] (+0.000000326) ice1 lttng_ust_cuda:cuStreamDestroy_v2_entry: { cpu_id = 72 }, { vpid = 50754, vtid = 50754 }, { hStream = 0xBAC7A0 }
+[16:17:42.243280611] (+0.000002181) ice1 lttng_ust_cuda:cuStreamDestroy_v2_exit: { cpu_id = 72 }, { vpid = 50754, vtid = 50754 }, { cuResult = 0 }
+[16:17:42.243280892] (+0.000000281) ice1 lttng_ust_cuda:cuStreamDestroy_v2_entry: { cpu_id = 72 }, { vpid = 50754, vtid = 50754 }, { hStream = 0xBAC840 }
+[16:17:42.243284388] (+0.000003496) ice1 lttng_ust_cuda:cuStreamDestroy_v2_exit: { cpu_id = 72 }, { vpid = 50754, vtid = 50754 }, { cuResult = 0 }
+[16:17:42.243284665] (+0.000000277) ice1 lttng_ust_cuda:cuStreamDestroy_v2_entry: { cpu_id = 72 }, { vpid = 50754, vtid = 50754 }, { hStream = 0xBAC8E0 }
+[16:17:42.243288807] (+0.000004142) ice1 lttng_ust_cuda:cuStreamDestroy_v2_exit: { cpu_id = 72 }, { vpid = 50754, vtid = 50754 }, { cuResult = 0 }
+[16:17:42.243289087] (+0.000000280) ice1 lttng_ust_cuda:cuStreamDestroy_v2_entry: { cpu_id = 72 }, { vpid = 50754, vtid = 50754 }, { hStream = 0xBAC980 }
+[16:17:42.243292910] (+0.000003823) ice1 lttng_ust_cuda:cuStreamDestroy_v2_exit: { cpu_id = 72 }, { vpid = 50754, vtid = 50754 }, { cuResult = 0 }
+[16:17:42.243293195] (+0.000000285) ice1 lttng_ust_cuda:cuStreamDestroy_v2_entry: { cpu_id = 72 }, { vpid = 50754, vtid = 50754 }, { hStream = 0xBACA20 }
+[16:17:42.243295492] (+0.000002297) ice1 lttng_ust_cuda:cuStreamDestroy_v2_exit: { cpu_id = 72 }, { vpid = 50754, vtid = 50754 }, { cuResult = 0 }
+[16:17:42.243300265] (+0.000004773) ice1 lttng_ust_cuda:cuModuleUnload_entry: { cpu_id = 72 }, { vpid = 50754, vtid = 50754 }, { hmod = 0x147A5C0 }
+[16:17:42.249232766] (+0.005932501) ice1 lttng_ust_cuda:cuModuleUnload_exit: { cpu_id = 72 }, { vpid = 50754, vtid = 50754 }, { cuResult = 0 }
+[16:17:42.249234780] (+0.000002014) ice1 lttng_ust_cuda:cuCtxSetCurrent_entry: { cpu_id = 72 }, { vpid = 50754, vtid = 50754 }, { ctx = 0xBB0100 }
+[16:17:42.249235862] (+0.000001082) ice1 lttng_ust_cuda:cuCtxSetCurrent_exit: { cpu_id = 72 }, { vpid = 50754, vtid = 50754 }, { cuResult = 0 }
+[16:17:42.249237039] (+0.000001177) ice1 lttng_ust_cuda:cuCtxGetDevice_entry: { cpu_id = 72 }, { vpid = 50754, vtid = 50754 }, { device = 0x7FFF2F5E8534 }
+[16:17:42.249238832] (+0.000001793) ice1 lttng_ust_cuda:cuCtxGetDevice_exit: { cpu_id = 72 }, { vpid = 50754, vtid = 50754 }, { cuResult = 0, device_val = 0 }
+[16:17:42.249242879] (+0.000004047) ice1 lttng_ust_cuda:cuDevicePrimaryCtxRelease_v2_entry: { cpu_id = 72 }, { vpid = 50754, vtid = 50754 }, { dev = 0 }
+[16:17:42.249260338] (+0.000017459) ice1 lttng_ust_cuda_profiling:event_profiling_results: { cpu_id = 72 }, { vpid = 50754, vtid = 50754 }, { hStart = 0x14AB8B0, hStop = 0x14ABA90, startStatus = 0, stopStatus = 0, status = 0, milliseconds = 0.037504 }
+[16:17:42.249263519] (+0.000003181) ice1 lttng_ust_cuda_profiling:event_profiling_results: { cpu_id = 72 }, { vpid = 50754, vtid = 50754 }, { hStart = 0x14ABCA0, hStop = 0x14ABE80, startStatus = 0, stopStatus = 0, status = 0, milliseconds = 0.014752 }
+[16:17:42.249266642] (+0.000003123) ice1 lttng_ust_cuda_profiling:event_profiling_results: { cpu_id = 72 }, { vpid = 50754, vtid = 50754 }, { hStart = 0x14AD130, hStop = 0x14AD310, startStatus = 0, stopStatus = 0, status = 0, milliseconds = 0.009216 }
+[16:17:42.249269398] (+0.000002756) ice1 lttng_ust_cuda_profiling:event_profiling_results: { cpu_id = 72 }, { vpid = 50754, vtid = 50754 }, { hStart = 0x14ADA70, hStop = 0x14ADC50, startStatus = 0, stopStatus = 0, status = 0, milliseconds = 0.006144 }
+[16:17:42.249272059] (+0.000002661) ice1 lttng_ust_cuda_profiling:event_profiling_results: { cpu_id = 72 }, { vpid = 50754, vtid = 50754 }, { hStart = 0x14AE3B0, hStop = 0x14AE590, startStatus = 0, stopStatus = 0, status = 0, milliseconds = 0.006144 }
+[16:17:42.249274582] (+0.000002523) ice1 lttng_ust_cuda_profiling:event_profiling_results: { cpu_id = 72 }, { vpid = 50754, vtid = 50754 }, { hStart = 0x14AE7A0, hStop = 0x14AE980, startStatus = 0, stopStatus = 0, status = 0, milliseconds = 0.099328 }
+[16:17:42.249276953] (+0.000002371) ice1 lttng_ust_cuda_profiling:event_profiling_results: { cpu_id = 72 }, { vpid = 50754, vtid = 50754 }, { hStart = 0x14AEB90, hStop = 0x14AED70, startStatus = 0, stopStatus = 0, status = 0, milliseconds = 0.017536 }
+[16:17:42.249280175] (+0.000003222) ice1 lttng_ust_cuda_profiling:event_profiling_results: { cpu_id = 72 }, { vpid = 50754, vtid = 50754 }, { hStart = 0x14AEF80, hStop = 0x14AF160, startStatus = 0, stopStatus = 0, status = 0, milliseconds = 0.012256 }
+[16:17:42.249282615] (+0.000002440) ice1 lttng_ust_cuda_profiling:event_profiling_results: { cpu_id = 72 }, { vpid = 50754, vtid = 50754 }, { hStart = 0x14AF3B0, hStop = 0x14AF590, startStatus = 0, stopStatus = 0, status = 0, milliseconds = 0.011936 }
+[16:17:42.249285302] (+0.000002687) ice1 lttng_ust_cuda_profiling:event_profiling_results: { cpu_id = 72 }, { vpid = 50754, vtid = 50754 }, { hStart = 0x14FBB40, hStop = 0x14FBD20, startStatus = 0, stopStatus = 0, status = 0, milliseconds = 128.271 }
+[16:17:42.249287722] (+0.000002420) ice1 lttng_ust_cuda_profiling:event_profiling_results: { cpu_id = 72 }, { vpid = 50754, vtid = 50754 }, { hStart = 0x14FCB40, hStop = 0x14FCD20, startStatus = 0, stopStatus = 0, status = 0, milliseconds = 116.27 }
+[16:17:42.249290476] (+0.000002754) ice1 lttng_ust_cuda_profiling:event_profiling_results: { cpu_id = 72 }, { vpid = 50754, vtid = 50754 }, { hStart = 0x14FDB50, hStop = 0x14FDD30, startStatus = 0, stopStatus = 0, status = 0, milliseconds = 116.258 }
+[16:17:42.249294231] (+0.000003755) ice1 lttng_ust_cuda_profiling:event_profiling_results: { cpu_id = 72 }, { vpid = 50754, vtid = 50754 }, { hStart = 0x14FEBB0, hStop = 0x14FED90, startStatus = 0, stopStatus = 0, status = 0, milliseconds = 116.405 }
+[16:17:42.249297356] (+0.000003125) ice1 lttng_ust_cuda_profiling:event_profiling_results: { cpu_id = 72 }, { vpid = 50754, vtid = 50754 }, { hStart = 0x14FF110, hStop = 0x14FFF10, startStatus = 0, stopStatus = 0, status = 0, milliseconds = 272.495 }
+[16:17:42.249300432] (+0.000003076) ice1 lttng_ust_cuda_profiling:event_profiling_results: { cpu_id = 72 }, { vpid = 50754, vtid = 50754 }, { hStart = 0x1500160, hStop = 0x1500340, startStatus = 0, stopStatus = 0, status = 0, milliseconds = 187.925 }
+[16:17:42.286666451] (+0.037366019) ice1 lttng_ust_cuda:cuDevicePrimaryCtxRelease_v2_exit: { cpu_id = 72 }, { vpid = 50754, vtid = 50754 }, { cuResult = 0 }

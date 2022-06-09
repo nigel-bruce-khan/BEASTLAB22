@@ -1,0 +1,40 @@
+Using report1.sqlite file for stats and reports.
+Exporting [/home/sw/aarch64/cuda/11.1.1/nsight-systems-2020.3.4/target-linux-armv8/reports/cudaapisum report1.sqlite] to console... 
+
+ Time(%)  Total Time (ns)  Num Calls     Average      Minimum      Maximum             Name        
+ -------  ---------------  ---------  -------------  ---------  -------------  --------------------
+    97.2   53,780,392,375        110  488,912,658.0      4,300  8,807,471,845  cuMemFree_v2        
+     2.0    1,103,078,185        110   10,027,983.5      6,155    133,354,885  cuMemcpyHtoDAsync_v2
+     0.7      391,789,930         44    8,904,316.6     31,370    191,003,830  cuMemcpyDtoHAsync_v2
+     0.1       31,211,930        110      283,744.8      4,475      1,431,760  cuMemAlloc_v2       
+     0.0        8,630,690          1    8,630,690.0  8,630,690      8,630,690  cuModuleLoadDataEx  
+     0.0        4,244,760          1    4,244,760.0  4,244,760      4,244,760  cuModuleUnload      
+     0.0        1,849,760         44       42,040.0     15,145        714,825  cuLaunchKernel      
+     0.0          508,050         32       15,876.6      3,080        208,265  cuStreamCreate      
+     0.0          223,185         44        5,072.4      3,590         12,100  cuStreamSynchronize 
+     0.0          185,145         32        5,785.8      3,650         33,415  cuStreamDestroy_v2  
+     0.0           60,775          2       30,387.5     26,340         34,435  cuMemcpyDtoH_v2     
+     0.0           14,490          1       14,490.0     14,490         14,490  cuMemcpyHtoD_v2     
+
+Exporting [/home/sw/aarch64/cuda/11.1.1/nsight-systems-2020.3.4/target-linux-armv8/reports/gpukernsum report1.sqlite] to console... 
+
+ Time(%)  Total Time (ns)  Instances      Average       Minimum       Maximum                    Name                
+ -------  ---------------  ---------  ---------------  ----------  -------------  -----------------------------------
+   100.0   53,749,684,625         22  2,443,167,483.0  61,749,895  8,807,375,100  __omp_offloading_33_b5a82e3__Z_2...
+     0.0        1,441,235         22         65,510.7      64,470         76,955  __omp_offloading_33_b5a82e3__Z_1...
+
+Exporting [/home/sw/aarch64/cuda/11.1.1/nsight-systems-2020.3.4/target-linux-armv8/reports/gpumemtimesum report1.sqlite] to console... 
+
+ Time(%)  Total Time (ns)  Operations    Average    Minimum    Maximum        Operation     
+ -------  ---------------  ----------  -----------  -------  -----------  ------------------
+    74.0    1,098,229,825         111  9,893,962.4    1,440  133,249,795  [CUDA memcpy HtoD]
+    26.0      386,348,710          46  8,398,885.0    1,565  190,694,590  [CUDA memcpy DtoH]
+
+Exporting [/home/sw/aarch64/cuda/11.1.1/nsight-systems-2020.3.4/target-linux-armv8/reports/gpumemsizesum report1.sqlite] to console... 
+
+     Total      Operations   Average    Minimum     Maximum         Operation     
+ -------------  ----------  ----------  -------  -------------  ------------------
+ 8,388,606.090         111  75,573.028    0.004  1,048,576.000  [CUDA memcpy HtoD]
+ 2,097,151.588          46  45,590.252    0.001  1,048,576.000  [CUDA memcpy DtoH]
+
+Exporting [/home/sw/aarch64/cuda/11.1.1/nsight-systems-2020.3.4/target-linux-armv8/reports/osrtsum report1.sqlite] to console... Exporting [/home/sw/aarch64/cuda/11.1.1/nsight-systems-2020.3.4/target-linux-armv8/reports/nvtxppsum report1.sqlite] to console... Exporting [/home/sw/aarch64/cuda/11.1.1/nsight-systems-2020.3.4/target-linux-armv8/reports/openmpevtsum report1.sqlite] to console... 

@@ -1,0 +1,399 @@
+==PROF== Connected to process 21749 (/home/h039y13/Group_104/Group-104/assignment4/src/assignment4_i)
+==PROF== Profiling "__omp_offloading_53_b5a8334__..." - 1: 0%....50%....100% - 1 pass
+==PROF== Profiling "__omp_offloading_53_b5a8334__..." - 2: 0%....50%....100% - 1 pass
+==PROF== Profiling "__omp_offloading_53_b5a8334__..." - 3: 0%....50%....100% - 1 pass
+==PROF== Profiling "__omp_offloading_53_b5a8334__..." - 4: 0%....50%....100% - 1 pass
+==PROF== Profiling "__omp_offloading_53_b5a8334__..." - 5: 0%....50%....100% - 1 pass
+==PROF== Profiling "__omp_offloading_53_b5a8334__..." - 6: 0%....50%....100% - 1 pass
+==PROF== Profiling "__omp_offloading_53_b5a8334__..." - 7: 0%....50%....100% - 1 pass
+==PROF== Profiling "__omp_offloading_53_b5a8334__..." - 8: 0%....50%....100% - 1 pass
+==PROF== Profiling "__omp_offloading_53_b5a8334__..." - 9: 0%....50%....100% - 1 pass
+==PROF== Profiling "__omp_offloading_53_b5a8334__..." - 10: 0%....50%....100% - 1 pass
+==PROF== Profiling "__omp_offloading_53_b5a8334__..." - 11: 0%....50%....100% - 1 pass
+==PROF== Profiling "__omp_offloading_53_b5a8334__..." - 12: 0%....50%....100% - 1 pass
+==PROF== Profiling "__omp_offloading_53_b5a8334__..." - 13: 0%....50%....100% - 1 pass
+==PROF== Profiling "__omp_offloading_53_b5a8334__..." - 14: 0%....50%....100% - 1 pass
+==PROF== Profiling "__omp_offloading_53_b5a8334__..." - 15: 0%....50%....100% - 1 pass
+==PROF== Profiling "__omp_offloading_53_b5a8334__..." - 16: 0%....50%....100% - 1 pass
+==PROF== Profiling "__omp_offloading_53_b5a8334__..." - 17: 0%....50%....100% - 1 pass
+==PROF== Profiling "__omp_offloading_53_b5a8334__..." - 18: 0%....50%....100% - 1 pass
+==PROF== Profiling "__omp_offloading_53_b5a8334__..." - 19: 0%....50%....100% - 1 pass
+==PROF== Profiling "__omp_offloading_53_b5a8334__..." - 20: 0%....50%....100% - 1 pass
+==PROF== Profiling "__omp_offloading_53_b5a8334__..." - 21: 0%....50%....100% - 1 pass
+==PROF== Profiling "__omp_offloading_53_b5a8334__..." - 22: 0%....50%....100% - 1 pass
+==PROF== Profiling "__omp_offloading_53_b5a8334__..." - 23: 0%....50%....100% - 1 pass
+==PROF== Profiling "__omp_offloading_53_b5a8334__..." - 24: 0%....50%....100% - 1 pass
+==PROF== Profiling "__omp_offloading_53_b5a8334__..." - 25: 0%....50%....100% - 1 pass
+==PROF== Profiling "__omp_offloading_53_b5a8334__..." - 26: 0%....50%....100% - 1 pass
+==PROF== Profiling "__omp_offloading_53_b5a8334__..." - 27: 0%....50%....100% - 1 pass
+==PROF== Profiling "__omp_offloading_53_b5a8334__..." - 28: 0%....50%....100% - 1 pass
+==PROF== Profiling "__omp_offloading_53_b5a8334__..." - 29: 0%....50%....100% - 1 pass
+==PROF== Profiling "__omp_offloading_53_b5a8334__..." - 30: 0%....50%....100% - 1 pass
+==PROF== Profiling "__omp_offloading_53_b5a8334__..." - 31: 0%....50%....100% - 1 pass
+==PROF== Profiling "__omp_offloading_53_b5a8334__..." - 32: 0%....50%....100% - 1 pass
+==PROF== Profiling "__omp_offloading_53_b5a8334__..." - 33: 0%....50%....100% - 1 pass
+==PROF== Profiling "__omp_offloading_53_b5a8334__..." - 34: 0%....50%....100% - 1 pass
+==PROF== Profiling "__omp_offloading_53_b5a8334__..." - 35: 0%....50%....100% - 1 pass
+==PROF== Profiling "__omp_offloading_53_b5a8334__..." - 36: 0%....50%....100% - 1 pass
+==PROF== Profiling "__omp_offloading_53_b5a8334__..." - 37: 0%....50%....100% - 1 pass
+==PROF== Profiling "__omp_offloading_53_b5a8334__..." - 38: 0%....50%....100% - 1 pass
+==PROF== Profiling "__omp_offloading_53_b5a8334__..." - 39: 0%....50%....100% - 1 pass
+==PROF== Profiling "__omp_offloading_53_b5a8334__..." - 40: 0%....50%....100% - 1 pass
+==PROF== Profiling "__omp_offloading_53_b5a8334__..." - 41: 0%....50%....100% - 1 pass
+==PROF== Profiling "__omp_offloading_53_b5a8334__..." - 42: 0%....50%....100% - 1 pass
+==PROF== Profiling "__omp_offloading_53_b5a8334__..." - 43: 0%....50%....100% - 1 pass
+==PROF== Profiling "__omp_offloading_53_b5a8334__..." - 44: 0%....50%....100% - 1 pass
+==PROF== Disconnected from process 21749
+[21749] assignment4_i@127.0.0.1
+  __omp_offloading_53_b5a8334__Z5triadmmll_l34, 2022-Jun-08 14:09:10, Context 1, Stream 13
+    Section: Command line profiler metrics
+    ---------------------------------------------------------------------- --------------- ------------------------------
+    launch__block_size                                                                                                 33
+    launch__grid_size                                                                                                   1
+    launch__thread_count                                                            thread                             33
+    ---------------------------------------------------------------------- --------------- ------------------------------
+
+  __omp_offloading_53_b5a8334__Z5triadmmll_l49, 2022-Jun-08 14:09:14, Context 1, Stream 13
+    Section: Command line profiler metrics
+    ---------------------------------------------------------------------- --------------- ------------------------------
+    launch__block_size                                                                                                128
+    launch__grid_size                                                                                                 160
+    launch__thread_count                                                            thread                         20,480
+    ---------------------------------------------------------------------- --------------- ------------------------------
+
+  __omp_offloading_53_b5a8334__Z5triadmmll_l34, 2022-Jun-08 14:09:14, Context 1, Stream 13
+    Section: Command line profiler metrics
+    ---------------------------------------------------------------------- --------------- ------------------------------
+    launch__block_size                                                                                                 33
+    launch__grid_size                                                                                                   1
+    launch__thread_count                                                            thread                             33
+    ---------------------------------------------------------------------- --------------- ------------------------------
+
+  __omp_offloading_53_b5a8334__Z5triadmmll_l49, 2022-Jun-08 14:09:19, Context 1, Stream 13
+    Section: Command line profiler metrics
+    ---------------------------------------------------------------------- --------------- ------------------------------
+    launch__block_size                                                                                                128
+    launch__grid_size                                                                                                 160
+    launch__thread_count                                                            thread                         20,480
+    ---------------------------------------------------------------------- --------------- ------------------------------
+
+  __omp_offloading_53_b5a8334__Z5triadmmll_l34, 2022-Jun-08 14:09:19, Context 1, Stream 13
+    Section: Command line profiler metrics
+    ---------------------------------------------------------------------- --------------- ------------------------------
+    launch__block_size                                                                                                 33
+    launch__grid_size                                                                                                   1
+    launch__thread_count                                                            thread                             33
+    ---------------------------------------------------------------------- --------------- ------------------------------
+
+  __omp_offloading_53_b5a8334__Z5triadmmll_l49, 2022-Jun-08 14:09:24, Context 1, Stream 13
+    Section: Command line profiler metrics
+    ---------------------------------------------------------------------- --------------- ------------------------------
+    launch__block_size                                                                                                128
+    launch__grid_size                                                                                                 160
+    launch__thread_count                                                            thread                         20,480
+    ---------------------------------------------------------------------- --------------- ------------------------------
+
+  __omp_offloading_53_b5a8334__Z5triadmmll_l34, 2022-Jun-08 14:09:24, Context 1, Stream 13
+    Section: Command line profiler metrics
+    ---------------------------------------------------------------------- --------------- ------------------------------
+    launch__block_size                                                                                                 33
+    launch__grid_size                                                                                                   1
+    launch__thread_count                                                            thread                             33
+    ---------------------------------------------------------------------- --------------- ------------------------------
+
+  __omp_offloading_53_b5a8334__Z5triadmmll_l49, 2022-Jun-08 14:09:30, Context 1, Stream 13
+    Section: Command line profiler metrics
+    ---------------------------------------------------------------------- --------------- ------------------------------
+    launch__block_size                                                                                                128
+    launch__grid_size                                                                                                 160
+    launch__thread_count                                                            thread                         20,480
+    ---------------------------------------------------------------------- --------------- ------------------------------
+
+  __omp_offloading_53_b5a8334__Z5triadmmll_l34, 2022-Jun-08 14:09:30, Context 1, Stream 13
+    Section: Command line profiler metrics
+    ---------------------------------------------------------------------- --------------- ------------------------------
+    launch__block_size                                                                                                 33
+    launch__grid_size                                                                                                   1
+    launch__thread_count                                                            thread                             33
+    ---------------------------------------------------------------------- --------------- ------------------------------
+
+  __omp_offloading_53_b5a8334__Z5triadmmll_l49, 2022-Jun-08 14:09:36, Context 1, Stream 13
+    Section: Command line profiler metrics
+    ---------------------------------------------------------------------- --------------- ------------------------------
+    launch__block_size                                                                                                128
+    launch__grid_size                                                                                                 160
+    launch__thread_count                                                            thread                         20,480
+    ---------------------------------------------------------------------- --------------- ------------------------------
+
+  __omp_offloading_53_b5a8334__Z5triadmmll_l34, 2022-Jun-08 14:09:36, Context 1, Stream 13
+    Section: Command line profiler metrics
+    ---------------------------------------------------------------------- --------------- ------------------------------
+    launch__block_size                                                                                                 33
+    launch__grid_size                                                                                                   1
+    launch__thread_count                                                            thread                             33
+    ---------------------------------------------------------------------- --------------- ------------------------------
+
+  __omp_offloading_53_b5a8334__Z5triadmmll_l49, 2022-Jun-08 14:09:42, Context 1, Stream 13
+    Section: Command line profiler metrics
+    ---------------------------------------------------------------------- --------------- ------------------------------
+    launch__block_size                                                                                                128
+    launch__grid_size                                                                                                 160
+    launch__thread_count                                                            thread                         20,480
+    ---------------------------------------------------------------------- --------------- ------------------------------
+
+  __omp_offloading_53_b5a8334__Z5triadmmll_l34, 2022-Jun-08 14:09:42, Context 1, Stream 13
+    Section: Command line profiler metrics
+    ---------------------------------------------------------------------- --------------- ------------------------------
+    launch__block_size                                                                                                 33
+    launch__grid_size                                                                                                   1
+    launch__thread_count                                                            thread                             33
+    ---------------------------------------------------------------------- --------------- ------------------------------
+
+  __omp_offloading_53_b5a8334__Z5triadmmll_l49, 2022-Jun-08 14:09:50, Context 1, Stream 13
+    Section: Command line profiler metrics
+    ---------------------------------------------------------------------- --------------- ------------------------------
+    launch__block_size                                                                                                128
+    launch__grid_size                                                                                                 160
+    launch__thread_count                                                            thread                         20,480
+    ---------------------------------------------------------------------- --------------- ------------------------------
+
+  __omp_offloading_53_b5a8334__Z5triadmmll_l34, 2022-Jun-08 14:09:50, Context 1, Stream 13
+    Section: Command line profiler metrics
+    ---------------------------------------------------------------------- --------------- ------------------------------
+    launch__block_size                                                                                                 33
+    launch__grid_size                                                                                                   1
+    launch__thread_count                                                            thread                             33
+    ---------------------------------------------------------------------- --------------- ------------------------------
+
+  __omp_offloading_53_b5a8334__Z5triadmmll_l49, 2022-Jun-08 14:09:56, Context 1, Stream 13
+    Section: Command line profiler metrics
+    ---------------------------------------------------------------------- --------------- ------------------------------
+    launch__block_size                                                                                                128
+    launch__grid_size                                                                                                 160
+    launch__thread_count                                                            thread                         20,480
+    ---------------------------------------------------------------------- --------------- ------------------------------
+
+  __omp_offloading_53_b5a8334__Z5triadmmll_l34, 2022-Jun-08 14:09:56, Context 1, Stream 13
+    Section: Command line profiler metrics
+    ---------------------------------------------------------------------- --------------- ------------------------------
+    launch__block_size                                                                                                 33
+    launch__grid_size                                                                                                   1
+    launch__thread_count                                                            thread                             33
+    ---------------------------------------------------------------------- --------------- ------------------------------
+
+  __omp_offloading_53_b5a8334__Z5triadmmll_l49, 2022-Jun-08 14:10:00, Context 1, Stream 13
+    Section: Command line profiler metrics
+    ---------------------------------------------------------------------- --------------- ------------------------------
+    launch__block_size                                                                                                128
+    launch__grid_size                                                                                                 160
+    launch__thread_count                                                            thread                         20,480
+    ---------------------------------------------------------------------- --------------- ------------------------------
+
+  __omp_offloading_53_b5a8334__Z5triadmmll_l34, 2022-Jun-08 14:10:00, Context 1, Stream 13
+    Section: Command line profiler metrics
+    ---------------------------------------------------------------------- --------------- ------------------------------
+    launch__block_size                                                                                                 33
+    launch__grid_size                                                                                                   1
+    launch__thread_count                                                            thread                             33
+    ---------------------------------------------------------------------- --------------- ------------------------------
+
+  __omp_offloading_53_b5a8334__Z5triadmmll_l49, 2022-Jun-08 14:10:04, Context 1, Stream 13
+    Section: Command line profiler metrics
+    ---------------------------------------------------------------------- --------------- ------------------------------
+    launch__block_size                                                                                                128
+    launch__grid_size                                                                                                 160
+    launch__thread_count                                                            thread                         20,480
+    ---------------------------------------------------------------------- --------------- ------------------------------
+
+  __omp_offloading_53_b5a8334__Z5triadmmll_l34, 2022-Jun-08 14:10:04, Context 1, Stream 13
+    Section: Command line profiler metrics
+    ---------------------------------------------------------------------- --------------- ------------------------------
+    launch__block_size                                                                                                 33
+    launch__grid_size                                                                                                   1
+    launch__thread_count                                                            thread                             33
+    ---------------------------------------------------------------------- --------------- ------------------------------
+
+  __omp_offloading_53_b5a8334__Z5triadmmll_l49, 2022-Jun-08 14:10:06, Context 1, Stream 13
+    Section: Command line profiler metrics
+    ---------------------------------------------------------------------- --------------- ------------------------------
+    launch__block_size                                                                                                128
+    launch__grid_size                                                                                                 160
+    launch__thread_count                                                            thread                         20,480
+    ---------------------------------------------------------------------- --------------- ------------------------------
+
+  __omp_offloading_53_b5a8334__Z5triadmmll_l34, 2022-Jun-08 14:10:06, Context 1, Stream 13
+    Section: Command line profiler metrics
+    ---------------------------------------------------------------------- --------------- ------------------------------
+    launch__block_size                                                                                                 33
+    launch__grid_size                                                                                                   1
+    launch__thread_count                                                            thread                             33
+    ---------------------------------------------------------------------- --------------- ------------------------------
+
+  __omp_offloading_53_b5a8334__Z5triadmmll_l49, 2022-Jun-08 14:10:07, Context 1, Stream 13
+    Section: Command line profiler metrics
+    ---------------------------------------------------------------------- --------------- ------------------------------
+    launch__block_size                                                                                                128
+    launch__grid_size                                                                                                 160
+    launch__thread_count                                                            thread                         20,480
+    ---------------------------------------------------------------------- --------------- ------------------------------
+
+  __omp_offloading_53_b5a8334__Z5triadmmll_l34, 2022-Jun-08 14:10:07, Context 1, Stream 13
+    Section: Command line profiler metrics
+    ---------------------------------------------------------------------- --------------- ------------------------------
+    launch__block_size                                                                                                 33
+    launch__grid_size                                                                                                   1
+    launch__thread_count                                                            thread                             33
+    ---------------------------------------------------------------------- --------------- ------------------------------
+
+  __omp_offloading_53_b5a8334__Z5triadmmll_l49, 2022-Jun-08 14:10:08, Context 1, Stream 13
+    Section: Command line profiler metrics
+    ---------------------------------------------------------------------- --------------- ------------------------------
+    launch__block_size                                                                                                128
+    launch__grid_size                                                                                                 160
+    launch__thread_count                                                            thread                         20,480
+    ---------------------------------------------------------------------- --------------- ------------------------------
+
+  __omp_offloading_53_b5a8334__Z5triadmmll_l34, 2022-Jun-08 14:10:08, Context 1, Stream 13
+    Section: Command line profiler metrics
+    ---------------------------------------------------------------------- --------------- ------------------------------
+    launch__block_size                                                                                                 33
+    launch__grid_size                                                                                                   1
+    launch__thread_count                                                            thread                             33
+    ---------------------------------------------------------------------- --------------- ------------------------------
+
+  __omp_offloading_53_b5a8334__Z5triadmmll_l49, 2022-Jun-08 14:10:08, Context 1, Stream 13
+    Section: Command line profiler metrics
+    ---------------------------------------------------------------------- --------------- ------------------------------
+    launch__block_size                                                                                                128
+    launch__grid_size                                                                                                 160
+    launch__thread_count                                                            thread                         20,480
+    ---------------------------------------------------------------------- --------------- ------------------------------
+
+  __omp_offloading_53_b5a8334__Z5triadmmll_l34, 2022-Jun-08 14:10:08, Context 1, Stream 13
+    Section: Command line profiler metrics
+    ---------------------------------------------------------------------- --------------- ------------------------------
+    launch__block_size                                                                                                 33
+    launch__grid_size                                                                                                   1
+    launch__thread_count                                                            thread                             33
+    ---------------------------------------------------------------------- --------------- ------------------------------
+
+  __omp_offloading_53_b5a8334__Z5triadmmll_l49, 2022-Jun-08 14:10:08, Context 1, Stream 13
+    Section: Command line profiler metrics
+    ---------------------------------------------------------------------- --------------- ------------------------------
+    launch__block_size                                                                                                128
+    launch__grid_size                                                                                                 160
+    launch__thread_count                                                            thread                         20,480
+    ---------------------------------------------------------------------- --------------- ------------------------------
+
+  __omp_offloading_53_b5a8334__Z5triadmmll_l34, 2022-Jun-08 14:10:08, Context 1, Stream 13
+    Section: Command line profiler metrics
+    ---------------------------------------------------------------------- --------------- ------------------------------
+    launch__block_size                                                                                                 33
+    launch__grid_size                                                                                                   1
+    launch__thread_count                                                            thread                             33
+    ---------------------------------------------------------------------- --------------- ------------------------------
+
+  __omp_offloading_53_b5a8334__Z5triadmmll_l49, 2022-Jun-08 14:10:09, Context 1, Stream 13
+    Section: Command line profiler metrics
+    ---------------------------------------------------------------------- --------------- ------------------------------
+    launch__block_size                                                                                                128
+    launch__grid_size                                                                                                 160
+    launch__thread_count                                                            thread                         20,480
+    ---------------------------------------------------------------------- --------------- ------------------------------
+
+  __omp_offloading_53_b5a8334__Z5triadmmll_l34, 2022-Jun-08 14:10:09, Context 1, Stream 13
+    Section: Command line profiler metrics
+    ---------------------------------------------------------------------- --------------- ------------------------------
+    launch__block_size                                                                                                 33
+    launch__grid_size                                                                                                   1
+    launch__thread_count                                                            thread                             33
+    ---------------------------------------------------------------------- --------------- ------------------------------
+
+  __omp_offloading_53_b5a8334__Z5triadmmll_l49, 2022-Jun-08 14:10:09, Context 1, Stream 13
+    Section: Command line profiler metrics
+    ---------------------------------------------------------------------- --------------- ------------------------------
+    launch__block_size                                                                                                128
+    launch__grid_size                                                                                                 160
+    launch__thread_count                                                            thread                         20,480
+    ---------------------------------------------------------------------- --------------- ------------------------------
+
+  __omp_offloading_53_b5a8334__Z5triadmmll_l34, 2022-Jun-08 14:10:09, Context 1, Stream 13
+    Section: Command line profiler metrics
+    ---------------------------------------------------------------------- --------------- ------------------------------
+    launch__block_size                                                                                                 33
+    launch__grid_size                                                                                                   1
+    launch__thread_count                                                            thread                             33
+    ---------------------------------------------------------------------- --------------- ------------------------------
+
+  __omp_offloading_53_b5a8334__Z5triadmmll_l49, 2022-Jun-08 14:10:09, Context 1, Stream 13
+    Section: Command line profiler metrics
+    ---------------------------------------------------------------------- --------------- ------------------------------
+    launch__block_size                                                                                                128
+    launch__grid_size                                                                                                 160
+    launch__thread_count                                                            thread                         20,480
+    ---------------------------------------------------------------------- --------------- ------------------------------
+
+  __omp_offloading_53_b5a8334__Z5triadmmll_l34, 2022-Jun-08 14:10:09, Context 1, Stream 13
+    Section: Command line profiler metrics
+    ---------------------------------------------------------------------- --------------- ------------------------------
+    launch__block_size                                                                                                 33
+    launch__grid_size                                                                                                   1
+    launch__thread_count                                                            thread                             33
+    ---------------------------------------------------------------------- --------------- ------------------------------
+
+  __omp_offloading_53_b5a8334__Z5triadmmll_l49, 2022-Jun-08 14:10:09, Context 1, Stream 13
+    Section: Command line profiler metrics
+    ---------------------------------------------------------------------- --------------- ------------------------------
+    launch__block_size                                                                                                128
+    launch__grid_size                                                                                                 160
+    launch__thread_count                                                            thread                         20,480
+    ---------------------------------------------------------------------- --------------- ------------------------------
+
+  __omp_offloading_53_b5a8334__Z5triadmmll_l34, 2022-Jun-08 14:10:10, Context 1, Stream 13
+    Section: Command line profiler metrics
+    ---------------------------------------------------------------------- --------------- ------------------------------
+    launch__block_size                                                                                                 33
+    launch__grid_size                                                                                                   1
+    launch__thread_count                                                            thread                             33
+    ---------------------------------------------------------------------- --------------- ------------------------------
+
+  __omp_offloading_53_b5a8334__Z5triadmmll_l49, 2022-Jun-08 14:10:10, Context 1, Stream 13
+    Section: Command line profiler metrics
+    ---------------------------------------------------------------------- --------------- ------------------------------
+    launch__block_size                                                                                                128
+    launch__grid_size                                                                                                 160
+    launch__thread_count                                                            thread                         20,480
+    ---------------------------------------------------------------------- --------------- ------------------------------
+
+  __omp_offloading_53_b5a8334__Z5triadmmll_l34, 2022-Jun-08 14:10:10, Context 1, Stream 13
+    Section: Command line profiler metrics
+    ---------------------------------------------------------------------- --------------- ------------------------------
+    launch__block_size                                                                                                 33
+    launch__grid_size                                                                                                   1
+    launch__thread_count                                                            thread                             33
+    ---------------------------------------------------------------------- --------------- ------------------------------
+
+  __omp_offloading_53_b5a8334__Z5triadmmll_l49, 2022-Jun-08 14:10:11, Context 1, Stream 13
+    Section: Command line profiler metrics
+    ---------------------------------------------------------------------- --------------- ------------------------------
+    launch__block_size                                                                                                128
+    launch__grid_size                                                                                                 160
+    launch__thread_count                                                            thread                         20,480
+    ---------------------------------------------------------------------- --------------- ------------------------------
+
+  __omp_offloading_53_b5a8334__Z5triadmmll_l34, 2022-Jun-08 14:10:12, Context 1, Stream 13
+    Section: Command line profiler metrics
+    ---------------------------------------------------------------------- --------------- ------------------------------
+    launch__block_size                                                                                                 33
+    launch__grid_size                                                                                                   1
+    launch__thread_count                                                            thread                             33
+    ---------------------------------------------------------------------- --------------- ------------------------------
+
+  __omp_offloading_53_b5a8334__Z5triadmmll_l49, 2022-Jun-08 14:10:14, Context 1, Stream 13
+    Section: Command line profiler metrics
+    ---------------------------------------------------------------------- --------------- ------------------------------
+    launch__block_size                                                                                                128
+    launch__grid_size                                                                                                 160
+    launch__thread_count                                                            thread                         20,480
+    ---------------------------------------------------------------------- --------------- ------------------------------
+

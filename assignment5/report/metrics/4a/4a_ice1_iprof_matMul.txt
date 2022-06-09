@@ -1,0 +1,44 @@
+BACKEND_UNKNOWN | 1 Hostnames | 1 Processes | 1 Threads | 
+
+                         Name |     Time | Time(%) | Calls |  Average |      Min |      Max | Error | 
+          cuStreamSynchronize |   45.86s |  99.07% |  2434 |  18.84ms |   2.87us |   13.47s |     0 | 
+         cuMemcpyDtoHAsync_v2 | 236.14ms |   0.51% |    15 |  15.74ms | 122.44us |  61.69ms |     0 | 
+     cuDevicePrimaryCtxRetain | 102.58ms |   0.22% |     1 | 102.58ms | 102.58ms | 102.58ms |     0 | 
+ cuDevicePrimaryCtxRelease_v2 |  42.67ms |   0.09% |     1 |  42.67ms |  42.67ms |  42.67ms |     0 | 
+               cuLaunchKernel |  27.45ms |   0.06% |  2419 |  11.35us |   9.09us | 907.38us |     0 | 
+                cuMemAlloc_v2 |   7.20ms |   0.02% |    45 | 159.90us |   2.59us | 523.81us |     0 | 
+                 cuMemFree_v2 |   6.80ms |   0.01% |    45 | 151.04us |   3.27us | 358.12us |     0 | 
+           cuModuleLoadDataEx |   2.91ms |   0.01% |     1 |   2.91ms |   2.91ms |   2.91ms |     0 | 
+               cuModuleUnload |   1.89ms |   0.00% |     1 |   1.89ms |   1.89ms |   1.89ms |     0 | 
+              cuCtxSetCurrent | 993.40us |   0.00% |  2529 | 392.80ns |    267ns |   7.81us |     0 | 
+               cuStreamCreate | 363.42us |   0.00% |    32 |  11.36us |   1.28us | 155.02us |     0 | 
+           cuStreamDestroy_v2 | 167.58us |   0.00% |    32 |   5.24us |   2.38us |  27.30us |     0 | 
+              cuMemcpyDtoH_v2 |  68.38us |   0.00% |     2 |  34.19us |  19.18us |  49.20us |     0 | 
+           cuFuncGetAttribute |  16.24us |   0.00% |     2 |   8.12us |    658ns |  15.58us |     0 | 
+          cuModuleGetFunction |   4.56us |   0.00% |     2 |   2.28us |   1.25us |   3.31us |     0 | 
+         cuModuleGetGlobal_v2 |   4.21us |   0.00% |     3 |   2.10us |   1.21us |   3.00us |     1 | 
+                       cuInit |   2.52us |   0.00% |     1 |   2.52us |   2.52us |   2.52us |     0 | 
+         cuDeviceGetAttribute |   1.54us |   0.00% |     3 | 514.00ns |    254ns |   1.01us |     0 | 
+                  cuDeviceGet |   1.33us |   0.00% |     1 |   1.33us |   1.33us |   1.33us |     0 | 
+   cuDevicePrimaryCtxGetState |   1.27us |   0.00% |     1 |   1.27us |   1.27us |   1.27us |     0 | 
+cuDevicePrimaryCtxSetFlags_v2 |   1.22us |   0.00% |     1 |   1.22us |   1.22us |   1.22us |     0 | 
+               cuCtxGetDevice |   1.07us |   0.00% |     1 |   1.07us |   1.07us |   1.07us |     0 | 
+             cuDeviceGetCount |    740ns |   0.00% |     1 | 740.00ns |    740ns |    740ns |     0 | 
+                        Total |   46.29s | 100.00% |  7573 |                                      1 | 
+
+Device profiling | 1 Hostnames | 1 Processes | 1 Threads | 
+
+                Name |     Time | Time(%) | Calls | Average |      Min |     Max |         
+       mm_kernel_l13 |   45.64s |  99.02% |  2404 | 18.99ms | 280.57us |  13.47s |         
+cuMemcpyDtoHAsync_v2 | 235.88ms |   0.51% |    15 | 15.73ms | 116.38us | 61.66ms |         
+              mm_l38 | 216.97ms |   0.47% |    15 | 14.46ms |   1.13ms | 38.03ms |         
+     cuMemcpyDtoH_v2 |  42.88us |   0.00% |     2 | 21.44us |  15.13us | 27.74us |         
+               Total |   46.10s | 100.00% |  2436 |                                        
+
+Explicit memory traffic (BACKEND_UNKNOWN) | 1 Hostnames | 1 Processes | 1 Threads | 
+
+                Name |     Byte | Byte(%) | Calls | Average |     Min |      Max |         
+cuMemcpyDtoHAsync_v2 | 451.90MB | 100.00% |    15 | 30.13MB | 80.00kB | 128.00MB |         
+     cuMemcpyDtoH_v2 |       2B |   0.00% |     2 |   1.00B |      1B |       1B |         
+               Total | 451.90MB | 100.00% |    17 |                                        
+
