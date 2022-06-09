@@ -260,17 +260,17 @@ This means that the gpus in both machines work very similarly. We notice that th
 
 The files containing the results are stored in the metrics folder
 
-**4b**
+**4b)**
 
 For this question we used the command below to produce results for the timeline. the (-l) alias option stands for timeline according to the github readme. The command is shown below:
 
-iprof -l ./assignment4_i 134217728 268435456 160 2048
+**iprof -l ./assignment4_i 134217728 268435456 160 2048**
 
 This gives us a output of the trace events. This is in a way a summary of the order in which the steps to execute a program took place and information related to these steps.
 
 Next we used the command below on the directory produced by the trace to get further output information. Example screenshots of the outputs is shown below.
 
-babeltrace2 /home/h039y13/lttng-traces/iprof-20220609-131659
+**babeltrace2 /home/h039y13/lttng-traces/iprof-20220609-131659**
 
 ![babel1](4b_babel1.png)
 
