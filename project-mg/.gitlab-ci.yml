@@ -1,0 +1,6 @@
+Project-MG:
+  stage: test
+  script:
+    - cd project-mg/src/
+    - srun make
+    - python3 ../../util/run_program_monitor.py --reference-output ./util/reference_output_sequential.txt --compile-command 'srun make' --clean-command="srun make clean" --use-numdiff true --numdiff-relative-error 0.5 --numdiff-additional-arguments="-N" . 'srun ./multigrid 4 6 14 8'
