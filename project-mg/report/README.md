@@ -154,9 +154,9 @@ Final touches and inspections were performed. AVX instructions are aligned with 
 
  Prolongation was a bottleneck which caused some conflict in our optimizations. The parallel and updated files, with a sequential Prolongation gave an average time of 15 seconds, without any reduction on accuracy. 
 
-![final_opt](final.jpg)
+![final_opt](final.png)
 
 However, our proposed parallel implementation for this file reduced the time to 9 seconds, a 6.6 speedup, but at the cost of reducing the accuracy, with the biggest error being of order 10^-7 compared to 10^-12 with the sequential version of this routine. To discern whether the problem consists of a bad allocation or a data race problem, profiling to see the balancing of the threads as well as inspection of the assembly code would be the next steps.
 
-![final_prol](final-pr-paral.jpg)
+![final_prol](final-pr-paral.png)
 
