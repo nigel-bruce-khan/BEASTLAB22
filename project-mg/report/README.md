@@ -65,11 +65,11 @@ We present the targets for loop optimization shown by perf with the command `per
 
 | multigrid.h                    | mg parallel                    |    time         |
 | ------                         | ------------------------------ | ----------------|
-|![mg_hs](Multigrid_Hotspot.png) |[mg_hs](mg_par.png)             | ~58.5 (1.077)   |
+|![mg_hs](Multigrid_Hotspot.png) |![mg_hs](mg_par.png)             | ~58.5 (1.077)   |
 
-| ComputeError & ComputeErrorPW                                    | mg parallel          |    time         |
+| ComputeError & ComputeErrorPW                                    | ce parallel          |    time         |
 | --------------------------------------                           | ----------------     |---------------- |
-|![ce_hs](ComputeEr_Hotspot.png) ![pwe_hs](ComputePWE_Hotspot.png) |[mg_hs](mg_par.png)   | ~54.6 s         |
+|![ce_hs](ComputeEr_Hotspot.png) ![pwe_hs](ComputePWE_Hotspot.png) |[!ce_pl](ce_par.png)   | ~54.6 s         |
 
 
 To activate a sequential or parallel mode according to the coarseness, we decided to create a member variable on each class `_NUM_THREADS` , which defines the number of threads called during execution, and set it to 128 or 1 depending on the number of inner grid points. This reduced the execution time approximately 1.2 seconds. However due to the variance mentioned at the beginning, and the coarseness impact sometimes was barely noticeable. 
