@@ -14,7 +14,7 @@ As it can be seen from the above photo, the function _main_ and its call to _mul
 
 From this more detailed profile, we can concentrate on three targets: Jacobi::iterate, Prolongation::interpolation, and ComputeError::computePointwiseError. 
 
-Lastly we ran `perf stat` to gather some information about the sequential implementation, specially duration_time. This was the basis for our performance, accuracy and speedup comparisons. Due to the statistical variance of the results, we assume the starting time to optimize to be _the average_ of five runs with the mentioned command, approximately 59.8 seconds.
+Lastly we ran `perf stat` to gather some information about the sequential implementation, specially duration_time. This was the basis for our performance, accuracy and speedup comparisons. Due to the statistical variance of the results, we assume the starting time to optimize to be _the average_ of five runs with the mentioned command, approximately 60 seconds.
 
 
 
@@ -32,8 +32,7 @@ Lastly we ran `perf stat` to gather some information about the sequential implem
 
         60.119660362 seconds time elapsed
 
-        59.076487000 seconds user
-        0.942412000 seconds sys
+       
 
 
 **Coarsening**
@@ -58,39 +57,28 @@ Surprisingly, reducing the number of levels seems to improve accuracy, whilst al
 
 **Parallelization**
 
-We present the targets for loop optimization shown by perf (we omitted Restriction since it didn't have any representative effect on the performance). New flags including -O3, -fopenmp:
+We present the targets for loop optimization shown by perf with the command `perf record -a` to count accross all processors. The pictures below show the loop to optimize and its parallel implementation (we omitted Restriction since it didn't have any significan effect on the performance). Accuracy wasn't affected during this process. Jacobi::iterate and Prolongation will be discussed individually. For speedup, we considered the ratio of the one-CPU execution time to the n-CPU parallel execution time: Speedup(n) = **T(1)/T(n)**.
 
-| main.cpp                       | main parallel                  |    time         |
+| main.cpp                       | main parallel                  |    time(s)         |
 | ------                         | ------------------------------ | ----------------|
-| ![main_hs](Main_Hotspot.png)   | ![main_par](main_par.png)      | ~60 s           |
+| ![main_hs](Main_Hotspot.png)   | ![main_par](main_par.png)      | ~60.1 (0 speedup|
 
 | multigrid.h                    | mg parallel                    |    time         |
 | ------                         | ------------------------------ | ----------------|
-|![mg_hs](Multigrid_Hotspot.png) |[mg_hs](mg_par.png)             | ~58.5 s         |
+|![mg_hs](Multigrid_Hotspot.png) |[mg_hs](mg_par.png)             | ~58.5 (1.077)        |
 
 | ComputeError & ComputeErrorPW                                    | mg parallel          |    time         |
 | --------------------------------------                           | ----------------     |---------------- |
 |![ce_hs](ComputeEr_Hotspot.png) ![pwe_hs](ComputePWE_Hotspot.png) |[mg_hs](mg_par.png)   | ~54.6 s         |
 
-
-
-
-| Jacobi.h                       | Prolongation.h                 |
-| ------                         | ---------------------------    |
-| ![jachs](Jacobi_Hotspot.png)   | ![prol_hs](Pro_Hotspot.png)    |
-
-| Jacobi.h                       | Prolongation.h                 |
-| ------                         | ---------------------------    |
-| ![jachs](Jacobi_Hotspot.png)   | ![prol_hs](Pro_Hotspot.png)    |
-
-
+To activate a sequential or parallel mode according to the coarseness, we decided to create a member variable on each class `_NUM_THREADS` , which defines the number of threads called during execution, and set it to 128 or 1 depending on the number of inner grid points. This reduced the execution time approximately 1.2 seconds. However due to the variance mentioned at the beginning, and the coarseness impact sometimes was barely noticeable. 
 
 **SIMD**
 
 to enable auto-vectorization, `-O3` option is added. Also to obtain which loop is vectorized, `-fopt-info-vec` option is added.
 We ran the following command on the originaly provided codes.
 
-`g++ -Wall -Wextra -O3 -march=native -fopt-info-vec   -c -o main.o main.cpp`
+`g++ -Wall -Wextra -O3 -march=native -fopt-info-vec  -c -o main.o main.cpp`
 
 and the output is as follows:
 
@@ -103,14 +91,12 @@ and the output is as follows:
 
 A loop in Multigrid.h, which initialize the fields, is vectorized.
 
-'''
-for (unsigned int i = 0; i < (_nxCoarseGrid + 2) * (_nyCoarseGrid + 2); i++)
-{
-    _coarseGridValues1[i] = 0.0;
-    _coarseGridValues2[i] = 0.0;
-    _coarseGridRhs[i] = 0.0;
-}
-''' 
+    for (unsigned int i = 0; i < (_nxCoarseGrid + 2) * (_nyCoarseGrid + 2); i++)
+    {
+        _coarseGridValues1[i] = 0.0;
+        _coarseGridValues2[i] = 0.0;
+        _coarseGridRhs[i] = 0.0;
+    }  
 
 Jacobi iteration, which is the bottleneck of the whole code, is not auto-vectorized. Therefore, we vectorized it with intrinsics. We used AVX from [intel intrinsics](https://www.intel.com/content/www/us/en/docs/intrinsics-guide/index.html#techs=AVX). AVX supports for 256-bit wide vectors. Since we deal with double precision values in Jacobi iteration, we use `__m256d` data type. Hence four double precision values can be processed at each loop. The remainders calculated sequencially. 
 
@@ -119,11 +105,13 @@ Jacobi iteration, which is the bottleneck of the whole code, is not auto-vectori
 Comparison of elapsed time with/without SIMD (system wide elapsed time)
 
 without SIMD:   59.873466658 seconds time elapsed
+
 with SIMD:      50.077650654 seconds time elapsed
+
 1.2 times speed up
 
 (reference)
-without auto-vectorization (use -O2 instead of -O3): 56.391031062 seconds time elapsed.
+without auto-vectorization (use -O2 instead of -O3): 56.391031062 seconds time elapsed
 
 **Cache Optimization**
 
