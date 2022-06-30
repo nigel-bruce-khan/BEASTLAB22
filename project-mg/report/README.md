@@ -66,7 +66,7 @@ We present the targets for optimization shown by perf (we omitted Restriction si
 
 | Jacobi.h                       | Prolongation.h                 |
 | ------                         | ---------------------------    |
-| ![jacobi_hs](Jacobi_Hotspot)   | ![prol_hs](Pro_Hotspot.png)    |
+| ![jachs](Jacobi_Hotspot.png)   | ![prol_hs](Pro_Hotspot.png)    |
 
 | ComputeError                   | computePointwiseError            |
 | ------                         | ---------------------------      |
