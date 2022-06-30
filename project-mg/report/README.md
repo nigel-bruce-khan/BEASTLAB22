@@ -10,6 +10,8 @@ Perf was chosen as the profiler for this exercise. To get a quick overview of th
 
 As it can be seen from the above photo, the function _main_ and its call to _multigrid_ represent the biggest hotspot in the code. However, this profile doesn't provide a detailed view of the impact from other function calls due to inlining done by the compiler. Furthermore, references shown that on ISO C++, "GCC considers member functions defined within the body of a class to be marked inline even if they are not explicitly declared with the inline keyword", which is how the code skeleton was written. To override this behaviour we added the flag **-fno-default-inline** while compiling. Moreover, we decided to include the flag **-g** to enhance the debugging process, since it displays assembly code along with the corresponding c++ instruction. 
 
+![perf_noinline](perf-noinline.png)
+
 From this more detailed profile, we can concentrate on three targets: Jacobi::iterate, Prolongation::interpolation, and ComputeError::computePointwiseError. 
 
 Lastly we ran `perf stat` to gather some information about the sequential implementation, specially duration_time. This was the basis for our performance, accuracy and speedup comparisons. Due to the statistical variance of the results, we assume the starting time to optimize to be _the average_ of five runs with the mentioned command, approximately 59 seconds.
@@ -56,11 +58,15 @@ Surprisingly, reducing the number of levels seems to improve accuracy, whilst al
 
 **Parallelization**
 
-We present the optimization targets shown by perf:
+We present the targets for optimization shown by perf:
 
 | main.cpp                     | multigrid.h                    |Jacobi.h                     |
 | ------                       | ------------------------------ |---------------------------- |
-| ![main_hs](Main_Hotspot.png) | ![mg_hs](Multigrid_Hotspot.png)|![jacobi_hs](Jacobi_Hotspot)!|
+| ![main_hs](Main_Hotspot.png) | ![mg_hs](Multigrid_Hotspot.png)|![jacobi_hs](Jacobi_Hotspot) |
+
+| ComputeError                   | computePointwiseError             |Prolongation.h               |
+| ------                         | ---------------------------       |---------------------------- |
+| ![ce_hs](ComputeEr_Hotspot.png)| ![cpwe_hs](ComputePWE_Hotspot.png)|![prol_hs](Pro_Hotspot)      |
 
 
 
