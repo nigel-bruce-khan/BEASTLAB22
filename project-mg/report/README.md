@@ -1,6 +1,40 @@
 # Assignment 7 Report
 Group: Group-104
 
+**Preparation for Profiling**
+
+Perf was chosen as the profiler for this exercise. To get a quick overview of the hotspots we used `perf -record ./multigrid 4 6 14 8`, with compiler flags -O2, leading to the following profile.
+
+![perf_inline](perf-inline.png)
+
+As it can be seen from the above photo, the function _main_ and its call to _multigrid_, represent the biggest hotspot in the code. However, this profile doesn't provide a detailed view of the impact from other function calls due to inlining done by the compiler. Furthermore, references shown that on ISO C++, "GCC considers member functions defined within the body of a class to be marked inline even if they are not explicitly declared with the inline keyword", which is how the code skeleton was written. To override this behaviour we added the flag **-fno-default-inline** while compiling. Moreover, we decided to include the flag **-g** to enhance the debugging process, since it displays assembly code along with the corresponding c++ instruction. 
+
+From this more detailed profile, we can concentrate on three targets: Jacobi::iterate, Prolongation::interpolation, and ComputeError::computePointwiseError. 
+
+With this more complete executable file, lastly we ran `perf stat` to gather some information about the sequential implementation, specially duration_time. This was the basis for our performance, accuracy and speedup comparisons. Due to the statistical variance of the results, we assume the starting time to optimize to be _the average_ of five runs with the mentioned command, approximately 59 seconds.
+
+**Coarsening**
+
+We followed a heuristic approach, where we checked the execution times with respect to the number of levels, mantaining the cycles, preSmoothing and postSmoothing constant. 
+
+| # levels | nx,ny  | gridpoints | duration_time | max_error | 
+| -------- | ------ | ---------- | ------------- | --------- | 
+| 14       | 16383  | 268402689  | 58.5338062    |  4.39E-12 | 
+| 13       | 8191   |67092481    | 13.97141131   |  1.97E-12 | 
+| 12       | 4096   |16777216    | 3.515229679   |  1.19E-12 | 
+| 11       | 2047   |4190209     | 0.894974802   |  5.42E-13 | 
+| 10       | 1023   |1046529     | 0.227087144	 |  9.29E-13 | 
+| 9        | 511    |261121      | 0.059950589   |  1.77E-13 | 
+| 8        | 255    |65025       | 0.020617011   |  1.71E-13 | 
+| 7        | 127    |16129       | 0.009326649   |  8.14E-14 | 
+| 6        | 63     |3969        | 0.004818209   |  5.58E-14 | 
+| 5        | 31     |961         | 0.003747507   |  1.65E-14 | 
+| 4        | 15     |225         | 0.002477624   |  4.16E-15 | 
+
+
+
+
+
 **SIMD**
 
 to enable auto-vectorization, `-O3` option is added. Also to obtain which loop is vectorized, `-fopt-info-vec` option is added.
