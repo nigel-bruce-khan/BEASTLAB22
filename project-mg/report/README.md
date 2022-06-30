@@ -60,15 +60,17 @@ Surprisingly, reducing the number of levels seems to improve accuracy, whilst al
 
 We present the targets for optimization shown by perf (we omitted Restriction since it didn't have any representative effect on the performance):
 
-| main.cpp                     | multigrid.h                    |Jacobi.h                     |
-| ------                       | ------------------------------ |---------------------------- |
-| ![main_hs](Main_Hotspot.png) | ![mg_hs](Multigrid_Hotspot.png)|![jacobi_hs](Jacobi_Hotspot) |
+| main.cpp                       | multigrid.h                    |
+| ------                         | ------------------------------ |
+| ![main_hs](Main_Hotspot.png)   | ![mg_hs](Multigrid_Hotspot.png)|
 
-| ComputeError                   | computePointwiseError             |Prolongation.h               |
-| ------                         | ---------------------------       |---------------------------- |
-| ![ce_hs](ComputeEr_Hotspot.png)| ![cpwe_hs](ComputePWE_Hotspot.png)|![prol_hs](Pro_Hotspot)      |
+| Jacobi.h                       | Prolongation.h                 |
+| ------                         | ---------------------------    |
+| ![jacobi_hs](Jacobi_Hotspot)   | ![prol_hs](Pro_Hotspot.png)    |
 
-
+| ComputeError                   | computePointwiseError            |
+| ------                         | ---------------------------      |
+| ![ce_hs](ComputeEr_Hotspot.png)|![cpwe_hs](ComputePWE_Hotspot.png)|
 
 
 **SIMD**
