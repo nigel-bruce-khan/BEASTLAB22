@@ -1,5 +1,6 @@
 # Assignment 7 Report
 Group: Group-104
+Architecture: AMD Rome 
 
 **Preparation for Profiling**
 
@@ -7,15 +8,35 @@ Perf was chosen as the profiler for this exercise. To get a quick overview of th
 
 ![perf_inline](perf-inline.png)
 
-As it can be seen from the above photo, the function _main_ and its call to _multigrid_, represent the biggest hotspot in the code. However, this profile doesn't provide a detailed view of the impact from other function calls due to inlining done by the compiler. Furthermore, references shown that on ISO C++, "GCC considers member functions defined within the body of a class to be marked inline even if they are not explicitly declared with the inline keyword", which is how the code skeleton was written. To override this behaviour we added the flag **-fno-default-inline** while compiling. Moreover, we decided to include the flag **-g** to enhance the debugging process, since it displays assembly code along with the corresponding c++ instruction. 
+As it can be seen from the above photo, the function _main_ and its call to _multigrid_ represent the biggest hotspot in the code. However, this profile doesn't provide a detailed view of the impact from other function calls due to inlining done by the compiler. Furthermore, references shown that on ISO C++, "GCC considers member functions defined within the body of a class to be marked inline even if they are not explicitly declared with the inline keyword", which is how the code skeleton was written. To override this behaviour we added the flag **-fno-default-inline** while compiling. Moreover, we decided to include the flag **-g** to enhance the debugging process, since it displays assembly code along with the corresponding c++ instruction. 
 
 From this more detailed profile, we can concentrate on three targets: Jacobi::iterate, Prolongation::interpolation, and ComputeError::computePointwiseError. 
 
-With this more complete executable file, lastly we ran `perf stat` to gather some information about the sequential implementation, specially duration_time. This was the basis for our performance, accuracy and speedup comparisons. Due to the statistical variance of the results, we assume the starting time to optimize to be _the average_ of five runs with the mentioned command, approximately 59 seconds.
+Lastly we ran `perf stat` to gather some information about the sequential implementation, specially duration_time. This was the basis for our performance, accuracy and speedup comparisons. Due to the statistical variance of the results, we assume the starting time to optimize to be _the average_ of five runs with the mentioned command, approximately 59 seconds.
+
+
+
+            60,051.07 msec task-clock                #    0.999 CPUs utilized          
+                6,166      context-switches          #    0.103 K/sec                  
+                    0      cpu-migrations            #    0.000 K/sec                  
+                46,028      page-faults               #    0.766 K/sec                  
+     203,446,447,915      cycles                    #    3.388 GHz                      (83.33%)
+        2,871,539,484      stalled-cycles-frontend   #    1.41% frontend cycles idle     (83.33%)
+     123,537,407,766      stalled-cycles-backend    #   60.72% backend cycles idle      (83.33%)
+     688,337,466,909      instructions              #    3.38  insn per cycle         
+                                                    #    0.18  stalled cycles per insn  (83.34%)
+        32,951,077,650      branches                  #  548.718 M/sec                    (83.33%)
+            4,327,724      branch-misses             #    0.01% of all branches          (83.34%)
+
+        60.119660362 seconds time elapsed
+
+        59.076487000 seconds user
+        0.942412000 seconds sys
+
 
 **Coarsening**
 
-We followed a heuristic approach, where we checked the execution times with respect to the number of levels, mantaining the cycles, preSmoothing and postSmoothing constant. 
+We followed a heuristic approach, where we checked the sequential execution times with decreasing number of levels, mantaining the cycles, preSmoothing and postSmoothing constant. 
 
 | # levels | nx,ny  | gridpoints | duration_time | max_error | 
 | -------- | ------ | ---------- | ------------- | --------- | 
@@ -31,6 +52,15 @@ We followed a heuristic approach, where we checked the execution times with resp
 | 5        | 31     |961         | 0.003747507   |  1.65E-14 | 
 | 4        | 15     |225         | 0.002477624   |  4.16E-15 | 
 
+Surprisingly, reducing the number of levels seems to improve accuracy, whilst also reducing the execution time noticeably. From previous assignments one can notice that a safe choice for number of threads is to activate all available cores (physical and virtual), which in Rome amounts to 256 (128 physical). To avoid overhead and idle threads, we stop the parallelization when nx,ny = 15, meaning that the first 10 fine grids will be parallelized, whereas the remaining 4 will be solved sequentially. The implementation and results will be further discussed. 
+
+**Parallelization**
+
+We present the optimization targets shown by perf:
+
+| main.cpp                     | multigrid.h                    |Jacobi.h                     |
+| ------                       | ------------------------------ |---------------------------- |
+| ![main_hs](Main_Hotspot.png) | ![mg_hs](Multigrid_Hotspot.png)|![jacobi_hs](Jacobi_Hotspot)!|
 
 
 
