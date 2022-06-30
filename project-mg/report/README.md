@@ -148,7 +148,7 @@ With parallelization in place, some of the other parameters we tested were compi
 
 We observed that with cache optimization the way it is implemented from the hints given, increases the computation time. The only solution we have in mind for this is to rewrite the Jacobi:iterate function to go over the grid in a different manner.
 
-**Final Results **
+**Final Results and observations**
 
 Final touches and inspections were performed. AVX instructions are aligned with 32 bytes. We added an attribute _alignedas(32)_ to our classes to make sure that they were aligned with the vectors. We also included the flag _-f-aligned-new_, which supports an alignment attribute std::align_val_t(32) applicable in the **new** operator. 
 
@@ -156,7 +156,7 @@ Final touches and inspections were performed. AVX instructions are aligned with 
 
 ![final_opt](final.jpg)
 
-However, our proposed parallel implementation for this file reduced the time to 9 seconds, but at the cost of reducing the accuracy, with the biggest error being of order 10^-7 compared to 10^-12 with the sequential version. To discern whether is a bad allocation or a data race problem, profiling with load distribution would be the next step.
+However, our proposed parallel implementation for this file reduced the time to 9 seconds, but at the cost of reducing the accuracy, with the biggest error being of order 10^-7 compared to 10^-12 with the sequential version of this routine. To discern whether the problem consists of a bad allocation or a data race problem, profiling to see the balancing of the threads as well as inspection of the assembly code would be the next steps.
 
 
 
