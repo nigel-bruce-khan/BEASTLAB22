@@ -59,19 +59,22 @@ Surprisingly, reducing the number of levels seems to improve accuracy, whilst al
 
 We present the targets for loop optimization shown by perf with the command `perf record -a` to count accross all processors. The pictures below show the loop to optimize and its parallel implementation (we omitted Restriction since it didn't have any significan effect on the performance). Accuracy wasn't affected during this process. Jacobi::iterate and Prolongation will be discussed individually. For speedup, we considered the ratio of the one-CPU execution time to the n-CPU parallel execution time: Speedup(n) = **T(1)/T(n)**.
 
-| main.cpp                       | main parallel                  |    time(s)         |
+| main.cpp                       | main parallel                  |    time(s)      |
 | ------                         | ------------------------------ | ----------------|
 | ![main_hs](Main_Hotspot.png)   | ![main_par](main_par.png)      | ~60.1 (0 speedup|
 
 | multigrid.h                    | mg parallel                    |    time         |
 | ------                         | ------------------------------ | ----------------|
-|![mg_hs](Multigrid_Hotspot.png) |[mg_hs](mg_par.png)             | ~58.5 (1.077)        |
+|![mg_hs](Multigrid_Hotspot.png) |[mg_hs](mg_par.png)             | ~58.5 (1.077)   |
 
 | ComputeError & ComputeErrorPW                                    | mg parallel          |    time         |
 | --------------------------------------                           | ----------------     |---------------- |
 |![ce_hs](ComputeEr_Hotspot.png) ![pwe_hs](ComputePWE_Hotspot.png) |[mg_hs](mg_par.png)   | ~54.6 s         |
 
+
 To activate a sequential or parallel mode according to the coarseness, we decided to create a member variable on each class `_NUM_THREADS` , which defines the number of threads called during execution, and set it to 128 or 1 depending on the number of inner grid points. This reduced the execution time approximately 1.2 seconds. However due to the variance mentioned at the beginning, and the coarseness impact sometimes was barely noticeable. 
+
+
 
 **SIMD**
 
@@ -123,7 +126,7 @@ We see from the output that only **3.388%** of all cache refs were misses, which
 
 ![cache2](cache2.png)
 
-To bring down the cache misses, we use the technique outlined in the hints part of the report. We set up the SIMD code in Jacobi.h so that there is a separate loop for the first two, y-loop iterations. The rest of the y-iterations are run separately. In the subsequent loop for iterations  y>2 we write code that allows the previous rows elements to be updated as well. Thus the values of y=1would be updated together with the values of y=3. Note that this means almost two times more calculations are being done in the Jacobi:iterate function. Here, we assume that at least some levels of caches are big enough to still have the storage locations of elements it accessed two rows before in the grid. This reasoning worked well and the results can be seen below.  The cache misses percentage is back down to 3.905% which is almost equal to the cache misses of the original unoptimized code. This is after having removed the parallelization from the Jacobi:iterate loops.
+To bring down the cache misses, we use the technique outlined in the hints part of the report. We set up the SIMD code in Jacobi.h so that there is a separate loop for the first two, y-loop iterations. The rest of the y-iterations are run separately. In the subsequent loop for iterations  y>2 we write code that allows the previous rows elements to be updated as well. Thus the values of y=1 would be updated together with the values of y=3. Note that this means almost two times more calculations are being done in the Jacobi:iterate function. Here, we assume that at least some levels of caches are big enough to still have the storage locations of elements it accessed two rows before in the grid. This reasoning worked well and the results can be seen below.  The cache misses percentage is back down to 3.905% which is almost equal to the cache misses of the original unoptimized code. This is after having removed the parallelization from the Jacobi:iterate loops.
 
 ![cache3](cache3.png)
 
@@ -143,5 +146,17 @@ A pragma omp nowait clause was then tested on both the for loops which go over y
 
 With parallelization in place, some of the other parameters we tested were compiler flags. We found that -O3 and -Ofast performs better than -O2 with the cache optimized code taking 134.29 seconds and 130.34 seconds respectively.  Both -O3 and -Ofast also give more cache hits than -O2, when parallelization is enabled. This is opposite to the case without parallelization. This could be because the additional flags in -Ofast and -O3 work better with parallel run code, than the flags in -O2. However, with all these flag choices the run time still remained in the range 140 seconds. 
 
-In conclusion, with cache optimization the way it is implemented from the hints given, it is probably not possible to increase the computation time. The only solution we have in mind for this is to rewrite the Jacobi:iterate function to go over the grid in a different manner.
+We observed that with cache optimization the way it is implemented from the hints given, increases the computation time. The only solution we have in mind for this is to rewrite the Jacobi:iterate function to go over the grid in a different manner.
+
+**Final Results **
+
+Final touches and inspections were performed. AVX instructions are aligned with 32 bytes. We added an attribute _alignedas(32)_ to our classes to make sure that they were aligned with the vectors. We also included the flag _-f-aligned-new_, which supports an alignment attribute std::align_val_t(32) applicable in the **new** operator. 
+
+ Prolongation was a bottleneck which caused some conflict in our optimizations. The parallel and updated files, with a sequential Prolongation gave an average time of 15 seconds, without any reduction on accuracy. 
+
+![final_opt](final.jpg)
+
+However, our proposed parallel implementation for this file reduced the time to 9 seconds, but at the cost of reducing the accuracy, with the biggest error being of order 10^-7 compared to 10^-12 with the sequential version. To discern whether is a bad allocation or a data race problem, profiling with load distribution would be the next step.
+
+
 
