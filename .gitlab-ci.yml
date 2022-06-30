@@ -5,10 +5,9 @@
 # After editing any gitlab-ci.yml files, re-run the aggregator from the repository
 # root directory (util/generate_gitlab_ci.py). Alternatively, ensure that the git pre-commit hooks are
 # active so that the file is regenerated automatically.
-Project-MG:
+Project-MP:
   stage: test
   script:
-    - cd project-mg/src/
-    - srun make
-    - python3 ../../util/run_program_monitor.py --reference-output ./util/reference_output_sequential.txt --compile-command 'srun make' --clean-command="srun make clean" --use-numdiff true --numdiff-relative-error 0.5 --numdiff-additional-arguments="-N" . 'srun ./multigrid 4 6 14 8'
+    - 'echo -e "This assignment no longer makes use of CI. This CI script is a placeholder and does nothing useful."'
+  when: manual
 
