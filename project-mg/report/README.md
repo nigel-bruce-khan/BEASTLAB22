@@ -58,7 +58,7 @@ Surprisingly, reducing the number of levels seems to improve accuracy, whilst al
 
 **Parallelization**
 
-We present the targets for optimization shown by perf:
+We present the targets for optimization shown by perf (we omitted Restriction since it didn't have any representative effect on the performance):
 
 | main.cpp                     | multigrid.h                    |Jacobi.h                     |
 | ------                       | ------------------------------ |---------------------------- |
