@@ -57,7 +57,7 @@ Surprisingly, reducing the number of levels seems to improve accuracy, whilst al
 
 **Parallelization**
 
-We present the targets for loop optimization shown by perf with the command `perf record -a` to count accross all processors. The pictures below show the loop to optimize and its parallel implementation (we omitted Restriction since it didn't have any significan effect on the performance). Accuracy wasn't affected during this process. Jacobi::iterate and Prolongation will be discussed individually. For speedup, we considered the ratio of the one-CPU execution time to the n-CPU parallel execution time: Speedup(n) = **T(1)/T(n)**.
+We present the targets for loop optimization shown by perf with the command `perf record -a` to count accross all processors. Files can be found at src/parallel. The pictures below show the loop to optimize and its parallel implementation (we omitted Restriction since it didn't have any significan effect on the performance). Accuracy wasn't affected during this process. Jacobi::iterate and Prolongation will be discussed individually. For speedup, we considered the ratio of the one-CPU execution time to the n-CPU parallel execution time: Speedup(n) = **T(1)/T(n)**.
 
 | main.cpp                       | main parallel                  |    time(s)      |
 | ------                         | ------------------------------ | ----------------|
