@@ -14,7 +14,7 @@ As it can be seen from the above photo, the function _main_ and its call to _mul
 
 From this more detailed profile, we can concentrate on three targets: Jacobi::iterate, Prolongation::interpolation, and ComputeError::computePointwiseError. 
 
-Lastly we ran `perf stat` to gather some information about the sequential implementation, specially duration_time. This was the basis for our performance, accuracy and speedup comparisons. Due to the statistical variance of the results, we assume the starting time to optimize to be _the average_ of five runs with the mentioned command, approximately 59 seconds.
+Lastly we ran `perf stat` to gather some information about the sequential implementation, specially duration_time. This was the basis for our performance, accuracy and speedup comparisons. Due to the statistical variance of the results, we assume the starting time to optimize to be _the average_ of five runs with the mentioned command, approximately 59.8 seconds.
 
 
 
@@ -58,19 +58,31 @@ Surprisingly, reducing the number of levels seems to improve accuracy, whilst al
 
 **Parallelization**
 
-We present the targets for optimization shown by perf (we omitted Restriction since it didn't have any representative effect on the performance):
+We present the targets for loop optimization shown by perf (we omitted Restriction since it didn't have any representative effect on the performance). New flags including -O3, -fopenmp:
 
-| main.cpp                       | multigrid.h                    |
-| ------                         | ------------------------------ |
-| ![main_hs](Main_Hotspot.png)   | ![mg_hs](Multigrid_Hotspot.png)|
+| main.cpp                       | main parallel                  |    time         |
+| ------                         | ------------------------------ | ----------------|
+| ![main_hs](Main_Hotspot.png)   | ![main_par](main_par.png)      | ~60 s           |
+
+| multigrid.h                    | mg parallel                    |    time         |
+| ------                         | ------------------------------ | ----------------|
+|![mg_hs](Multigrid_Hotspot.png) |[mg_hs](mg_par.png)             | ~58.5 s         |
+
+| ComputeError & ComputeErrorPW                                    | mg parallel          |    time         |
+| --------------------------------------                           | ----------------     |---------------- |
+|![ce_hs](ComputeEr_Hotspot.png) ![pwe_hs](ComputePWE_Hotspot.png) |[mg_hs](mg_par.png)   | ~54.6 s         |
+
+
+
 
 | Jacobi.h                       | Prolongation.h                 |
 | ------                         | ---------------------------    |
 | ![jachs](Jacobi_Hotspot.png)   | ![prol_hs](Pro_Hotspot.png)    |
 
-| ComputeError                   | computePointwiseError            |
-| ------                         | ---------------------------      |
-| ![ce_hs](ComputeEr_Hotspot.png)|![cpwe_hs](ComputePWE_Hotspot.png)|
+| Jacobi.h                       | Prolongation.h                 |
+| ------                         | ---------------------------    |
+| ![jachs](Jacobi_Hotspot.png)   | ![prol_hs](Pro_Hotspot.png)    |
+
 
 
 **SIMD**
