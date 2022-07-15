@@ -3,6 +3,7 @@
 #include<string>
 #include<cmath>
 #include <iostream>
+#include <omp.h>
 
 using namespace std;
 
@@ -14,6 +15,8 @@ template<typename T>
 void print_buf(const string desc, const T *buf, const int len){
     printf(desc.c_str());
     printf("\n");
+    // no omp b/c printouts here in order
+   //#pragma omp parallel for schedule(static) num_threads(128)
     for (int i=0; i<len; i++)
       //printf("%f, ",buf[i]);
       std::cout << buf[i] << ", "  ;
@@ -25,11 +28,12 @@ void print_buf(const string desc, const T *buf, const int len){
 void precom_mu (double* ts, double* mu, int mlen, int sublen){
 
   double sum = 0;
+ #pragma omp parallel for schedule(static) num_threads(10) reduction(+ :sum)
   for (int i=0; i<sublen; i++){
     sum+=ts[i];
   }
   mu[0]=sum/sublen;
-
+  
   for (int i=1; i<mlen; i++){
     mu[i] = mu[i-1] + ( ts[i+sublen-1]-ts[i-1] ) / sublen;
   }
@@ -40,9 +44,13 @@ void precom_mu (double* ts, double* mu, int mlen, int sublen){
 void precom_norm(double* ts, double* norm, double* mu, int mlen, int sublen){
 
   double sum, tmp;
+  //this for loop is not working een if i add reduction sum here and not on the inner pragma, dont know why
+  //#pragma omp parallel for schedule(static) num_threads(128) reduction(+ :sum)
+  //#pragma omp parallel for simd reduction (+ :sum)
   for (int i=0; i<mlen; i++){
     sum = 0.0;
     tmp = 0.0;
+    #pragma omp parallel for schedule(static) num_threads(10) reduction(+ :sum)
     for (int j=0; j<sublen; j++){
       tmp = ts[i+j]-mu[i];
       sum+=tmp*tmp;
@@ -55,6 +63,7 @@ void precom_norm(double* ts, double* norm, double* mu, int mlen, int sublen){
 void precom_df(double* ts, double* df, int mlen, int sublen){
 
   df[0]=0;
+  #pragma omp parallel for schedule(static) num_threads(127)
   for (int i=0; i<mlen-1; i++){
     df[i+1] = ( ts[i+sublen]-ts[i] ) * 0.5 ;
   }
@@ -65,6 +74,7 @@ void precom_df(double* ts, double* df, int mlen, int sublen){
 void precom_dg(double* ts, double* mu, double* dg, int mlen, int sublen){
 
   dg[0] = 0;
+  #pragma omp parallel for schedule(static) num_threads(127)
   for (int i=0; i<mlen-1; i++){
     dg[i+1] = ts[i+sublen] - mu[i+1] +  ts[i] - mu[i]; //TODO doublly check this
   }
@@ -119,6 +129,7 @@ int main(int argc, char* argv[]){
   fclose(f);
 
   // initialize output
+  #pragma omp parallel for schedule(static) num_threads(128)
   for(int i=0; i<mlen; i++){
     mp[i]=-1;
     mpi[i]=-1;
@@ -130,12 +141,14 @@ int main(int argc, char* argv[]){
   precom_df(ts,df,mlen,sublen);
   precom_dg(ts,mu,dg,mlen,sublen);
 
+  #pragma omp parallel for schedule(static) num_threads(128)
   for(int i =0;i<mlen;i++){
 	  QT[i]=0;
   }
 
   // initialization of the first row of matrix
   int start = 0;
+  #pragma omp parallel for schedule(static) num_threads(128)
   for(int i =0;i<mlen;i++){
     for (int j=0;j<sublen;j++){
       if (i-sublen >=0)
@@ -145,6 +158,7 @@ int main(int argc, char* argv[]){
   
   // main computation loops
   // TODO loop tiling and parallelization
+ // #pragma omp parallel for schedule(static) num_threads(128) reduction(max :mp[:mlen])
   for (int i=0;i<mlen-sublen;i++){
     // TODO loop tiling and simd parallelization
 	  for (int j=i+sublen;j<mlen ;j++){
@@ -180,6 +194,7 @@ int main(int argc, char* argv[]){
 
   // so far the cacluate mp is based on pearson correlation
   // we perform the following loop to convert mp to ED.
+  #pragma omp parallel for schedule(static) num_threads(128)
   for (int j=0; j<mlen;j++)
     mp[j] = sqrt( 2 * sublen * (1 - mp[j]) );
 

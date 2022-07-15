@@ -1,5 +1,4 @@
-CXX=c++
-
+CXX=c++ 
 MAIN=main.cpp
 BIN=bin
 EXE=mp
@@ -15,10 +14,10 @@ prepare:
 	bash prepare.sh
 
 compile:
-	$(CXX) $(MAIN) -o $(BIN)/$(EXE) -lm
+	$(CXX) $(MAIN) -fopenmp -o $(BIN)/$(EXE) -lm
 
 compile_debug:
-	$(CXX) $(MAIN) -o $(BIN)/$(EXE) -lm -DDEB
+	$(CXX) $(MAIN) -fopenmp -o $(BIN)/$(EXE) -lm -DDEB
 
 run:
 	$(BIN)/$(EXE) $(DATA) $(LEN) $(SUBLEN)
