@@ -207,6 +207,75 @@ Due to the limited events available within each profiling tool, we conducted a m
 
 It can be observed how the execution time decreases with each optimization level (flags -> omp simd), where the fastest is the 'pragma omp simd version'. However the cache misses increased with this vectorization. This can also be explained because of the number of cache accesses produced, as one can notice that the cache events also increased (loads, accesses and references). Moreover, we can see that the number of instructions for performing floating operations also reduced drastically with -O3.
 
+**b)** We used the AVX set of intrinsic instructions for this task. Since the registers can store 4 double values, our index calculations are based on increments and multiples of 4. 
+
+New upper boundary for j-loop. 
+    int ub = mlen - (mlen-i-sublen) % 4;
+    for(int j = i+sublen; j < ub ; j+=4){  : we stop moving along colums if there are less than four remaining. 
+
+
+
+Broadcast values. Each vector contains 4 copies of the specified argument 
+
+    df_i = _mm256_set1_pd(df[i]);
+    dg_i = _mm256_set1_pd(dg[i]);    
+    norm_i = _mm256_set1_pd(norm[i]);
+
+Load 4 doubles into the vector (j, j+1, j+2, j+3):
+    
+  
+    df_j = _mm256_loadu_pd(df+j); //df[j]
+    dg_j = _mm256_loadu_pd(dg+j); dg[g]
+    qt = _mm256_loadu_pd(QT+j-i-sublen); //load QT[j-i-sublen]
+    norm_j = _mm256_loadu_pd(norm+j); norm[j]
+    cr = _mm256_setzero_pd();//_mm256_set1_pd(0); // 4 doubles set to zero
+    mul_c = _mm256_mul_pd(norm_i, norm_j); // mul_c = norm[i] * norm[j]
+    qt_new = _mm256_setzero_pd(); // initialize temporary buffer qt_new = [0 0 0 0]
+
+Compute dot product QT[j-i-sublen] += df[i] * dg[j] + df[j] * dg[i] and store the result in a temporary buffer qt_new. This buffer is used to update QT according to the rule i!=0;
+
+    mul_a = _mm256_mul_pd(df_i, dg_j);
+    mul_b = _mm256_mul_pd(df_j, dg_i);
+    sum_a = _mm256_add_pd(mul_a, mul_b);
+    //qt = _mm256_add_pd(sum_a, qt);  
+    qt_new = _mm256_add_pd(sum_a, qt);
+    qt = qt_new;
+
+Update value:
+
+    _mm256_storeu_pd(QT+j-i-sublen, qt);     
+
+Compute cr and assign the resulting computations to another buffer via array/pointer
+
+    cr = _mm256_mul_pd(qt, mul_c); //cr = [cr1, cr2, cr3, cr4]
+    double *CR = (double*)&cr;
+
+Compare elements within the vector and update distances and indexes 
+
+    for(int idx = 0; idx <4; ++idx){
+
+      if(CR[idx] > mp[i]){
+        mp[i] = CR[idx];
+        mpi[i] = j + idx;
+      }
+
+      if(CR[idx] > mp[j+idx]){
+          mp[ j+ idx] = CR[idx];
+          mpi[j + idx] = i;
+        }
+
+The remaining iterations were computed using the original sequential kernel, starting at index ub, with a new variable for the correlation:
+
+    for (int j = ub; j < mlen; j++)
+      ...
+      double COR = QT[j-i-sublen] * norm[i] * norm[j];
+
+
+
+**Metrics for vectorization with intrinsics **
+
+
+
 **c)**
 **Multi-threading - OpenMP:**
 For the blocking part, our initial approach was to try and follow the approach from the hints section of triangular tiling. Even though this did not work out for us, the approach is worth explaining briefly. The idea was to simply divide the original triangle matrix into 4 smaller ones. Since the mp and mpi vectors need the highest results for each row and column the results from the 4 smaller triangles can be compared at the end to find the highest results. This division of a triangle into 4 smaller ones could then be done recursively as needed. 
