@@ -90,6 +90,67 @@ Lastly, check if the selected maximum is higher that the current value
         mp[i] = maxStruct.max_cr; //ONCE YOU HAVE COLLECTED ALL LOCAL MAXIMUMS, Perform reduction AND ASSIGN IT 
         mpi[i] = maxStruct.idx;
       }
+The overview of the vectorized kernel is as follows.
+
+      for (int i=0;i<mlen-sublen;i++){
+        MyMax maxStruct={-1.0, -1};
+        #pragma omp simd reduction(maximo:maxStruct)
+          for (int j=i+sublen;j<mlen ;j++){
+          // streaming dot product
+              if (i!=0)
+                QT[j-i-sublen] +=  df[i]*dg[j] + df[j]*dg[i];
+          double cr = QT[j-i-sublen] * norm[i] * norm[j]; 
+         //row-wise
+          if (cr > maxStruct.max_cr ) {
+                maxStruct.max_cr = cr; //assign cr to local maximums 
+            maxStruct.idx = j;
+            } 
+          if (cr > mp[j]){
+                mp[j]=cr;
+                mpi[j]=i;
+            }
+          }
+        // updating the nearest neighbors information
+        if (maxStruct.max_cr > mp[i])
+          {
+            mp[i] = maxStruct.max_cr; //ONCE YOU HAVE COLLECTED ALL LOCAL MAXIMUMS, Perform reduction AND ASSIGN IT 
+            mpi[i] = maxStruct.idx;
+          }
+      }
+
+
+
+To compare the auto vectorized version with respect to the sequential, we first test which loops are auto-vectorized by the compiler. For this, we set '-O3´ option to enable auto-vectorization, and ´-fopt-info-vec´ to get information about which loops are auto-vectorized from the compiler. The following blocks and loops are auto-vectorized:
+
+inner loop in precom_norm
+
+    for (int j=0; j<sublen; j++){
+      tmp = ts[i+j]-mu[i];
+      sum+=tmp*tmp;
+    }
+
+loop in precom_df
+
+    for (int i=0; i<mlen-1; i++){
+        df[i+1] = ( ts[i+sublen]-ts[i] ) * 0.5 ;
+    }
+
+loop in precom_dg
+
+    for (int i=0; i<mlen-1; i++){
+        dg[i+1] = ts[i+sublen] - mu[i+1] +  ts[i] - mu[i]; //TODO doublly check this
+    }
+
+loop in the initialization of outputs
+
+    for(int i=0; i<mlen; i++){
+        mp[i]=-1;
+        mpi[i]=-1;
+    }
+
+
+
+However the main kernel is not auto-vectorized. This is because it includes _if statements_ in the inner loop, and auto-vectorization cannot be applied if there are different control flows in the iterations. Therefore, we vectorized the inner loop of the kernel using the OpenMP simd directive. 
 
 Due to the limited events available within each profiling tool, we conducted a multi stage process to obtain number of FLOPs, execution time , memory events and number of instructions, within the main loop scope:
 
@@ -144,7 +205,7 @@ Due to the limited events available within each profiling tool, we conducted a m
 **pragma omp simd reduction**
 ![simd & for](simd_for.png)
 
-
+It can be observed how the execution time decreases with each optimization level (flags -> omp simd), where the fastest is the 'pragma omp simd version'. However the cache misses increased with this vectorization. This can also be explained because of the number of cache accesses produced, as one can notice that the cache events also increased (loads, accesses and references). Moreover, we can see that the number of instructions for performing floating operations also reduced drastically with -O3.
 
 **c)**
 **Multi-threading - OpenMP:**
