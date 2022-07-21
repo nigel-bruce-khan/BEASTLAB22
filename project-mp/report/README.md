@@ -46,7 +46,7 @@ i+1 (next row)
 - _QT[(**i + sublen + 1** + 1 ) - (i + 1) - sublen]_ = _QT[(i + sublen + 1 + 1) - (i + 1) - sublen]+ df[i+1]_ * dg[j+1] + df[j + 1] * dg[i+1]; 
 
 
-This requires synchronization of QT, since cr, which is proportional to QT, is a parameter used to determine the distances and indexes to be assigned. One alternative would be to compute partial row and cr values (i.e one thread per row), with row 0 being broadcasted, and synchronize in an ordered way their values (see STOMP implementation, which buffers intermediate results). As mentioned in the lecture, the outer loop (rows) is suitable for threading, whereas the inner loop, due to the comparisons and store operations needed, is more suitable for single instruction, multiple data model. 
+This requires synchronization of QT since cr, which is proportional to QT, is a parameter used to determine the distances and indexes to be assigned. One alternative would be to compute partial row and cr values (i.e one thread per row), with row 0 being broadcasted, and synchronize in an ordered way their values (see STOMP implementation, which buffers intermediate results). As mentioned in the lecture, the outer loop (rows) is suitable for threading, whereas the inner loop, due to the comparisons and store operations needed, is more suitable for single instruction, multiple data model. 
 
 We start our optimized code by making use of #pragma omp simd, which divides the loop iterations into chunks that fit in a SIMD register (see main_simd.cpp). For AMD, AVX registers can store up to 256 bits (4 Double or 8 Single precision). ![omp_simd](omp_simd.jpg)
 
@@ -83,7 +83,7 @@ To find the local max_cr:
 		        } 
 
 
-Lastly, check if the selected maximum is higher that the current value 
+Lastly, check if the selected maximum is higher that the current value at position i and perform the corresponding index and distance updates. 
 
         if (maxStruct.max_cr > mp[i])
       {
@@ -120,7 +120,11 @@ The overview of the vectorized kernel is as follows.
 
 
 
-To compare the auto vectorized version with respect to the sequential, we first test which loops are auto-vectorized by the compiler. For this, we set '-O3´ option to enable auto-vectorization, and ´-fopt-info-vec´ to get information about which loops are auto-vectorized from the compiler. The following blocks and loops are auto-vectorized:
+To compare the auto vectorized version with respect to the sequential, we first test which loops are auto-vectorized by the compiler. For this, we set '-O3´ option to enable auto-vectorization, and ´-fopt-info-vec´ to get information about which loops are auto-vectorized from the compiler. Furthermore, we include the -fno-inline flag for profiling purposes and -g for debugging. The command we ran for compiling the sequential version without any optimization flags was `g++ -fopt-info-vec - fno-inline -g -march=native `. No loop was autovectorized here. 
+
+Next, we compile with an optimization flag -O3: 
+
+The following blocks and loops got auto-vectorized:
 
 inner loop in precom_norm
 
@@ -150,7 +154,7 @@ loop in the initialization of outputs
 
 
 
-However the main kernel is not auto-vectorized. This is because it includes _if statements_ in the inner loop, and auto-vectorization cannot be applied if there are different control flows in the iterations. Therefore, we vectorized the inner loop of the kernel using the OpenMP simd directive. 
+However the main kernel is not auto-vectorized. This is because it includes _if statements_ in the inner loop, and auto-vectorization cannot be applied if there are different control flows in the iterations. Therefore, we vectorized the inner loop of the kernel using the OpenMP simd directive.
 
 Due to the limited events available within each profiling tool, we conducted a multi stage process to obtain number of FLOPs, execution time , memory events and number of instructions, within the main loop scope:
 
@@ -194,24 +198,27 @@ Due to the limited events available within each profiling tool, we conducted a m
         if ( retval != PAPI_OK ){
                 handle_error (1);
                 }
+                
+5) Execute these steps for three different lenghts: 128, 10000 and 100000. The data set can be found under input/values.txt.It consists of more than 1M data points, representing the sales of a store during a 2 year period (2009-2011).
 
+After implementing the above pipeline, we can better visualize our results on the tables shown below: 
 
 **sequential implementation without optimization flags**
 ![seq](seq_wo_flags.png)
 
-**sequential implementation with optimization flags**
+**sequential implementation with optimization flags. Speedup for len=100k: 5.8880**
 ![seq_flags](seq_w_flags.png)
 
-**pragma omp simd reduction (autovectorization)**
+**pragma omp simd reduction (autovectorization). Speedup for len=100k: 6.7885**
 ![simd & for](simd_for.png)
 
-It can be observed how the execution time decreases with each optimization level (flags -> omp simd), where the fastest is the 'pragma omp simd version'. However the cache misses increased with this vectorization. This can also be explained because of the number of cache accesses produced, as one can notice that the cache events also increased (loads, accesses and references). Moreover, we can see that the number of instructions for performing floating operations also reduced drastically with -O3.
+It can be observed how the execution time decreases with each optimization level (flags -> omp simd), where the fastest is the 'pragma omp simd version'. However the cache misses increased with this vectorization. This can also be explained because of the number of cache accesses produced, as one can notice that the cache events also increased (loads, accesses and references). Moreover, we can see that the number of instructions for performing floating operations also reduced drastically with -O3. Nevertheless, the effort incurred in vectorizing the code isn't very noticeable when we compare the two implementations. Perhaps with a longer time series stronger differences will be seen. 
 
 **b)** We used the AVX set of intrinsic instructions for this task. Since the registers can store 4 double values, our index calculations are based on increments and multiples of 4. 
 
 New upper boundary for j-loop. 
     int ub = mlen - (mlen-i-sublen) % 4;
-    for(int j = i+sublen; j < ub ; j+=4){  : we stop moving along colums if there are less than four remaining. 
+    for(int j = i+sublen; j < ub ; j+=4){  : we stop moving along columns if there are less than four remaining. 
 
 
 
@@ -271,19 +278,20 @@ The remaining iterations were computed using the original sequential kernel, sta
       double COR = QT[j-i-sublen] * norm[i] * norm[j];
 
 
+For compiling: g ++ -Wall -Wextra -fno-inline -fopenmp -g -march=native -mavx -O3 -fopt-info-vec 
 
 **autovectorization vs intrinsics**
 
-**Intrinsics** 
+**Intrinsics. Speedup for len=100k: 1.3662** 
 ![intr_&_omp](intr_and_omp.png)
 
-The intrinsics implementation was noticeable faster than the autovectorization version for each case (len = 128, 10000 and 100000). For smaller time series, regarding cache misses, the autovectorization performed better. However, as we increased the length, the intrinsics version presents less cache misses. The biggest difference can be seen at len=100,00 under ls_dc_accesses (defined in perf as _Number of accesses to the dcache for load/store references_), where omp simd has more than twice compared to the intrinsic version. Since each implementation requires different components (for the autovectorization we used structures with two items and an pointer and array for intrinsics), it can be helpful to observe where the hotspots are to propose a more balanced solution (fast execution time and less cache misses ). With perf report we intend to observe where are the cache - misses.hotspot. We do a perf -report over the time series with 100000 samples:
+The intrinsics implementation was noticeable faster than the autovectorization version for each case (len = 128, 10000 and 100000). For smaller time series, regarding cache misses, the autovectorization performed better. However, as we increased the length, the intrinsics version presents less cache misses. The biggest difference can be seen at len=100,000 under ls_dc_accesses (defined in perf as _Number of accesses to the dcache for load/store references_), where omp simd has more than twice compared to the intrinsic version. Since each implementation requires different components (for the autovectorization we used structures with two items compared to a pointer and array for intrinsics), it can be helpful to observe where the hotspots are to propose a more balanced solution that provides a fast execution time and less cache misses. With perf report we intend to observe where are the cache - misses hotspots. We do a perf -report over the time series with 100000 samples:
 
 | autovectorization                | intrinsincs                              |
 | ------                           | ----------------------                   |
 | ![CM_simd](perf_CM_simd100k.png) | ![CM intr](perf_CM_intr100k.png)         |
 
-for the autovectorization, the most costly operation in cache misses terms is **if(cr > mp[j])** (checking the maximum traversing the columns, since a whole row might not fit in a cache whereas for intrinsics, these comparisons for the local maximum within the struct are also expensive **if(CR[idx] > mp[j + idx])(now two loads are required for each comparison (4 comparisons per struct). A trade off must be found between logical comparisons and memory operations. From literature, a Structure of arrays or array of Structures works well for SIMD problems, so this is one starting point for further improvements.  
+For the autovectorization, the most costly operation in cache misses terms is **if(cr > mp[j])** , checking the maximum traversing the columns, since a whole row might not fit in a cache line. For intrinsics, these comparisons for the local maximum within the struct are also expensive **if(CR[idx] > mp[j + idx]) with now two loads being required for each comparison (4 comparisons per struct). A trade off must be found between logical comparisons and memory operations. From literature, a Structure of arrays or array of Structures works well for SIMD problems, so this is one starting point for further improvements.  
 
 
 **c)**
@@ -316,11 +324,11 @@ In conclusion SIMD intrinsics, compiler flag optimizations, memory alignment, th
 
 **d)**
 
-We compute the GFLOP/s by dividing the FLOP count obtained by PAPI, by the execution time and the scaling factor 10^-9. This measurements were obtained exclusively for the main kernel as mentioned in part a.
+We computed the GFLOP/s with the FLOP count obtained by PAPI, divided by the execution time and the scaling factor 10^-9. This measurements were obtained exclusively for the main kernel as mentioned in part a.
 
-Our SIMD and intrinsic implementations showed no accuracy reductions , whereas for the blocking part some indexes were incorrect, hence our comments are based on the former two versions. 
+Our SIMD and intrinsic implementations showed accurate results, whereas for the blocking part some indexes were incorrect, hence our comments are based on the former two versions. 
 
-PAPI gave very accurate results for FLOPS (although it didn't seem to change value across implementations, which we still can't figure out). 
+PAPI gave very accurate results for FLOPS (although it didn't seem to change value across implementations, which we still can't explain). 
 
 FLOPS (Theoretical vs PAPI)
 - 128 -> 35970 | 35538 (error of 1.2% with respect to theoretical value)
@@ -332,8 +340,18 @@ GFLOP/s (Intrinsics  | SIMD):
 - 10000 -> 4.243657697 | 5.635191409 
 - 100000 -> 4.366473173  | 5.96556729
 
-This is still below to our highest peak performance in the triad and matrix multiplication problems, where we observed peak performances of 8.631 and 70.491 GFLOP/s for a 512 vector and a N^26 matrix ø 
-respectively. 
+This is below our highest peak performance obtained in the triad and matrix multiplication problems, where we observed maximum values of 8.631 and 70.491 GFLOP/s for a 512 vector and a 2^26 * 2^26 matrix respectively. 
+
+
+Regarding memory throughoutput, We ran perf -list again and these two events appeared to be supported for l3 cache. We ran these events for the sequential with O3, simd and intrinsic implementations with len=100000: 
+
+| sequential with O3         | intrinsincs                 |    simd                |
+| ------                     | ----------------            |----------------------  |
+| misses:6,850,582           | misses:        3,068,017    | misses: 2,368,490      |
+| accesses:2,983,891,666     | accesses:  3,025,841,320    | accesses:2,986,705,001 |
+
+
+
 
 # References
 1. https://hpc-wiki.info/hpc/Binding/Pinning
