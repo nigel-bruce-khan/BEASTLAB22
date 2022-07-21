@@ -49,7 +49,11 @@ i+1 (next row)
 - QT[(**i + sublen + 1**) - (i + 1) - sublen] = QT[(i + sublen + 1) - (i + 1) - sublen]+ df[i+1] * dg[j)] + df[j] * dg[i+1]; 
 - _QT[(**i + sublen + 1** + 1 ) - (i + 1) - sublen]_ = _QT[(i + sublen + 1 + 1) - (i + 1) - sublen]+ df[i+1]_ * dg[j+1] + df[j + 1] * dg[i+1]; 
 
-This requires synchronization of QT, since cr, which is proportional to QT, is a parameter used to determine the distances and indexes assigned. One alternative would be to compute partial row and cr values (i.e one thread per row), and synchronize in an ordered way their values
+
+This requires synchronization of QT, since cr, which is proportional to QT, is a parameter used to determine the distances and indexes to be assigned. One alternative would be to compute partial row and cr values (i.e one thread per row), with row 0 being broadcasted, and synchronize in an ordered way their values (see STOMP implementation, which buffers intermediate results). As mentioned in the lecture, the outer loop (rows) is suitable for threading, whereas the inner loop, due to the comparisons and store operations needed, is more suitable for single instruction, multiple data model. 
+
+We start our optimized code by making use of #pragma omp simd, which divides the loop iterations into chunks 
+
 
 **c)**
 
@@ -81,7 +85,7 @@ Finally we tested NUMA configurations. Since the NUMA nodes define a unit of com
 In conclusion SIMD intrinsics, compiler flag optimizations, memory alignment, thread counts and pinning and effective use of numa architecture can give optimal performance results. However, without a significantly parallelized code the performance gains reach a bottleneck. It is possible to increase the computation speed by declaring many of the arrays as private variables in the main computation loops, but in the real world with much larger arrays such a trick would not be wise and would not give optimal performance. Hence, here it is better to use the other features mentioned above to improve the performance as much as possible. With more time available it would definitely be worthwhile to properly parallelize the main computation loops.
 
 
-# Refernces
+# References
 1. https://hpc-wiki.info/hpc/Binding/Pinning
 2. http://www.hpc.acad.bg/numactl/
 
