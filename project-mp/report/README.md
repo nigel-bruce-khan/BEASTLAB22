@@ -20,11 +20,11 @@ Rome architecture:
                     QT[j-i-sublen] += df[i] * dg[j] + df[j] * dg[i]; (I)
 
                  double cr = QT[j-i-sublen] * norm[i] * norm[j];
-                 if(cr > mp[i]){
+                 if(cr > mp[i]){ (II)
                    mp[i] = cr;
                    mpi[i] = j;
                 }
-                if (cr > mp[j]){ 
+                if (cr > mp[j]){ (III)
                    mp[j]=cr;
                    mpi[j]=i;
                 }
@@ -50,7 +50,33 @@ i+1 (next row)
 
 This requires synchronization of QT, since cr, which is proportional to QT, is a parameter used to determine the distances and indexes to be assigned. One alternative would be to compute partial row and cr values (i.e one thread per row), with row 0 being broadcasted, and synchronize in an ordered way their values (see STOMP implementation, which buffers intermediate results). As mentioned in the lecture, the outer loop (rows) is suitable for threading, whereas the inner loop, due to the comparisons and store operations needed, is more suitable for single instruction, multiple data model. 
 
-We start our optimized code by making use of #pragma omp simd, which divides the loop iterations into chunks that fit in a SIMD register (see main_simd.cpp). For AMD, AVX registers can store up to 256 bits (4 Doubleor 8 Single precision). ![omp_simd](omp_simd.jpg)
+We start our optimized code by making use of #pragma omp simd, which divides the loop iterations into chunks that fit in a SIMD register (see main_simd.cpp). For AMD, AVX registers can store up to 256 bits (4 Double or 8 Single precision). ![omp_simd](omp_simd.jpg)
+
+With these vectors, we can compute local values for cr. This is feasible because at (II) mpi[i] and mp[i] will end up taking the maximum value of cr along j (columns). Hence, by computing local maximums of cr and then finding the global maximum (of the ith row), we can then update the values at position i. 
+
+`mp[i] = max(cr_1, cr_2, cr_3) ` where cr_n represents the local maximum of vector n. 
+
+   
+    
+        #pragma omp simd reduction(maximo:maxStruct)
+	        for (int j=i+sublen;j<mlen ;j++){
+          
+
+Since we need to update both the index and the distance, we create a struct that stores these two elements for each vector. 
+
+
+        struct MyMax {
+         double max_cr;
+        int idx;
+        };
+
+
+
+We then implemented an user-defined reduction, which operates with struct MyMax datatypes, to select the maximum across all of them. 
+
+        #pragma omp declare reduction(maximo : struct MyMax : omp_out = omp_out.max_cr > omp_in.max_cr ? omp_out :omp_in)initializer(omp_priv={-1.0, -1})
+
+
 
 
 **c)**
