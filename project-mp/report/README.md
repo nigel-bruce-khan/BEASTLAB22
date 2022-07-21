@@ -172,7 +172,7 @@ Due to the limited events available within each profiling tool, we conducted a m
         - all_dc_accesses
         - l2_cache_accesses_from_dc_misses
 
-3) run _perf -report_ with the mentioned events to detect hotspots.
+3) run _perf -report_ with the mentioned events to detect hotspots (with flag -fno-inline to avoid inlining).
 
 4) in a second copy of the respective implementation, add PAPI High Level subroutines for error handling and variables to initialize counters for PAPI default events (cycles, floating point operations / instructions, instructions, clock):
 
@@ -202,7 +202,7 @@ Due to the limited events available within each profiling tool, we conducted a m
 **sequential implementation with optimization flags**
 ![seq_flags](seq_w_flags.png)
 
-**pragma omp simd reduction**
+**pragma omp simd reduction (autovectorization)**
 ![simd & for](simd_for.png)
 
 It can be observed how the execution time decreases with each optimization level (flags -> omp simd), where the fastest is the 'pragma omp simd version'. However the cache misses increased with this vectorization. This can also be explained because of the number of cache accesses produced, as one can notice that the cache events also increased (loads, accesses and references). Moreover, we can see that the number of instructions for performing floating operations also reduced drastically with -O3.
@@ -272,7 +272,12 @@ The remaining iterations were computed using the original sequential kernel, sta
 
 
 
-**Metrics for vectorization with intrinsics **
+**autovectorization vs intrinsics**
+
+**Intrinsics** 
+![intr_&_omp](intr_&_omp.png)
+
+The intrinsics implementation was noticeable faster than the autovectorization version for each case (len = 128, 10000 and 100000). For smaller time series, regarding cache misses, the autovectorization performed better. However, as we increased the length, the intrinsics version presents less cache misses. The biggest difference can be seen at len=100,00 under ls_dc_accesses (defined in perf as _Number of accesses to the dcache for load/store references_), where omp simd has more than twice compared to the intrinsic version. Since each implementation requires different components (for the autovectorization we used structures with two items and an pointer and array for intrinsics), it can be helpful to observe where the hotspots are to propose a more balanced solution (fast and less cache misses. )
 
 
 
