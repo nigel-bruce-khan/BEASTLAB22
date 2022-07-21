@@ -318,4 +318,6 @@ In conclusion SIMD intrinsics, compiler flag optimizations, memory alignment, th
 # References
 1. https://hpc-wiki.info/hpc/Binding/Pinning
 2. http://www.hpc.acad.bg/numactl/
-
+3. https://icl.utk.edu/papi/docs/db/d93/group__high__api.html
+4. SIMD vectorization with OpenMP: 
+5. Time Series Analysis with Matrix Profile on HPC Systems, Gabriel Pfeilschifter. 
