@@ -8,8 +8,6 @@ Rome architecture:
 - L3 = 536.87 MB
 - 8 NUMA nodes
 
-**a)** ** _Analyze the loop-carried dependencies in the kernel provided in Listing 1. Discuss these dependen- cies and describe how you parallelize and optimize this kernel?_**
-
 **a)** ** _Analyze the loop-carried dependencies in the kernel provided in Listing 1. Discuss these dependencies and describe how you parallelize and optimize this kernel?_**
 
 
@@ -52,7 +50,7 @@ i+1 (next row)
 
 This requires synchronization of QT, since cr, which is proportional to QT, is a parameter used to determine the distances and indexes to be assigned. One alternative would be to compute partial row and cr values (i.e one thread per row), with row 0 being broadcasted, and synchronize in an ordered way their values (see STOMP implementation, which buffers intermediate results). As mentioned in the lecture, the outer loop (rows) is suitable for threading, whereas the inner loop, due to the comparisons and store operations needed, is more suitable for single instruction, multiple data model. 
 
-We start our optimized code by making use of #pragma omp simd, which divides the loop iterations into chunks 
+We start our optimized code by making use of #pragma omp simd, which divides the loop iterations into chunks that fit in a SIMD register. For AMD, AVX registers can store up to 256 bits (4 Doubles or 8 single precision). 
 
 
 **c)**
