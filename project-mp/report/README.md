@@ -283,7 +283,7 @@ The intrinsics implementation was noticeable faster than the autovectorization v
 | ------                           | ----------------------                   |
 | ![CM_simd](perf_CM_simd100k.png) | ![CM intr](perf_CM_intr100k.png)         |
 
-for the autovectorization, the most costly oeperation in cache misses terms is **if(cr > mp[j])** (checking the maximum traversing the columns, since a whole row might not fit in a cache whereas for intrinsics, these comparisons for the local maximum within the struct are also expensive **if(CR[idx] > mp[j + idx])(now two loads are required for each comparison (4 comparisons per struct). A trade off must be found between logical comparisons and memory operations. From literature, a Structure of arrays or array of Structures works well for SIMD problems, so this is one starting point for further improvements.  
+for the autovectorization, the most costly operation in cache misses terms is **if(cr > mp[j])** (checking the maximum traversing the columns, since a whole row might not fit in a cache whereas for intrinsics, these comparisons for the local maximum within the struct are also expensive **if(CR[idx] > mp[j + idx])(now two loads are required for each comparison (4 comparisons per struct). A trade off must be found between logical comparisons and memory operations. From literature, a Structure of arrays or array of Structures works well for SIMD problems, so this is one starting point for further improvements.  
 
 
 **c)**
@@ -313,6 +313,25 @@ Finally we tested NUMA configurations. When using threads, we initialized the da
 ![partc2](partc2.png)
 
 In conclusion SIMD intrinsics, compiler flag optimizations, memory alignment, thread counts and pinning and effective use of numa architecture can give optimal performance results. However, without a significantly parallelized code the performance gains reach a bottleneck. It is possible to increase the computation speed by declaring many of the arrays as private variables in the main computation loops, but in the real world with much larger arrays such a trick would not be wise and would not give optimal performance. Hence, here it is better to use the other features mentioned above to improve the performance as much as possible. With more time available it would definitely be worthwhile to properly parallelize the main computation loops.
+
+**d)**
+
+We compute the GFLOP/s by dividing the FLOP count obtained by PAPI, by the execution time and the scaling factor 10^-9. This measurements were obtained exclusively for the main kernel as mentioned in part a.
+
+Our SIMD and intrinsic implementations showed no accuracy reductions , whereas for the blocking part some indexes were incorrect, hence our comments are based on the former two versions. 
+
+PAPI gave very accurate results for FLOPS (although it didn't seem to change value across implementations, which we still can't figure out). 
+
+FLOPS (Theoretical vs PAPI)
+- 128 -> 35970 | 35538 (error of 1.2% with respect to theoretical value)
+- 10000 -> 298891026 | 298851106 
+- 100000 -> 29988901026 | 29988501106 
+
+GFLOP/s (Intrinsics  | SIMD): 
+- 128 -> 1.316222222 |	0.1615363636 
+- 10000 -> 4.243657697 | 5.635191409 
+- 100000 -> 4.366473173  | 5.96556729
+
 
 
 # References
