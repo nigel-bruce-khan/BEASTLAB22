@@ -8,10 +8,8 @@ Rome architecture:
 - L3 = 536.87 MB
 - 8 NUMA nodes
 
-**a)** ** _Analyze the loop-carried dependencies in the kernel provided in Listing 1. Discuss these dependencies and describe how you parallelize and optimize this kernel?_**
+**a)** 
 
-
-`
     
         for (int i=0; i<mlen-sublen; i++){ //row
        
@@ -52,7 +50,7 @@ This requires synchronization of QT, since cr, which is proportional to QT, is a
 
 We start our optimized code by making use of #pragma omp simd, which divides the loop iterations into chunks that fit in a SIMD register (see main_simd.cpp). For AMD, AVX registers can store up to 256 bits (4 Double or 8 Single precision). ![omp_simd](omp_simd.jpg)
 
-With these vectors, we can compute local values for cr. This is feasible because at (II) mpi[i] and mp[i] will end up taking the maximum value of cr along j (columns). Hence, by computing local maximums of cr and then finding the global maximum (of the ith row), we can then update the values at position i. 
+With these vectors, we can compute local values for cr. This is feasible because at (II) mpi[i] and mp[i] will end up taking the maximum value of cr along j (columns) and the corresponding j (so only two store operations will be needed for the entire execution of the j loop, one for the index and one for the distance). Hence, by computing local maximums of cr and then finding the global maximum (of the ith row), we can then update the values at position i. 
 
 `mp[i] = max(cr_1, cr_2, cr_3) ` where cr_n represents the local maximum of vector n. 
 
@@ -72,10 +70,26 @@ Since we need to update both the index and the distance, we create a struct that
 
 
 
-We then implemented an user-defined reduction, which operates with struct MyMax datatypes, to select the maximum across all of them. 
+We then implemented an user-defined reduction, which operates with struct MyMax datatypes, returning the struct with the highest cr. 
 
         #pragma omp declare reduction(maximo : struct MyMax : omp_out = omp_out.max_cr > omp_in.max_cr ? omp_out :omp_in)initializer(omp_priv={-1.0, -1})
 
+
+To find the local max_cr: 
+
+         if (cr > maxStruct.max_cr ) {
+		    maxStruct.max_cr = cr; //assign cr to local maximums 
+                    maxStruct.idx = j;		    
+		        } 
+
+
+Lastly, check if the selected maximum is higher that the current value 
+
+        if (maxStruct.max_cr > mp[i])
+      {
+        mp[i] = maxStruct.max_cr; //ONCE YOU HAVE COLLECTED ALL LOCAL MAXIMUMS, Perform reduction AND ASSIGN IT 
+        mpi[i] = maxStruct.idx;
+      }
 
 
 
