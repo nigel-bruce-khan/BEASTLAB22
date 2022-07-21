@@ -145,16 +145,15 @@ int main(int argc, char* argv[]){
 
   // main computation loops
   // TODO loop tiling and parallelization
-  //define size of tile blocks in each loop
-  //tile set to 4 but can be changed
+  //define size of tile blocks in each loop (tile set to 4 but can be changed)
   int tile = 4;
   for (int r = 0; r < mlen - sublen; r+=tile){
       for (int c = r; c < mlen; c+= tile){
         for (int i = r; i < std::min(mlen-sublen, r + tile); i++){
           // TODO loop tiling and simd parallelization
-          //j starts its index as if the starting index is the start of the column tile is zero
+          //j starts its index as if the starting index is whic is the start of the column tile is actually zero
           for (int j = c + sublen; j < std::min(mlen, c + tile + sublen); j++){
-            //j needs to be sublen ahead of current row 
+            //j needs to be sublen ahead of current row index hence it is i+sublen to match the original code
             if (j >= i + sublen) {
               if (i!=0)
                 QT[j-i-sublen] +=  df[i]*dg[j] + df[j]*dg[i];
