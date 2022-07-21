@@ -91,9 +91,43 @@ Lastly, check if the selected maximum is higher that the current value
         mpi[i] = maxStruct.idx;
       }
 
+Due to the limited events available within each profiling tool, we conducted a multi stage process to obtain number of FLOPs, execution time , memory events and number of instructions, within the main loop scope:
+
+1) include a function to obtain the execution time of the code using two timers place at the begin and end of the main loop and compute their difference.  
+
+        double get_curr_time(){
+             struct timespec t;
+             clock_gettime(CLOCK_MONOTONIC, &t);
+             return t.tv_sec + t.tv_nsec * 1e-9;
+         }
+
+
+2) use _perf -stat_ with the following events:
+        - cache-misses
+        - cache-references
+        - L1-dcache-load-misses
+        - L1-dcache-loads
+        - ls-dc_accesses
+        - all_dc_accesses
+        - l2_cache_accesses_from_dc_misses
+
+3) run _perf -report_ with the mentioned events to detect hotspots.
+
+4) in a second copy of the respective implementation, add PAPI subroutines for error handling and variables to initialize counters for PAPI default events (cycles, floating point operations / instructions, instructions, clock):
+
+        void handle_error(int i){
+        printf("Error while configuring PAPI");
+        exit(EXIT_FAILURE);
+        }
+
+
+
 
 
 **c)**
+
+
+
 
 **Multi-threading - OpenMP:**
 For the blocking part, our initial approach was to try and follow the approach from the hints section of triangular tiling. Even though this did not work out for us, the approach is worth explaining briefly. The idea was to simply divide the original triangle matrix into 4 smaller ones. Since the mp and mpi vectors need the highest results for each row and column the results from the 4 smaller triangles can be compared at the end to find the highest results. This division of a triangle into 4 smaller ones could then be done recursively as needed. 
