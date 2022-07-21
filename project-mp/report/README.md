@@ -332,7 +332,8 @@ GFLOP/s (Intrinsics  | SIMD):
 - 10000 -> 4.243657697 | 5.635191409 
 - 100000 -> 4.366473173  | 5.96556729
 
-
+This is still below to our highest peak performance in the triad and matrix multiplication problems, where we observed peak performances of 8.631 and 70.491 GFLOP/s for a 512 vector and a N^26 matrix ø 
+respectively. 
 
 # References
 1. https://hpc-wiki.info/hpc/Binding/Pinning
