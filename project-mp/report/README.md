@@ -10,6 +10,47 @@ Rome architecture:
 
 **a)** ** _Analyze the loop-carried dependencies in the kernel provided in Listing 1. Discuss these dependen- cies and describe how you parallelize and optimize this kernel?_**
 
+**a)** ** _Analyze the loop-carried dependencies in the kernel provided in Listing 1. Discuss these dependencies and describe how you parallelize and optimize this kernel?_**
+
+
+`
+    
+        for (int i=0; i<mlen-sublen; i++){ //row
+       
+            for (int j=i+sublen; j<mlen; j++){ //column
+                if (i!=0) 
+                    QT[j-i-sublen] += df[i] * dg[j] + df[j] * dg[i]; (I)
+
+                 double cr = QT[j-i-sublen] * norm[i] * norm[j];
+                 if(cr > mp[i]){
+                   mp[i] = cr;
+                   mpi[i] = j;
+                }
+                if (cr > mp[j]){ 
+                   mp[j]=cr;
+                   mpi[j]=i;
+                }
+            }
+        }
+
+
+In this case, in order to advance to the next row, (i.e an increase on i), we need the values computed in the previous row. Looking at instruction (I):
+
+i, **j = i+sublen** (row i)
+- QT[(**i + sublen**) - i - sublen] = QT[j - i - sublen] + df[i] * dg[j] + df[j] * dg[i];
+- _QT[(**i + sublen** + 1) - i - sublen]_ = QT[(**i + sublen** + 1)  - i - sublen] + df[i] * dg[j+1] + df[j+1] * dg[i];
+- QT[(**i + sublen** + 2)  - i - sublen] = QT[(**i + sublen** + 2) - i - sublen] + df[i] * dg[j+1] + df[j+1] * dg[i];
+. 
+. 
+. 
+- QT[(**i + sublen** + (mlen - sublen - i -1)) - i - sublen] = QT[(**i + sublen** + (mlen - sublen - i -1)) - i - sublen] + df[i] * dg[j+(mlen-1)] + df[j + (mlen-1)] * dg[i];
+
+i+1 (next row)
+- QT[(**i + sublen + 1**) - (i + 1) - sublen] = QT[(i + sublen + 1) - (i + 1) - sublen]+ df[i+1] * dg[j)] + df[j] * dg[i+1]; 
+- _QT[(**i + sublen + 1** + 1 ) - (i + 1) - sublen]_ = _QT[(i + sublen + 1 + 1) - (i + 1) - sublen]+ df[i+1]_ * dg[j+1] + df[j + 1] * dg[i+1]; 
+
+This requires synchronization of QT, since cr, which is proportional to QT, is a parameter used to determine the distances and indexes assigned. One alternative would be to compute partial row and cr values (i.e one thread per row), and synchronize in an ordered way their values
+
 **c)**
 
 **Multi-threading - OpenMP:**
