@@ -275,9 +275,14 @@ The remaining iterations were computed using the original sequential kernel, sta
 **autovectorization vs intrinsics**
 
 **Intrinsics** 
-![intr_&_omp](intr_&_omp.png)
+![intr_&_omp](intr_and_omp.png)
 
-The intrinsics implementation was noticeable faster than the autovectorization version for each case (len = 128, 10000 and 100000). For smaller time series, regarding cache misses, the autovectorization performed better. However, as we increased the length, the intrinsics version presents less cache misses. The biggest difference can be seen at len=100,00 under ls_dc_accesses (defined in perf as _Number of accesses to the dcache for load/store references_), where omp simd has more than twice compared to the intrinsic version. Since each implementation requires different components (for the autovectorization we used structures with two items and an pointer and array for intrinsics), it can be helpful to observe where the hotspots are to propose a more balanced solution (fast and less cache misses. )
+The intrinsics implementation was noticeable faster than the autovectorization version for each case (len = 128, 10000 and 100000). For smaller time series, regarding cache misses, the autovectorization performed better. However, as we increased the length, the intrinsics version presents less cache misses. The biggest difference can be seen at len=100,00 under ls_dc_accesses (defined in perf as _Number of accesses to the dcache for load/store references_), where omp simd has more than twice compared to the intrinsic version. Since each implementation requires different components (for the autovectorization we used structures with two items and an pointer and array for intrinsics), it can be helpful to observe where the hotspots are to propose a more balanced solution (fast execution time and less cache misses ). With perf report we intend to observe where are the cache - misses hotspot:
+
+| autovectorization | intrinsincs  |
+| ------            | ------       |
+| cell | cell |
+| cell | cell |
 
 
 
