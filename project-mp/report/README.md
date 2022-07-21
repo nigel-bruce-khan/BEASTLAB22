@@ -277,13 +277,13 @@ The remaining iterations were computed using the original sequential kernel, sta
 **Intrinsics** 
 ![intr_&_omp](intr_and_omp.png)
 
-The intrinsics implementation was noticeable faster than the autovectorization version for each case (len = 128, 10000 and 100000). For smaller time series, regarding cache misses, the autovectorization performed better. However, as we increased the length, the intrinsics version presents less cache misses. The biggest difference can be seen at len=100,00 under ls_dc_accesses (defined in perf as _Number of accesses to the dcache for load/store references_), where omp simd has more than twice compared to the intrinsic version. Since each implementation requires different components (for the autovectorization we used structures with two items and an pointer and array for intrinsics), it can be helpful to observe where the hotspots are to propose a more balanced solution (fast execution time and less cache misses ). With perf report we intend to observe where are the cache - misses hotspot:
+The intrinsics implementation was noticeable faster than the autovectorization version for each case (len = 128, 10000 and 100000). For smaller time series, regarding cache misses, the autovectorization performed better. However, as we increased the length, the intrinsics version presents less cache misses. The biggest difference can be seen at len=100,00 under ls_dc_accesses (defined in perf as _Number of accesses to the dcache for load/store references_), where omp simd has more than twice compared to the intrinsic version. Since each implementation requires different components (for the autovectorization we used structures with two items and an pointer and array for intrinsics), it can be helpful to observe where the hotspots are to propose a more balanced solution (fast execution time and less cache misses ). With perf report we intend to observe where are the cache - misses.hotspot. We do a perf -report over the time series with 100000 samples:
 
-| autovectorization | intrinsincs  |
-| ------            | ------       |
-| cell | cell |
-| cell | cell |
+| autovectorization                | intrinsincs                              |
+| ------                           | ----------------------                   |
+| ![CM_simd](perf_CM_simd100k.png) | ![CM intr](perf_CM_intr100k.png)         |
 
+for the autovectorization, the most costly oeperation in cache misses terms is **if(cr > mp[j])** (checking the maximum traversing the columns, since a whole row might not fit in a cache whereas for intrinsics, these comparisons for the local maximum within the struct are also expensive **if(CR[idx] > mp[j + idx])(now two loads are required for each comparison (4 comparisons per struct). A trade off must be found between logical comparisons and memory operations. From literature, a Structure of arrays or array of Structures works well for SIMD problems, so this is one starting point for further improvements.  
 
 
 **c)**
