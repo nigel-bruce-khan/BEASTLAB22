@@ -133,15 +133,20 @@ Due to the limited events available within each profiling tool, we conducted a m
         if ( retval != PAPI_OK ){
                 handle_error (1);
                 }
-**c)**
 
+
+**sequential implementation without optimization flags**
 ![seq](seq_wo_flags.png)
+
+**sequential implementation with optimization flags**
 ![seq_flags](seq_w_flags.png)
-![simd & for](simd_&_for.png)
+
+**pragma omp simd reduction**
+![simd & for](simd_for.png)
 
 
 
-
+**c)**
 **Multi-threading - OpenMP:**
 For the blocking part, our initial approach was to try and follow the approach from the hints section of triangular tiling. Even though this did not work out for us, the approach is worth explaining briefly. The idea was to simply divide the original triangle matrix into 4 smaller ones. Since the mp and mpi vectors need the highest results for each row and column the results from the 4 smaller triangles can be compared at the end to find the highest results. This division of a triangle into 4 smaller ones could then be done recursively as needed. 
 However, during the implementation, the QT vector kept causing problems. The QT vector is updated in such a  way that results from the previous row at the node one before the current one on the current row, is updated at the same position in QT. This update causes problems in implementing  the tiling. We tried different methods to get around this problem such as exchanging the row and column loops to traverse the matrix in a less inter-dependent manner. We also tried to avoid this problem using openmp pragma directives such as pragma omp atomic. Unfortunately, since the way QT is updated, the previous rows results affect the current row, an algorithm to implement the tiling while accounting for this could not be developed in time that does the tiling as is suggested in the assignment. 
