@@ -113,18 +113,31 @@ Due to the limited events available within each profiling tool, we conducted a m
 
 3) run _perf -report_ with the mentioned events to detect hotspots.
 
-4) in a second copy of the respective implementation, add PAPI subroutines for error handling and variables to initialize counters for PAPI default events (cycles, floating point operations / instructions, instructions, clock):
+4) in a second copy of the respective implementation, add PAPI High Level subroutines for error handling and variables to initialize counters for PAPI default events (cycles, floating point operations / instructions, instructions, clock):
 
         void handle_error(int i){
         printf("Error while configuring PAPI");
         exit(EXIT_FAILURE);
         }
 
+        ...//some code
+          auto retval = PAPI_hl_region_begin("computation");
+                if(retval != PAPI_OK) {
+                 handle_error(1);
+                }
+        //beginning of for loop
 
-
-
-
+        //end of for loop
+        retval = PAPI_hl_region_end("computation"); 
+  
+        if ( retval != PAPI_OK ){
+                handle_error (1);
+                }
 **c)**
+
+![seq](seq_wo_flags.png)
+![seq_flags](seq_w_flags.png)
+![simd & for](simd_&_for.png)
 
 
 
